@@ -69,8 +69,6 @@ return array(
     'Spatie\\FlareClient\\' => array($vendorDir . '/spatie/flare-client-php/src'),
     'Spatie\\ErrorSolutions\\' => array($vendorDir . '/spatie/error-solutions/src'),
     'Spatie\\Backtrace\\' => array($vendorDir . '/spatie/backtrace/src'),
-    'SharjahStore\\' => array($baseDir . '/platform/plugins/sharjah-store/src'),
-    'SharjahOpportunities\\' => array($baseDir . '/platform/plugins/sharjah-opportunities/src'),
     'Sabberworm\\CSS\\' => array($vendorDir . '/sabberworm/php-css-parser/src'),
     'Resend\\' => array($vendorDir . '/resend/resend-php/src'),
     'RectorLaravel\\' => array($vendorDir . '/driftingly/rector-laravel/src'),

@@ -143,6 +143,4 @@ return array(
     'ec07570ca5a812141189b1fa81503674' => $vendorDir . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
     '320163ac6b93aebe3dc25b60a0533d56' => $vendorDir . '/spatie/laravel-ignition/src/helpers.php',
     '6f8d7c18e57dfbd2d3599a43c4c66eaf' => $baseDir . '/app/Helpers.php',
-    '9e70dc6885c0aa073e56b235b21029ac' => $baseDir . '/platform/plugins/sharjah-opportunities/helpers/constants.php',
-    '1b903cac108274fdbd6eb388842ed239' => $baseDir . '/platform/plugins/sharjah-store/helpers/constants.php',
 );
