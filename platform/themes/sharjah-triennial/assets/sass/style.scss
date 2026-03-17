@@ -1,0 +1,228 @@
+// ==========================================
+// Sharjah Architecture Triennial Theme Styles
+// ==========================================
+
+// Variables
+// ==========================================
+$primaryColor: var(--primary-color, #1a1a2e);
+$secondaryColor: var(--secondary-color, #16213e);
+$accentColor: var(--accent-color, #0f3460);
+$primaryFont: var(--primary-font, 'Inter', sans-serif);
+$headingFont: var(--heading-font, 'Playfair Display', serif);
+
+// Base Styles
+// ==========================================
+* {
+    font-family: $primaryFont;
+}
+
+body {
+    color: #333;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: $headingFont;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+// Header & Navigation
+// ==========================================
+.site-header {
+    transition: all 0.3s ease;
+    
+    &.scrolled {
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+}
+
+.main-navigation {
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        
+        li {
+            display: inline-block;
+            margin: 0 15px;
+            
+            a {
+                text-decoration: none;
+                transition: color 0.3s ease;
+                
+                &:hover {
+                    color: $accentColor;
+                }
+            }
+        }
+    }
+}
+
+// Hero Section
+// ==========================================
+.hero-section {
+    position: relative;
+    
+    .hero-background {
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(26,26,46,0.9) 0%, rgba(22,33,62,0.9) 100%);
+        }
+    }
+    
+    .hero-title {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero-description {
+        font-size: clamp(1rem, 2vw, 1.25rem);
+        line-height: 1.8;
+    }
+}
+
+// Page Content
+// ==========================================
+.page-content {
+    .page-header {
+        margin-bottom: 2rem;
+        
+        .page-title {
+            font-size: 2.5rem;
+            color: $primaryColor;
+        }
+        
+        .page-description {
+            font-size: 1.1rem;
+            color: #666;
+        }
+    }
+    
+    .page-body {
+        font-size: 1rem;
+        line-height: 1.8;
+        
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+    }
+}
+
+// Sidebar
+// ==========================================
+.sidebar {
+    .widget {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+        
+        .widget-title {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid $accentColor;
+        }
+    }
+}
+
+// Footer
+// ==========================================
+.site-footer {
+    background: $primaryColor;
+    color: #fff;
+    
+    a {
+        color: #fff;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        
+        &:hover {
+            color: $accentColor;
+        }
+    }
+    
+    .footer-widget {
+        margin-bottom: 2rem;
+        
+        .widget-title {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+    }
+}
+
+// Buttons
+// ==========================================
+.btn-primary {
+    background: $accentColor;
+    border-color: $accentColor;
+    transition: all 0.3s ease;
+    
+    &:hover {
+        background: darken($accentColor, 10%);
+        border-color: darken($accentColor, 10%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+}
+
+// Animations
+// ==========================================
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+// Responsive
+// ==========================================
+@media (max-width: 991px) {
+    .hero-section .hero-title {
+        font-size: 2rem;
+    }
+    
+    .sidebar {
+        margin-top: 2rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .page-content .page-header .page-title {
+        font-size: 1.75rem;
+    }
+}
+
+// Image Captions
+// ==========================================
+/* purgecss start ignore */
+figure.image {
+    margin: 10px 0;
+    display: inline-block;
+}
+
+figcaption {
+    background: #f5f5f5;
+    padding: 10px;
+    font-size: 90%;
+    text-align: center;
+}
+/* purgecss end ignore */

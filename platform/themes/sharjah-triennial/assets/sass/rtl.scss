@@ -1,0 +1,62 @@
+/* Sharjah Architecture Triennial - RTL Styles */
+
+body[dir="rtl"] {
+    text-align: right;
+    direction: rtl;
+}
+
+/* Navbar RTL */
+body[dir="rtl"] .navbar-nav {
+    margin-right: 0;
+    margin-left: auto;
+}
+
+body[dir="rtl"] .navbar-nav .nav-link {
+    padding-right: 1rem !important;
+    padding-left: 1rem !important;
+}
+
+/* Header Top RTL */
+body[dir="rtl"] .header-top-left {
+    text-align: right;
+}
+
+body[dir="rtl"] .header-top-right {
+    text-align: left;
+}
+
+/* Lists RTL */
+body[dir="rtl"] .list-inline-item:not(:last-child) {
+    margin-right: 0;
+    margin-left: 0.5rem;
+}
+
+/* Icons RTL */
+body[dir="rtl"] .fa, 
+body[dir="rtl"] .fas,
+body[dir="rtl"] .far {
+    margin-right: 0;
+    margin-left: 0.5rem;
+}
+
+/* Breadcrumb RTL */
+body[dir="rtl"] .breadcrumb-item + .breadcrumb-item::before {
+    float: right;
+    padding-right: 0.5rem;
+    padding-left: 0;
+}
+
+/* Footer Widget RTL */
+body[dir="rtl"] .footer-widget ul {
+    padding-right: 0;
+}
+
+/* Animations RTL */
+body[dir="rtl"] .hover-effect {
+    transform-origin: right;
+}
+
+body[dir="rtl"] .back-to-top {
+    left: 30px;
+    right: auto;
+}

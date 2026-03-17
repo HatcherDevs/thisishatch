@@ -1,0 +1,17 @@
+{
+    "id": "botble/sharjah-triennial",
+    "name": "Sharjah Architecture Triennial",
+    "namespace": "Theme\\SharjahTriennial\\",
+    "author": "Sharjah Architecture Triennial",
+    "url": "https://sharjah-new.test",
+    "version": "1.0.0",
+    "description": "Official theme for Sharjah Architecture Triennial - A cultural platform celebrating architectural innovation and heritage",
+    "required_plugins": [
+        "real-estate",
+        "blog",
+        "location",
+        "language",
+        "contact",
+        "newsletter"
+    ]
+}

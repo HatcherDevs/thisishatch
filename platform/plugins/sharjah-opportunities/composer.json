@@ -1,0 +1,17 @@
+{
+    "name": "sharjah/opportunities",
+    "description": "Sharjah Opportunities Plugin - Manage job opportunities and career vacancies",
+    "type": "botble-plugin",
+    "license": "MIT",
+    "require": {
+        "php": "^8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "SharjahOpportunities\\": "src/"
+        },
+        "files": [
+            "helpers/constants.php"
+        ]
+    }
+}

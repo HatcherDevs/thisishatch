@@ -1,0 +1,189 @@
+/* Footer Styles for Sharjah Architecture Triennial */
+
+.top_padding_categories {
+    padding-top: 3rem;
+}
+
+.event-section {
+    background: #fff;
+}
+
+.footer-box {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Newsletter Section */
+.footer-news-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+}
+
+.footer-newsletter-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.footer-newsletter-input {
+    flex: 1;
+    padding: 12px 15px;
+    border: 2px solid #000;
+    border-radius: 2px;
+    font-size: 14px;
+    outline: none;
+}
+
+.footer-newsletter-input:focus {
+    border-color: #333;
+}
+
+.footer-newsletter-btn {
+    padding: 12px 30px;
+    background: #000;
+    color: #fff;
+    border: 2px solid #000;
+    border-radius: 2px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.footer-newsletter-btn:hover {
+    background: #fff;
+    color: #000;
+}
+
+/* Address & Contact */
+.footer-address {
+    font-size: 14px;
+    line-height: 1.8;
+    margin-bottom: 25px;
+    color: #333;
+}
+
+.footer-contact {
+    font-size: 14px;
+    line-height: 1.8;
+    margin-bottom: 25px;
+    color: #333;
+}
+
+.footer-contact a {
+    color: #000;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-contact a:hover {
+    color: #666;
+    text-decoration: underline;
+}
+
+/* Social Links */
+.footer-social-links {
+    margin-top: 30px;
+}
+
+.footer-social-links a {
+    display: inline-block;
+    margin-bottom: 10px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.footer-social-links a:hover {
+    padding-left: 5px;
+    color: #000 !important;
+}
+
+.footer-social-links i {
+    margin-right: 8px;
+    font-size: 12px;
+}
+
+/* Copyright & Terms */
+.footer-bottom-row {
+    margin-top: 20px;
+}
+
+.footer-copyright {
+    font-size: 13px;
+    color: #666;
+}
+
+.footer-terms {
+    font-size: 13px;
+}
+
+.footer-terms:hover {
+    text-decoration: underline !important;
+}
+
+/* Map Section */
+.footer-map {
+    padding-left: 30px;
+}
+
+.footer-map-img-wrap {
+    border: 3px solid #000;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+#footer-map {
+    background: #f5f5f5;
+}
+
+.footer-address_underMap {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #333;
+}
+
+.footer-address_underMap .fw-medium {
+    font-weight: 600;
+}
+
+/* Responsive Styles */
+@media (max-width: 991px) {
+    .footer-map {
+        padding-left: 15px;
+        margin-top: 40px;
+    }
+
+    .footer-newsletter-form {
+        flex-direction: column;
+    }
+
+    .footer-newsletter-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 767px) {
+
+    .footer-box .col-md-5,
+    .footer-box .col-md-1,
+    .footer-box .col-md-6 {
+        margin-bottom: 30px;
+    }
+
+    .footer-map {
+        padding-left: 0;
+    }
+
+    .footer-address_underMap {
+        flex-direction: column !important;
+        gap: 15px;
+    }
+
+    .footer-social-links {
+        margin-top: 20px;
+    }
+}

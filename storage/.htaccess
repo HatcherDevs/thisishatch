@@ -1,0 +1,10 @@
+# 🔒 Security: منع الوصول للملفات الحساسة فقط (logs, framework, cache)
+# السماح بالوصول لـ app/public عبر symlink
+
+<FilesMatch "\.(log|php)$">
+    Order deny,allow
+    Deny from all
+</FilesMatch>
+
+# منع الوصول للمجلدات الحساسة
+RedirectMatch 403 ^/storage/(framework|logs|debugbar|cache_keys\.json)

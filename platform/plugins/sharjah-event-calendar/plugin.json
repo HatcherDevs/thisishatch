@@ -1,0 +1,10 @@
+{
+    "name": "Sharjah Event Calendar",
+    "namespace": "Botble\\SharjahEventCalendar\\",
+    "provider": "Botble\\SharjahEventCalendar\\Providers\\SharjahEventCalendarServiceProvider",
+    "author": "Sharjah Triennial",
+    "url": "https://sharjahart.org",
+    "version": "1.0.0",
+    "description": "Complete event calendar system with categories, tags, locations, and registration management for Sharjah events",
+    "minimum_core_version": "7.3.0"
+}

@@ -1,0 +1,11 @@
+{
+    "id": "sharjah/store",
+    "name": "Sharjah Store",
+    "namespace": "SharjahStore\\",
+    "provider": "SharjahStore\\Providers\\SharjahStoreServiceProvider",
+    "author": "Sharjah Architecture Team",
+    "url": "https://sharjaharchitecture.org",
+    "version": "1.0.0",
+    "description": "A plugin to manage store collections and products for Sharjah Architecture Triennial",
+    "minimum_core_version": "7.0.0"
+}
