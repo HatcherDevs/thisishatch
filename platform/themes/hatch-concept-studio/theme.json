@@ -1,0 +1,10 @@
+{
+    "id": "hatch/concept-studio",
+    "name": "Hatch Concept Studio",
+    "namespace": "Theme\\HatchConceptStudio\\",
+    "author": "Hatch",
+    "url": "https://thisishatch.test",
+    "version": "1.0.0",
+    "description": "Official theme for Hatch Concept Studio",
+    "required_plugins": []
+}
