@@ -53,7 +53,7 @@ if (canvas) {
 
   function files(index) {
     const n = String(index).padStart(4, '0');
-    return `imgs/horse-webp/turn02_${n}.webp`;
+    return `/themes/hatch-concept-studio/imgs/horse-webp/turn02_${n}.webp`;
   }
 
   const frameCount = 300;
@@ -138,23 +138,25 @@ if (canvas) {
   }
 
 
+  gsap.set(".click_graphics", { opacity: 1, pointerEvents: "auto" });
+
   ScrollTrigger.create({
     trigger: "#page>canvas",
     pin: true,
     scroller: `#main`,
     start: `top top`,
     end: `500% top`,
-    onUpdate: (self) => {
-
-      if (self.isActive) {
-        // Show images when scrolling within the specified range
-        gsap.set(".click_graphics", { opacity: 1, pointerEvents: "auto", duration: 0.5 });
-      } else {
-        // Hide images when scrolling outside the specified range
-        gsap.set(".click_graphics", { opacity: 0, pointerEvents: "none" });
-        gsap.set("#page2", { opacity: 1, pointerEvents: "auto", duration: 0.5 });
-        gsap.set("#page3", { opacity: 1, pointerEvents: "auto", duration: 0.5 });
-      }
+    onEnter: () => {
+      gsap.set(".click_graphics", { opacity: 1, pointerEvents: "auto" });
+    },
+    onEnterBack: () => {
+      gsap.set(".click_graphics", { opacity: 1, pointerEvents: "auto" });
+    },
+    onLeave: () => {
+      gsap.set(".click_graphics", { opacity: 0, pointerEvents: "none" });
+    },
+    onLeaveBack: () => {
+      gsap.set(".click_graphics", { opacity: 1, pointerEvents: "auto" });
     },
   });
 
@@ -207,12 +209,6 @@ gsap.to("#page", {
   delay: 2, // يمكنك ضبط تأخير بداية التأثير
 });
 gsap.to("#nav", {
-  opacity: 1,
-  ease: "power2.inOut", // يمكنك تغيير هذا حسب التفضيلات
-  duration: 2, // يمكنك ضبط مدة التأثير
-  delay: 1.5, // يمكنك ضبط تأخير بداية التأثير
-});
-gsap.to(".click_graphics", {
   opacity: 1,
   ease: "power2.inOut", // يمكنك تغيير هذا حسب التفضيلات
   duration: 2, // يمكنك ضبط مدة التأثير

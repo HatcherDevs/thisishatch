@@ -53,12 +53,12 @@ return [
 
             $theme->asset()->container('footer')->add('jquery', 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js');
 
-            $theme->asset()->container('footer')->usePath()->add(
-                'script',
-                'js/script.js',
-                ['jquery'],
-                version: $version
-            );
+            // $theme->asset()->container('footer')->usePath()->add(
+            //     'script',
+            //     // 'js/script.js',
+            //     ['jquery'],
+            //     version: $version
+            // );
 
             if (function_exists('shortcode')) {
                 $theme->composer(['page'], function (View $view) {

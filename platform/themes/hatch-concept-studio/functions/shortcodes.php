@@ -86,6 +86,13 @@ Event::listen(RouteMatched::class, function (): void {
                     ->required()
             )
             ->add(
+                'cover_image',
+                MediaImageField::class,
+                MediaImageFieldOption::make()
+                    ->label(__('Cover image'))
+                    ->helperText(__('Optional. Used as video poster image before playback.'))
+            )
+            ->add(
                 'autoplay',
                 SelectField::class,
                 SelectFieldOption::make()

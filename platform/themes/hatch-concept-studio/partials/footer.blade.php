@@ -1,29 +1,10 @@
-﻿<div id="page4">
-    <div class="site-footer-inner">
-        <footer class="container py-3" role="contentinfo" aria-label="Site footer">
-            <div class="row">
-                <div class="col-md-6 pt-3">
-                    <a href="" class="custom-link-footer">All copyrights reserved &copy;Hatch Design Services
-                        L.L.C.
-                        2024</a>
-                </div>
-                <div class="col-md-3 pt-3">
-                    <a href="" class="custom-link-footer" rel="nofollow">Privacy Policy</a>
-                </div>
-                <div class="col-md-3 pt-3">
-                    <a href="" class="custom-link-footer" rel="nofollow">Terms &amp; Conditions</a>
-                </div>
-            </div>
-        </footer>
+﻿
+    <div id="dog">
+        <img id="dogImage" src="{{ Theme::asset()->url('imgs/dog.png') }}"
+            alt="Hatch Concept Studio - We dig into design & get our hands dirty" />
+        <span class="dog-bubble" id="notification">We dig into design & get our hands dirty.</span>
+        <!-- <audio id="notificationSound" src="imgs/mixkit-happy-puppy-barks-741.mp3"></audio> -->
     </div>
-</div>
-
-<div id="dog">
-    <img id="dogImage" src="{{ Theme::asset()->url('imgs/dog.png') }}"
-        alt="Hatch Concept Studio - We dig into design & get our hands dirty" />
-    <span class="dog-bubble" id="notification">We dig into design & get our hands dirty.</span>
-    <!-- <audio id="notificationSound" src="imgs/mixkit-happy-puppy-barks-741.mp3"></audio> -->
-</div>
 
 <div class="layout"></div>
 <div class="cursor" style="padding: 15px">

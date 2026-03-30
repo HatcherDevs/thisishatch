@@ -99,7 +99,7 @@ canvas {
   height: 100px;
   position: fixed;
   z-index: 8;
-  opacity: 0;
+  opacity: 1;
   filter: drop-shadow(2.5px 2.5px 5px #02182043);
 }
 
@@ -130,6 +130,47 @@ canvas {
 }
 
 .click_graphics.hashtah {
+  top: 60%;
+  right: 15%;
+}
+
+.hatch-hero-horse {
+  position: relative;
+  min-height: 100vh;
+}
+
+.hatch-hero-horse .click_graphics {
+  position: absolute;
+  opacity: 1;
+  animation: none !important;
+}
+
+.hatch-hero-horse .click_graphics.shake,
+.hatch-hero-horse .click_graphics.glow {
+  animation: none !important;
+}
+
+.hatch-hero-horse .click_graphics.at {
+  top: 75%;
+  left: 25%;
+}
+
+.hatch-hero-horse .click_graphics.click {
+  top: 20%;
+  left: 30%;
+}
+
+.hatch-hero-horse .click_graphics.text {
+  top: 50%;
+  left: 10%;
+}
+
+.hatch-hero-horse .click_graphics.like {
+  top: 20%;
+  right: 25%;
+}
+
+.hatch-hero-horse .click_graphics.hashtah {
   top: 60%;
   right: 15%;
 }
@@ -485,7 +526,7 @@ canvas {
   position: relative;
   z-index: 100000000;
   position: relative;
-  opacity: 0;
+  opacity: 1;
   background-color: #ededed;
 }
 
