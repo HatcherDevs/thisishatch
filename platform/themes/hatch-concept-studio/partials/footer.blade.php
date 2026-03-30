@@ -1,55 +1,100 @@
-﻿    {{-- Bootstrap footer: shown on inner pages only --}}
-    @if (!request()->is('/') && !request()->is(''))
-        <footer class="container py-3" role="contentinfo" aria-label="Site footer">
-            <div class="row">
-                <div class="col-md-6 pt-3">
-                    <a href="#" class="custom-link-footer">All copyrights reserved &copy; Hatch Design Services
-                        L.L.C. {{ date('Y') }}</a>
-                </div>
-                <div class="col-md-3 pt-3">
-                    <a href="{{ route('public.single', 'privacy-policy') }}" class="custom-link-footer"
-                        rel="nofollow">Privacy Policy</a>
-                </div>
-                <div class="col-md-3 pt-3">
-                    <a href="{{ route('public.single', 'terms-and-conditions') }}" class="custom-link-footer"
-                        rel="nofollow">Terms &amp; Conditions</a>
-                </div>
-            </div>
-        </footer>
-    @endif
+﻿<div id="dog">
+    <img id="dogImage" src="imgs/dog.png" alt="Hatch Concept Studio - We dig into design & get our hands dirty" />
+    <span class="dog-bubble" id="notification">We dig into design & get our hands dirty.</span>
+    <!-- <audio id="notificationSound" src="imgs/mixkit-happy-puppy-barks-741.mp3"></audio> -->
+</div>
 
-    {{-- Dog mascot --}}
-    <div id="dog">
-        <img id="dogImage" src="{{ Theme::asset()->url('imgs/dog.png') }}"
-            alt="Hatch Concept Studio - We dig into design &amp; get our hands dirty" />
-        <span class="dog-bubble" id="notification">We dig into design &amp; get our hands dirty.</span>
-        <audio id="notificationSound" src="{{ Theme::asset()->url('imgs/mixkit-happy-puppy-barks-741.mp3') }}"></audio>
-    </div>
+<div class="layout"></div>
+<div class="cursor" style="padding: 15px">
+    <span id="playBtn" style="display: none">Play</span>
+</div>
 
-    <div class="layout"></div>
-    <div class="cursor" style="padding: 15px">
-        <span id="playBtn" style="display: none">Play</span>
-    </div>
+<!-- WebSite Schema with Search -->
+<script type="application/ld+json">
+      {
+        "@@context": "https://schema.org",
+        "@type": "WebSite",
+        "@id": "https://thisishatch.com/#website",
+        "url": "https://thisishatch.com/",
+        "name": "Hatch Concept Studio",
+        "description": "Homegrown creative studio helping brands stand out with graphic design, digital marketing, creative campaigns and strategy services in Dubai.",
+        "publisher": {
+          "@id": "https://thisishatch.com/#organization"
+        },
+        "inLanguage": "en-AE"
+      }
+    </script>
 
-    @if (request()->is('/') || request()->is(''))
-        {{-- Homepage JS --}}
-        <script src="{{ Theme::asset()->url('js/locomotive-scroll.js') }}"></script>
-        <script src="{{ Theme::asset()->url('js/gsap.min.js') }}"></script>
-        <script src="{{ Theme::asset()->url('js/ScrollTrigger.min.js') }}"></script>
-        <script src="{{ Theme::asset()->url('js/swiper-bundle.min.js') }}"></script>
-        <script src="{{ Theme::asset()->url('js/HomePage.js') }}"></script>
-    @else
-        {{-- Inner pages JS --}}
-        <script src="{{ Theme::asset()->url('js/popper.min.js') }}"></script>
-        <script src="{{ Theme::asset()->url('js/bootstrap.min.js') }}"></script>
-        @if (request()->is('store*') || request()->is('project-details*'))
-            <script src="{{ Theme::asset()->url('js/swiper-bundle.min.js') }}"></script>
-        @endif
-        <script src="{{ Theme::asset()->url('js/about.js') }}"></script>
-    @endif
+<!-- Schema.org Structured Data -->
+<script type="application/ld+json">
+      {
+        "@@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "@id": "https://thisishatch.com/#organization",
+        "name": "Hatch Concept Studio",
+        "legalName": "Hatch Design Services L.L.C.",
+        "url": "https://thisishatch.com/",
+        "description": "Homegrown creative studio in Dubai, helping brands stand out with impactful graphic design, digital marketing, creative campaigns and strategy services.",
+        "logo": "https://thisishatch.com/imgs/hatch_logo_white.png",
+        "image": "https://thisishatch.com/imgs/og-image.png",
+        "telephone": "",
+        "email": "",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Dubai",
+          "addressCountry": "AE"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 25.2048,
+          "longitude": 55.2708
+        },
+        "areaServed": ["Dubai", "UAE", "United Arab Emirates"],
+        "serviceType": [
+          "Graphic Design",
+          "Brand Identity Design",
+          "Digital Marketing",
+          "Social Media Marketing",
+          "Website Design",
+          "Creative Campaigns",
+          "Marketing Strategy",
+          "Logo Design",
+          "Corporate Branding",
+          "Packaging Design"
+        ],
+        "sameAs": [
+          "https://www.instagram.com/thisishatch",
+          "https://www.linkedin.com/company/hatch-concept-studio"
+        ],
+        "hasMap": "https://maps.google.com/?q=Dubai,UAE"
+      }
+    </script>
 
-    {!! Theme::asset()->scripts() !!}
-    {!! Theme::footer() !!}
-    </body>
+<!-- BreadcrumbList schema -->
+<script type="application/ld+json">
+      {
+        "@@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://thisishatch.com/"
+          }
+        ]
+      }
+    </script>
 
-    </html>
+<script src="js/locomotive-scroll.js"></script>
+<script src="js/gsap.min.js"></script>
+<script src="js/ScrollTrigger.min.js"></script>
+<script src="js/swiper-bundle.min.js"></script>
+
+<script src="js/HomePage.js"></script>
+
+{!! Theme::asset()->scripts() !!}
+{!! Theme::footer() !!}
+</body>
+
+</html>

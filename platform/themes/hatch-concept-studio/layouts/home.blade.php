@@ -1,7 +1,7 @@
 {!! Theme::partial('header') !!}
 
 <div id="main">
-    {!! Theme::content() !!}
+    {!! Theme::loadView('index') !!}
 </div>
 
 {!! Theme::partial('footer') !!}
