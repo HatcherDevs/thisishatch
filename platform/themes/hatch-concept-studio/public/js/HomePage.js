@@ -176,14 +176,29 @@ if (canvas) {
 
 
 
-gsap.set(".layout", { bottom: "100%", opacity: 1 });
-gsap.to(".layout", {
-  bottom: 0,
-  opacity: 1,
-  ease: "power2.inOut", // يمكنك تغيير هذا حسب التفضيلات
-  duration: 2, // يمكنك ضبط مدة التأثير
-  delay: 1, // يمكنك ضبط تأخير بداية التأثير
-});
+const layoutOverlay = document.querySelector(".layout");
+const heroHorseBlock = document.querySelector(".hatch-hero-horse");
+
+if (layoutOverlay && heroHorseBlock) {
+  const introOverlayTimeline = gsap.timeline();
+  introOverlayTimeline
+    .set(".layout", { bottom: "100%", opacity: 1, display: "block" })
+    .to(".layout", {
+      bottom: 0,
+      opacity: 1,
+      ease: "power2.inOut",
+      duration: 2,
+      delay: 0.8,
+    })
+    .to(".layout", {
+      opacity: 0,
+      ease: "power2.inOut",
+      duration: 1.2,
+    }, "+=1.2")
+    .set(".layout", { display: "none" });
+} else if (layoutOverlay) {
+  gsap.set(".layout", { display: "none", opacity: 0 });
+}
 
 gsap.to("#page", {
   opacity: 1,
@@ -203,14 +218,6 @@ gsap.to(".click_graphics", {
   duration: 2, // يمكنك ضبط مدة التأثير
   delay: 1.5, // يمكنك ضبط تأخير بداية التأثير
 });
-gsap.to(".layout", {
-  opacity: 0,
-  display: 'none',
-  ease: "power2.inOut", // يمكنك تغيير هذا حسب التفضيلات
-  duration: 2, // يمكنك ضبط مدة التأثير
-  delay: 2, // يمكنك ضبط تأخير بداية التأثير
-});
-
 // ------------------------------------ For Icons on Header -------------------------
 
 document.addEventListener('DOMContentLoaded', function () {

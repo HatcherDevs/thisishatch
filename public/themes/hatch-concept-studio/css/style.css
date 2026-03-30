@@ -52,7 +52,7 @@ body {
   right: 0;
   bottom: 0;
   width: 100%;
-  z-index: 20;
+  z-index: 1000000000002;
 }
 
 #page4 .site-footer-inner {
@@ -618,7 +618,7 @@ video {
 }
 
 #dog img {
-  width: 120px;
+  width: 200px;
   transition: all .5s;
   -webkit-transition: all .5s;
   -moz-transition: all .5s;
@@ -690,7 +690,7 @@ video {
   }
 
   #dog img {
-    width: 120px;
+    width: 200px;
   }
 }
 
