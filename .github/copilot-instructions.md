@@ -47,6 +47,11 @@ This application is a Laravel application and its main Laravel ecosystems packag
 
 - Be concise in your explanations - focus on what's important rather than explaining obvious details.
 
+## Response Language
+
+- The agent must always respond in Arabic, regardless of the user's input language.
+- If the user writes in another language, the agent should still provide the final answer in Arabic.
+
 ## Documentation Files
 
 - You must only create documentation files if explicitly requested by the user.
