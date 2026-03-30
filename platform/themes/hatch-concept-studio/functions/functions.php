@@ -1,6 +1,7 @@
 <?php
 
 use Botble\Media\Facades\RvMedia;
+use Botble\Menu\Facades\Menu;
 use Botble\Theme\Supports\ThemeSupport;
 
 register_page_template([
@@ -11,6 +12,8 @@ register_page_template([
 ]);
 
 app()->booted(function () {
+    Menu::addMenuLocation('main-menu', __('Main menu'));
+
     RvMedia::addSize('medium', 800, 800)
         ->addSize('thumb', 400, 400);
 

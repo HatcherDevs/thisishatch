@@ -16,6 +16,12 @@ body {
   background-color: #EDEDED;
 }
 
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 .container-full {
   position: relative;
 }
@@ -37,6 +43,20 @@ body {
   position: relative;
   overflow: hidden;
   background: #EDEDED !important;
+  flex: 1 0 auto;
+}
+
+#page4 {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 20;
+}
+
+#page4 .site-footer-inner {
+  padding-bottom: 20px;
 }
 
 #page {
@@ -230,8 +250,25 @@ canvas {
   filter: blur(3px);
 }
 
-.nav_list_item.active,
+.nav_list>li {
+  filter: blur(3px);
+}
+
+.nav_list>li>a {
+  display: inline-block;
+  filter: blur(3px);
+  transition: filter 0.2s ease;
+}
+
 .nav_list_item:hover {
+  filter: blur(0px) !important;
+}
+
+.nav_list>li:hover {
+  filter: blur(0px) !important;
+}
+
+.nav_list>li:hover>a {
   filter: blur(0px) !important;
 }
 
@@ -522,7 +559,7 @@ video {
   position: fixed;
   z-index: 999999999999999999999999999999999999999;
   padding: 0px 0px;
-  bottom: 10px;
+  bottom: 12px;
   right: 0%;
   display: flex;
   justify-content: end;
@@ -581,7 +618,7 @@ video {
 }
 
 #dog img {
-  width: 100px;
+  width: 120px;
   transition: all .5s;
   -webkit-transition: all .5s;
   -moz-transition: all .5s;
@@ -653,7 +690,7 @@ video {
   }
 
   #dog img {
-    width: 200px;
+    width: 120px;
   }
 }
 
@@ -992,4 +1029,43 @@ body.open-card {
 .custom-link-footer {
   color: black;
   text-decoration: none;
+}
+
+.site-footer-end {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 20;
+  background: #d3d3d3;
+  height: 96px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.site-footer-end .site-footer-content {
+  margin-bottom: 0;
+  padding-bottom: 22px;
+}
+
+.site-footer-end .row {
+  align-items: center;
+}
+
+.site-footer-end .col-md-6,
+.site-footer-end .col-md-3 {
+  padding-top: 0 !important;
+}
+
+@media (max-width: 767px) {
+  .site-footer-end {
+    height: auto;
+    padding: 10px 12px;
+    align-items: center;
+  }
+
+  .site-footer-end .site-footer-content {
+    padding-bottom: 0;
+  }
 }

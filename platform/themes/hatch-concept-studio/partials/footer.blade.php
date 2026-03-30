@@ -1,5 +1,26 @@
-﻿<div id="dog">
-    <img id="dogImage" src="imgs/dog.png" alt="Hatch Concept Studio - We dig into design & get our hands dirty" />
+﻿<div id="page4">
+    <div class="site-footer-inner">
+        <footer class="container py-3" role="contentinfo" aria-label="Site footer">
+            <div class="row">
+                <div class="col-md-6 pt-3">
+                    <a href="" class="custom-link-footer">All copyrights reserved &copy;Hatch Design Services
+                        L.L.C.
+                        2024</a>
+                </div>
+                <div class="col-md-3 pt-3">
+                    <a href="" class="custom-link-footer" rel="nofollow">Privacy Policy</a>
+                </div>
+                <div class="col-md-3 pt-3">
+                    <a href="" class="custom-link-footer" rel="nofollow">Terms &amp; Conditions</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+<div id="dog">
+    <img id="dogImage" src="{{ Theme::asset()->url('imgs/dog.png') }}"
+        alt="Hatch Concept Studio - We dig into design & get our hands dirty" />
     <span class="dog-bubble" id="notification">We dig into design & get our hands dirty.</span>
     <!-- <audio id="notificationSound" src="imgs/mixkit-happy-puppy-barks-741.mp3"></audio> -->
 </div>
@@ -86,12 +107,12 @@
       }
     </script>
 
-<script src="js/locomotive-scroll.js"></script>
-<script src="js/gsap.min.js"></script>
-<script src="js/ScrollTrigger.min.js"></script>
-<script src="js/swiper-bundle.min.js"></script>
+<script src="{{ Theme::asset()->url('js/locomotive-scroll.js') }}"></script>
+<script src="{{ Theme::asset()->url('js/gsap.min.js') }}"></script>
+<script src="{{ Theme::asset()->url('js/ScrollTrigger.min.js') }}"></script>
+<script src="{{ Theme::asset()->url('js/swiper-bundle.min.js') }}"></script>
 
-<script src="js/HomePage.js"></script>
+<script src="{{ Theme::asset()->url('js/HomePage.js') }}"></script>
 
 {!! Theme::asset()->scripts() !!}
 {!! Theme::footer() !!}

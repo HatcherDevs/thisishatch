@@ -38,89 +38,37 @@ locomotive();
 
 
 const canvas = document.querySelector("canvas");
-const context = canvas.getContext("2d");
+if (canvas) {
+  const context = canvas.getContext("2d");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-
-window.addEventListener("resize", function () {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-  render();
-});
 
-function files(index) {
-  const n = String(index).padStart(4, '0');
-  return `imgs/horse-webp/turn02_${n}.webp`;
-}
 
-const frameCount = 300;
+  window.addEventListener("resize", function () {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    render();
+  });
 
-const images = [];
-const imageSeq = {
-  frame: 1,
-};
-
-for (let i = 0; i < frameCount; i++) {
-  const img = new Image();
-  img.src = files(i);
-  images.push(img);
-}
-
-gsap.to(imageSeq, {
-  frame: frameCount - 1,
-  snap: "frame",
-  ease: `none`,
-  scrollTrigger: {
-    scrub: 0.15,
-    trigger: `#page>canvas`,
-    start: `top top`,
-    end: `600% top`,
-    scroller: `#main`,
-  },
-  onUpdate: render,
-});
-
-images[1].onload = render;
-
-function render() {
-  scaleImage(images[imageSeq.frame], context);
-}
-
-function scaleImage(img, ctx) {
-  var canvas = ctx.canvas;
-  var hRatio = canvas.width / img.width;
-  var vRatio = canvas.height / img.height;
-  var ratio = Math.max(hRatio, vRatio);
-
-  // Adjust the ratio for mobile devices
-  ratio *= 0.8;
-  if (isMobile) {
-    ratio *= 1; // You can adjust this scaling factor based on your design
+  function files(index) {
+    const n = String(index).padStart(4, '0');
+    return `imgs/horse-webp/turn02_${n}.webp`;
   }
 
-  var centerShift_x = (canvas.width - img.width * ratio) / 2;
+  const frameCount = 300;
 
-  // Position the image at the top of the canvas
-  var centerShift_y = 0;
+  const images = [];
+  const imageSeq = {
+    frame: 1,
+  };
 
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.drawImage(
-    img,
-    0,
-    0,
-    img.width,
-    img.height,
-    centerShift_x,
-    centerShift_y,
-    img.width * ratio,
-    img.height * ratio
-  );
-}
+  for (let i = 0; i < frameCount; i++) {
+    const img = new Image();
+    img.src = files(i);
+    images.push(img);
+  }
 
-// Modify the media query for mobile devices
-if (isMobile) {
   gsap.to(imageSeq, {
     frame: frameCount - 1,
     snap: "frame",
@@ -134,43 +82,97 @@ if (isMobile) {
     },
     onUpdate: render,
   });
-}
 
+  images[1].onload = render;
 
-ScrollTrigger.create({
-  trigger: "#page>canvas",
-  pin: true,
-  scroller: `#main`,
-  start: `top top`,
-  end: `500% top`,
-  onUpdate: (self) => {
+  function render() {
+    scaleImage(images[imageSeq.frame], context);
+  }
 
-    if (self.isActive) {
-      // Show images when scrolling within the specified range
-      gsap.set(".click_graphics", { opacity: 1, pointerEvents: "auto", duration: 0.5 });
-    } else {
-      // Hide images when scrolling outside the specified range
-      gsap.set(".click_graphics", { opacity: 0, pointerEvents: "none" });
-      gsap.set("#page2", { opacity: 1, pointerEvents: "auto", duration: 0.5 });
-      gsap.set("#page3", { opacity: 1, pointerEvents: "auto", duration: 0.5 });
+  function scaleImage(img, ctx) {
+    var canvas = ctx.canvas;
+    var hRatio = canvas.width / img.width;
+    var vRatio = canvas.height / img.height;
+    var ratio = Math.max(hRatio, vRatio);
+
+    // Adjust the ratio for mobile devices
+    ratio *= 0.8;
+    if (isMobile) {
+      ratio *= 1; // You can adjust this scaling factor based on your design
     }
-  },
-});
+
+    var centerShift_x = (canvas.width - img.width * ratio) / 2;
+
+    // Position the image at the top of the canvas
+    var centerShift_y = 0;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(
+      img,
+      0,
+      0,
+      img.width,
+      img.height,
+      centerShift_x,
+      centerShift_y,
+      img.width * ratio,
+      img.height * ratio
+    );
+  }
+
+  // Modify the media query for mobile devices
+  if (isMobile) {
+    gsap.to(imageSeq, {
+      frame: frameCount - 1,
+      snap: "frame",
+      ease: `none`,
+      scrollTrigger: {
+        scrub: 0.15,
+        trigger: `#page>canvas`,
+        start: `top top`,
+        end: `600% top`,
+        scroller: `#main`,
+      },
+      onUpdate: render,
+    });
+  }
+
+
+  ScrollTrigger.create({
+    trigger: "#page>canvas",
+    pin: true,
+    scroller: `#main`,
+    start: `top top`,
+    end: `500% top`,
+    onUpdate: (self) => {
+
+      if (self.isActive) {
+        // Show images when scrolling within the specified range
+        gsap.set(".click_graphics", { opacity: 1, pointerEvents: "auto", duration: 0.5 });
+      } else {
+        // Hide images when scrolling outside the specified range
+        gsap.set(".click_graphics", { opacity: 0, pointerEvents: "none" });
+        gsap.set("#page2", { opacity: 1, pointerEvents: "auto", duration: 0.5 });
+        gsap.set("#page3", { opacity: 1, pointerEvents: "auto", duration: 0.5 });
+      }
+    },
+  });
 
 
 
 
-gsap.to("#page3", {
-  scrollTrigger: {
-    trigger: "#page",
-    start: "bottom top", // Trigger when the bottom of #page reaches the top of the viewport
-    end: "+=100%", // Adjust this value based on your design
-    pin: true, // Pin #page1 during the scroll
-    pinSpacing: false, // Disable automatic spacing adjustment
-    scroller: "#main",
-    scrub: true, // Smoothly transition between #page and #page1
-  },
-});
+  gsap.to("#page3", {
+    scrollTrigger: {
+      trigger: "#page",
+      start: "bottom top", // Trigger when the bottom of #page reaches the top of the viewport
+      end: "+=100%", // Adjust this value based on your design
+      pin: true, // Pin #page1 during the scroll
+      pinSpacing: false, // Disable automatic spacing adjustment
+      scroller: "#main",
+      scrub: true, // Smoothly transition between #page and #page1
+    },
+  });
+}
 
 
 
@@ -237,6 +239,10 @@ document.addEventListener('DOMContentLoaded', function () {
   const links = document.querySelectorAll('a');
   const cursor = document.querySelector('.cursor');
 
+  if (!cursor) {
+    return;
+  }
+
   const editCursor = e => {
     const { clientX: x, clientY: y } = e;
     cursor.style.left = x + 'px';
@@ -261,21 +267,24 @@ document.addEventListener('DOMContentLoaded', function () {
   //   btnVideo.style.left = x + 'px';
   //   btnVideo.style.top = y + 'px';
   // };
-  var spanV = cursor.querySelector('span')
-  var page2 = document.getElementById('page2')
-  page2.addEventListener('mousemove', function () {
-    spanV.style.display = "block";
-    cursor.style.transform = 'scale(4)';
-    cursor.style.backgroundColor = 'blue';
-    cursor.style.mixBlendMode = 'normal';
-  });
-  page2.addEventListener('mouseleave', function () {
-    spanV.style.display = "none";
-    cursor.style.transform = 'scale(1)';
-    cursor.style.backgroundColor = '#fff';
-    cursor.style.color = '#fff';
-    cursor.style.mixBlendMode = 'difference';
-  })
+  var spanV = cursor.querySelector('span');
+  var page2 = document.getElementById('page2');
+
+  if (page2 && spanV) {
+    page2.addEventListener('mousemove', function () {
+      spanV.style.display = "block";
+      cursor.style.transform = 'scale(4)';
+      cursor.style.backgroundColor = 'blue';
+      cursor.style.mixBlendMode = 'normal';
+    });
+    page2.addEventListener('mouseleave', function () {
+      spanV.style.display = "none";
+      cursor.style.transform = 'scale(1)';
+      cursor.style.backgroundColor = '#fff';
+      cursor.style.color = '#fff';
+      cursor.style.mixBlendMode = 'difference';
+    });
+  }
 
 
 
@@ -296,42 +305,49 @@ document.addEventListener('DOMContentLoaded', function () {
 let playButton = document.getElementById("play_button");
 let playBtnBlue = document.getElementById("playBtn");
 let pauseButton = document.getElementById("pause_button");
-playButton.addEventListener("click", function () {
-  video.play();
-  playBtnBlue.innerText = "stop";
-  playButton.classList.add('vplay');
-  pauseButton.classList.remove('vpause');
-  document.querySelector('html').classList.add('playvideo');
-});
+let video = document.querySelector('video');
 
-pauseButton.addEventListener("click", function () {
-  video.pause();
-  playBtnBlue.innerText = "play";
-  playButton.classList.remove('vplay');
-  pauseButton.classList.add('vpause');
-});
+if (playButton && playBtnBlue && pauseButton && video) {
+  playButton.addEventListener("click", function () {
+    video.play();
+    playBtnBlue.innerText = "stop";
+    playButton.classList.add('vplay');
+    pauseButton.classList.remove('vpause');
+    document.querySelector('html').classList.add('playvideo');
+  });
+
+  pauseButton.addEventListener("click", function () {
+    video.pause();
+    playBtnBlue.innerText = "play";
+    playButton.classList.remove('vplay');
+    pauseButton.classList.add('vpause');
+  });
+}
 //Video Play Pause Control End
 //Video Sound on & off Ctrl Start
 let soundOff = document.getElementById("sound-off");
 let soundOn = document.getElementById("sound-on");
 let soundCtrl = document.querySelector(".sound-ctrl");
 
-soundOff.addEventListener("click", function () {
-  video.muted = true;
-  soundCtrl.classList.add('soundctrlshow');
-});
+if (soundOff && soundOn && soundCtrl && video) {
+  soundOff.addEventListener("click", function () {
+    video.muted = true;
+    soundCtrl.classList.add('soundctrlshow');
+  });
 
-soundOn.addEventListener("click", function () {
-  video.muted = false;
-  soundCtrl.classList.remove('soundctrlshow');
-});
+  soundOn.addEventListener("click", function () {
+    video.muted = false;
+    soundCtrl.classList.remove('soundctrlshow');
+  });
+}
 //Video Sound on & off Ctrl End
-video.onended = function () {
-  document.querySelector('html').classList.remove('playvideo');
-  playButton.classList.remove('vplay');
-  playBtnBlue.innerText = "play";
-
-};
+if (video && playButton && playBtnBlue) {
+  video.onended = function () {
+    document.querySelector('html').classList.remove('playvideo');
+    playButton.classList.remove('vplay');
+    playBtnBlue.innerText = "play";
+  };
+}
 
 
 // Start Slider3D 
