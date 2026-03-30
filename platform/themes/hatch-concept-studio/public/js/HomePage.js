@@ -3,10 +3,17 @@ const isMobile = window.innerWidth <= 767; // You can adjust this breakpoint bas
 
 
 function locomotive() {
+  const mainElement = document.querySelector("#main");
+  const isHomePage = document.querySelector("#page") !== null;
+
+  if (!mainElement || !isHomePage || typeof LocomotiveScroll === 'undefined') {
+    return;
+  }
+
   gsap.registerPlugin(ScrollTrigger);
 
   const locoScroll = new LocomotiveScroll({
-    el: document.querySelector("#main"),
+    el: mainElement,
     smooth: true,
   });
   locoScroll.on("scroll", ScrollTrigger.update);
@@ -27,7 +34,7 @@ function locomotive() {
       };
     },
 
-    pinType: document.querySelector("#main").style.transform
+    pinType: mainElement.style.transform
       ? "transform"
       : "fixed",
   });
@@ -202,18 +209,25 @@ if (layoutOverlay && heroHorseBlock) {
   gsap.set(".layout", { display: "none", opacity: 0 });
 }
 
-gsap.to("#page", {
-  opacity: 1,
-  ease: "power2.inOut", // يمكنك تغيير هذا حسب التفضيلات
-  duration: 2, // يمكنك ضبط مدة التأثير
-  delay: 2, // يمكنك ضبط تأخير بداية التأثير
-});
-gsap.to("#nav", {
-  opacity: 1,
-  ease: "power2.inOut", // يمكنك تغيير هذا حسب التفضيلات
-  duration: 2, // يمكنك ضبط مدة التأثير
-  delay: 1.5, // يمكنك ضبط تأخير بداية التأثير
-});
+const pageElement = document.querySelector('#page');
+if (pageElement) {
+  gsap.to(pageElement, {
+    opacity: 1,
+    ease: "power2.inOut",
+    duration: 2,
+    delay: 2,
+  });
+}
+
+const navElement = document.querySelector('#nav');
+if (navElement) {
+  gsap.to(navElement, {
+    opacity: 1,
+    ease: "power2.inOut",
+    duration: 2,
+    delay: 1.5,
+  });
+}
 // ------------------------------------ For Icons on Header -------------------------
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -360,39 +374,41 @@ if (video && playButton && playBtnBlue) {
 |------------------------------------------------------
 */
 
-var swiper = new Swiper('.swiper-container', {
-  slidesPerView: 3.4,
-  spaceBetween: 25,
-  breakpoints: {
-    1024: {
-      slidesPerView: 3.4,
-      spaceBetween: 25,
+if (typeof Swiper !== 'undefined' && document.querySelector('.swiper-container')) {
+  new Swiper('.swiper-container', {
+    slidesPerView: 3.4,
+    spaceBetween: 25,
+    breakpoints: {
+      1024: {
+        slidesPerView: 3.4,
+        spaceBetween: 25,
+      },
+      768: {
+        slidesPerView: 2.4,
+        spaceBetween: 25,
+      },
+      640: {
+        slidesPerView: 1.4,
+        spaceBetween: 25,
+      },
+      320: {
+        slidesPerView: 1.1,
+        spaceBetween: 25,
+      }
     },
-    768: {
-      slidesPerView: 2.4,
-      spaceBetween: 25,
+    centeredSlides: true,
+    grabCursor: true,
+    // pagination: {
+    // 	el: '.swiper-pagination',
+    // 	clickable: true,
+    // },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
     },
-    640: {
-      slidesPerView: 1.4,
-      spaceBetween: 25,
-    },
-    320: {
-      slidesPerView: 1.1,
-      spaceBetween: 25,
-    }
-  },
-  centeredSlides: true,
-  grabCursor: true,
-  // pagination: {
-  // 	el: '.swiper-pagination',
-  // 	clickable: true,
-  // },
-  navigation: {
-    nextEl: '.swiper-button-next',
-    prevEl: '.swiper-button-prev',
-  },
-  slideToClickedSlide: true,
-});
+    slideToClickedSlide: true,
+  });
+}
 
 /*
 |------------------------------------------------------
@@ -417,11 +433,16 @@ let imageShown = false;
 
 
 function showRandomNotification() {
+  const notificationElement = document.getElementById('notification');
+  const notificationSound = document.getElementById('notificationSound');
+
+  if (!notificationElement) {
+    return;
+  }
+
   const randomIndex = Math.floor(Math.random() * notifications.length);
   const randomNotification = notifications[randomIndex];
-  document.getElementById('notification').innerText = randomNotification;
-
-  const notificationSound = document.getElementById('notificationSound');
+  notificationElement.innerText = randomNotification;
 
 
   // تشغيل الرنة إذا لم تكن قد تم تشغيلها بالفعل
@@ -447,14 +468,20 @@ function showRandomNotification() {
   }
 
   // استمع لحدث انتهاء التشغيل لتفعيل الاهتزاز بعد انتهاء الصوت
-  notificationSound.onended = () => {
-    shakeDog();
-  };
+  if (notificationSound) {
+    notificationSound.onended = () => {
+      shakeDog();
+    };
+  }
 }
 
 
 function shakeDog() {
   const dogImage = document.getElementById('dogImage');
+  if (!dogImage) {
+    return;
+  }
+
   // dogImage.style.animation = 'shake 0.5s';
   setTimeout(() => {
     dogImage.style.animation = '';
@@ -462,6 +489,10 @@ function shakeDog() {
 }
 function popUp() {
   const notification = document.getElementById('notification');
+  if (!notification) {
+    return;
+  }
+
   notification.style.scale = 0;
 
   setTimeout(() => {
@@ -471,10 +502,13 @@ function popUp() {
 
 
 // استمع لحدث النقر لتحديث الإشعار والاهتزاز
-document.getElementById('dog').addEventListener('click', () => {
-  popUp();
-  showRandomNotification();
-});
+const dogElement = document.getElementById('dog');
+if (dogElement) {
+  dogElement.addEventListener('click', () => {
+    popUp();
+    showRandomNotification();
+  });
+}
 
 
 // تحديث الإشعار بشكل دوري

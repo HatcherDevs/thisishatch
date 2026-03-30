@@ -1,0 +1,11 @@
+{
+    "id": "botble/projects",
+    "name": "Projects",
+    "namespace": "Botble\\Projects\\",
+    "provider": "Botble\\Projects\\Providers\\ProjectsServiceProvider",
+    "author": "Hatch",
+    "url": "https://thisishatch.com",
+    "version": "1.0.0",
+    "description": "Manage projects with categories and tags",
+    "minimum_core_version": "7.3.0"
+}

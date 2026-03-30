@@ -3,10 +3,17 @@ const isMobile = window.innerWidth <= 767; // You can adjust this breakpoint bas
 
 
 function locomotive() {
+  const mainElement = document.querySelector("#main");
+  const isHomePage = document.querySelector("#page") !== null;
+
+  if (!mainElement || !isHomePage || typeof LocomotiveScroll === 'undefined') {
+    return;
+  }
+
   gsap.registerPlugin(ScrollTrigger);
 
   const locoScroll = new LocomotiveScroll({
-    el: document.querySelector("#main"),
+    el: mainElement,
     smooth: true,
   });
   locoScroll.on("scroll", ScrollTrigger.update);
@@ -27,7 +34,7 @@ function locomotive() {
       };
     },
 
-    pinType: document.querySelector("#main").style.transform
+    pinType: mainElement.style.transform
       ? "transform"
       : "fixed",
   });

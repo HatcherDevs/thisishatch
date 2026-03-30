@@ -283,8 +283,8 @@ canvas {
 }
 
 .nav_list_item {
-  height: 100%;
-  overflow: hidden;
+  height: auto;
+  overflow: visible;
   width: fit-content;
 }
 
