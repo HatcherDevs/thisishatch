@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
+
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -15,7 +16,7 @@
 
     <script src="https://kit.fontawesome.com/7b5e9f3ec6.js" crossorigin="anonymous" defer></script>
 
-    @if(request()->is('/') || request()->is(''))
+    @if (request()->is('/') || request()->is(''))
         {{-- Homepage CSS --}}
         <link rel="preload" href="{{ Theme::asset()->url('css/style.css') }}" as="style" />
         <link rel="stylesheet" href="{{ Theme::asset()->url('css/locomotive-scroll.css') }}" />
@@ -26,7 +27,10 @@
         {{-- Inner pages CSS --}}
         <link rel="stylesheet" href="{{ Theme::asset()->url('css/bootstrap.min.css') }}" />
         <link rel="stylesheet" href="{{ Theme::asset()->url('css/about.css') }}" />
-        @if(request()->is('projects*') || request()->is('contact*') || request()->is('store*') || request()->is('project-details*'))
+        @if (request()->is('projects*') ||
+                request()->is('contact*') ||
+                request()->is('store*') ||
+                request()->is('project-details*'))
             <link rel="stylesheet" href="{{ Theme::asset()->url('css/projects.css') }}" />
             <link rel="stylesheet" href="{{ Theme::asset()->url('css/swiper-bundle.min.css') }}" />
         @endif
@@ -34,11 +38,13 @@
 
     {!! Theme::asset()->styles() !!}
 </head>
+
 <body {!! Theme::bodyAttributes() !!}>
     {!! apply_filters(THEME_FRONT_BODY, null) !!}
 
     {{-- Side menu toggle --}}
-    <div id="{{ request()->is('/') || request()->is('') ? 'nav' : 'nav_about' }}"@if(!request()->is('/') && !request()->is('')) style="opacity:1"@endif role="navigation" aria-label="Main navigation">
+    <div id="{{ request()->is('/') || request()->is('') ? 'nav' : 'nav_about' }}"@if (!request()->is('/') && !request()->is('')) style="opacity:1" @endif
+        role="navigation" aria-label="Main navigation">
         <a href="#menu" aria-label="Open navigation menu">
             <img src="{{ Theme::asset()->url('imgs/side_menu.png') }}" width="66%" alt="Menu" />
         </a>
@@ -49,7 +55,8 @@
         <div class="content">
             <a href="#" class="close" aria-label="Close menu"></a>
             <a href="{{ route('public.index') }}" class="hatch_logo">
-                <img class="mouseMove_hover" src="{{ Theme::asset()->url('imgs/hatch_logo_white.png') }}" alt="Hatch Concept Studio" />
+                <img class="mouseMove_hover" src="{{ Theme::asset()->url('imgs/hatch_logo_white.png') }}"
+                    alt="Hatch Concept Studio" />
             </a>
 
             <div class="{{ request()->is('/') || request()->is('') ? 'nav' : 'nav_about' }}">
@@ -74,21 +81,26 @@
         </div>
     </div>
 
-    @if(request()->is('/') || request()->is(''))
+    @if (request()->is('/') || request()->is(''))
         {{-- Homepage floating click graphics --}}
         <span class="click_graphics at mouseMove_hover" data-speed="2">
-            <img width="100%" src="{{ Theme::asset()->url('imgs/click_graphics/at.png') }}" alt="Creative agency Dubai social media marketing" />
+            <img width="100%" src="{{ Theme::asset()->url('imgs/click_graphics/at.png') }}"
+                alt="Creative agency Dubai social media marketing" />
         </span>
         <span class="click_graphics click mouseMove_hover" data-speed="4">
-            <img width="100%" src="{{ Theme::asset()->url('imgs/click_graphics/click.png') }}" alt="Digital marketing agency Dubai click engagement" />
+            <img width="100%" src="{{ Theme::asset()->url('imgs/click_graphics/click.png') }}"
+                alt="Digital marketing agency Dubai click engagement" />
         </span>
         <span class="click_graphics text mouseMove_hover" data-speed="6">
-            <img width="100%" src="{{ Theme::asset()->url('imgs/click_graphics/text.png') }}" alt="Brand identity design and content marketing Dubai" />
+            <img width="100%" src="{{ Theme::asset()->url('imgs/click_graphics/text.png') }}"
+                alt="Brand identity design and content marketing Dubai" />
         </span>
         <span class="click_graphics like mouseMove_hover" data-speed="8">
-            <img width="100%" src="{{ Theme::asset()->url('imgs/click_graphics/like.png') }}" alt="Social media marketing and brand engagement Dubai" />
+            <img width="100%" src="{{ Theme::asset()->url('imgs/click_graphics/like.png') }}"
+                alt="Social media marketing and brand engagement Dubai" />
         </span>
         <span class="click_graphics hashtah mouseMove_hover" data-speed="10">
-            <img width="100%" src="{{ Theme::asset()->url('imgs/click_graphics/hashtah.png') }}" alt="Integrated marketing campaigns creative agency Dubai" />
+            <img width="100%" src="{{ Theme::asset()->url('imgs/click_graphics/hashtah.png') }}"
+                alt="Integrated marketing campaigns creative agency Dubai" />
         </span>
     @endif

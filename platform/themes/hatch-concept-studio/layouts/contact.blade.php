@@ -28,15 +28,18 @@
     <div class="container mt-5">
         <div class="container py-3 w-lg-25 w-sm-50 w-md-50 d-flex justify-content-between float-start">
             <a href="#" target="_blank" class="custom-link-footer">
-                <img id="arrow" width="15px" src="{{ Theme::asset()->url('imgs/projects/Arrow.png') }}" alt="" />
+                <img id="arrow" width="15px" src="{{ Theme::asset()->url('imgs/projects/Arrow.png') }}"
+                    alt="" />
                 <span>Behance</span>
             </a>
             <a href="#" target="_blank" class="custom-link-footer">
-                <img id="arrow" width="15px" src="{{ Theme::asset()->url('imgs/projects/Arrow.png') }}" alt="" />
+                <img id="arrow" width="15px" src="{{ Theme::asset()->url('imgs/projects/Arrow.png') }}"
+                    alt="" />
                 <span>Instagram</span>
             </a>
             <a href="#" target="_blank" class="custom-link-footer active">
-                <img id="arrow" width="15px" src="{{ Theme::asset()->url('imgs/projects/Arrow.png') }}" alt="" />
+                <img id="arrow" width="15px" src="{{ Theme::asset()->url('imgs/projects/Arrow.png') }}"
+                    alt="" />
                 <span>Linkedin</span>
             </a>
         </div>

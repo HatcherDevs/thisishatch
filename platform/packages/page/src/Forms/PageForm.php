@@ -3,8 +3,8 @@
 namespace Botble\Page\Forms;
 
 use Botble\Base\Forms\FieldOptions\ContentFieldOption;
-use Botble\Base\Forms\FieldOptions\EditorFieldOption;
 use Botble\Base\Forms\FieldOptions\DescriptionFieldOption;
+use Botble\Base\Forms\FieldOptions\EditorFieldOption;
 use Botble\Base\Forms\FieldOptions\MediaImageFieldOption;
 use Botble\Base\Forms\FieldOptions\NameFieldOption;
 use Botble\Base\Forms\FieldOptions\SelectFieldOption;
@@ -23,16 +23,6 @@ class PageForm extends FormAbstract
 {
     public function setup(): void
     {
-        $model = $this->getModel();
-        $currentPageId = is_object($model) ? $model->id : null;
-        
-        $pages = Page::query()
-            ->when($currentPageId, function ($query, $id) {
-                return $query->where('id', '!=', $id);
-            })
-            ->pluck('name', 'id')
-            ->all();
-
         $this
             ->model(Page::class)
             ->setValidatorClass(PageRequest::class)
@@ -41,14 +31,6 @@ class PageForm extends FormAbstract
             ->add('content', EditorField::class, ContentFieldOption::make()->allowedShortcodes())
             ->add('down_row', EditorField::class, EditorFieldOption::make()->label(trans('plugins/page::pages.form.down_row'))->allowedShortcodes())
             ->add('status', SelectField::class, StatusFieldOption::make())
-            ->add(
-                'parent_id',
-                SelectField::class,
-                SelectFieldOption::make()
-                    ->label(trans('core/base::forms.parent'))
-                    ->choices([0 => trans('none')] + $pages)
-                    ->searchable()
-            )
             ->when(Template::getPageTemplates(), function (PageForm $form, array $templates) {
                 return $form
                     ->add(

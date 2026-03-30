@@ -26,13 +26,8 @@
 
     <div class="">
         <div class="w-100 h-100 d-flex justify-content-center">
-            <img
-                id="strips"
-                src="{{ Theme::asset()->url('imgs/about/full1.png') }}"
-                class="img-fluid"
-                alt="Hatch Concept Studio creative team work and branding showcase"
-                loading="lazy"
-            />
+            <img id="strips" src="{{ Theme::asset()->url('imgs/about/full1.png') }}" class="img-fluid"
+                alt="Hatch Concept Studio creative team work and branding showcase" loading="lazy" />
         </div>
     </div>
 

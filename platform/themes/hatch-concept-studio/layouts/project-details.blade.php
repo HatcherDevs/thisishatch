@@ -3,11 +3,8 @@
 <div id="main">
     <div class="container w-md-75">
         <div>
-            <img
-                src="{{ Theme::asset()->url('imgs/projects/project-details/details.png') }}"
-                class="img-fluid"
-                alt="Guided by the Stars – Ramadan illustrated pop-up book artwork by Hatch Concept Studio Dubai"
-            />
+            <img src="{{ Theme::asset()->url('imgs/projects/project-details/details.png') }}" class="img-fluid"
+                alt="Guided by the Stars – Ramadan illustrated pop-up book artwork by Hatch Concept Studio Dubai" />
             <div class="row pt-2">
                 <div class="col-6">
                     <span style="color: #f8511e">2019</span>

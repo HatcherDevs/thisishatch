@@ -5,11 +5,9 @@ use Botble\Theme\Supports\ThemeSupport;
 
 register_page_template([
     'default' => __('Default'),
-    'about' => __('About'),
-    'projects' => __('Projects'),
+    'home' => __('Home'),
     'contact' => __('Contact'),
-    'store' => __('Store'),
-    'project-details' => __('Project Details'),
+    'normal-page' => __('Normal Page'),
 ]);
 
 app()->booted(function () {
