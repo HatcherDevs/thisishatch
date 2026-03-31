@@ -72,4 +72,23 @@
         </div>
     </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var closeBtn = document.querySelector('.popover .close');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (window.location.hash === '#menu') {
+                        window.location.hash = '';
+                    } else {
+                        // fallback: إخفاء العنصر مباشرة لو لم يكن هناك hash
+                        var popover = document.getElementById('menu');
+                        if (popover) popover.classList.remove('active');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
 
+</html>

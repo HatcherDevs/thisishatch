@@ -979,7 +979,7 @@ body.open-card {
   position: relative;
   z-index: 1;
   height: 450px;
-  padding: 20px;
+  /* padding: 20px; */
   cursor: pointer;
   display: block;
   text-align: center;
@@ -1103,4 +1103,11 @@ body.open-card {
   .site-footer-end .site-footer-content {
     padding-bottom: 0;
   }
+}
+
+
+.card-img-top  {
+  width: 636px;
+  height: 518px;
+  object-fit: cover;
 }

@@ -53,7 +53,7 @@
             @endif
 
             @if ($project->content)
-                <div class="project-content pb-5">
+                <div class="project-content pb-5" style="padding-left: 24.8%;">
                     {!! BaseHelper::clean(do_shortcode($project->content)) !!}
                 </div>
             @endif
@@ -89,36 +89,40 @@
     </div>
 
     @if (!empty($relatedProjects) && $relatedProjects->isNotEmpty())
-        <div id="page3" class="pb-5 mb-5">
-            <div class="container w-md-75">
-                <h4 class="pb-3">Other Projects</h4>
+        <div class="projects-carousel-block">
+    
+
+
+
+            <div id="page3">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        @foreach ($relatedProjects as $project)
+                            <div class="swiper-slide">
+                                <a href="{{ $project->url }}" class="slide-inner">
+                                    <img src="{{ RvMedia::getImageUrl($project->cover ?: $project->image) }}"
+                                        alt="{{ $project->title }}" loading="lazy" />
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                    <!-- <div class="swiper-pagination"></div> -->
+                    <div class="swiper-button-next">
+                        Next Project
+                        <i class="fa fa-arrow-right"></i>
+                    </div>
+                    <div class="swiper-button-prev">
+                        <i class="fa fa-arrow-left"></i>
+                        Previous Project
+                    </div>
+                </div>
             </div>
 
-            <div class="swiper-container otherProjectsSwiper pb-5 mb-5">
-                <div class="swiper-wrapper">
-                    @foreach ($relatedProjects as $relatedProject)
-                        <div class="swiper-slide">
-                            <a href="{{ $relatedProject->url }}"
-                                class="slide-inner text-decoration-none project_item d-block">
-                                <img src="{{ RvMedia::getImageUrl($relatedProject->cover ?: $relatedProject->image) }}"
-                                    alt="{{ $relatedProject->title }}" />
-                                <h6 class="pt-2 mb-0">{{ $relatedProject->title }}</h6>
-                            </a>
-                        </div>
-                    @endforeach
-                </div>
-
-                <div class="swiper-button-next other-projects-next">
-                    Next Project
-                    <i class="fa fa-arrow-right"></i>
-                </div>
-                <div class="swiper-button-prev other-projects-prev">
-                    <i class="fa fa-arrow-left"></i>
-                    Previous Project
-                </div>
-            </div>
-        </div>
     @endif
+
+
+
+
 
     <div id="page4">
         <div class="site-footer-inner">

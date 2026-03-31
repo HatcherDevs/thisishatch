@@ -1,7 +1,6 @@
 <link rel="stylesheet" href="{{ Theme::asset()->url('css/bootstrap.min.css') }}">
-{{-- <link rel="stylesheet" href="{{ Theme::asset()->url('css/about.css') }}"> --}}
-{{-- <link rel="stylesheet" href="{{ Theme::asset()->url('css/projects.css') }}"> --}}
-<link rel="stylesheet" href="{{ Theme::asset()->url('css/style.css') }}">
+<link rel="stylesheet" href="{{ Theme::asset()->url('css/about.css') }}">
+<link rel="stylesheet" href="{{ Theme::asset()->url('css/projects.css') }}">
 
 <div id="main" style="padding-top: 132px;">
     <div class="container w-md-75">
@@ -146,4 +145,18 @@
             onTabInteract(event);
         });
     })();
+
+    function updateNavPillsOpacity() {
+        var navPills = document.querySelector('.nav-pills');
+        if (!navPills) return;
+        if (window.location.hash === '#menu') {
+            navPills.style.opacity = '0';
+            navPills.style.display = 'none';
+        } else {
+            navPills.style.opacity = '1';
+            navPills.style.display = '';
+        }
+    }
+    window.addEventListener('hashchange', updateNavPillsOpacity);
+    document.addEventListener('DOMContentLoaded', updateNavPillsOpacity);
 </script>
