@@ -55,20 +55,28 @@
         <div class="site-footer-static">
             <div class="site-footer-inner">
                 <footer class=" py-3" role="contentinfo" aria-label="Site footer">
+                    @php
+                        $copyright = Theme::getSiteCopyright();
+                        $privacyUrl = Theme::privacyPolicyUrl();
+                        $termsUrl = Theme::termsOfServiceUrl();
+                    @endphp
                     <div class="row">
                         <div class="col-md-6 pt-3">
-                            <a href="" class="custom-link-footer">All copyrights reserved &copy;Hatch Design
-                                Services
-                                L.L.C.
-                                2024</a>
+                            <span class="custom-link-footer">
+                                {!! $copyright ?: 'All copyrights reserved &copy;Hatch Design Services L.L.C. ' . date('Y') !!}
+                            </span>
                         </div>
                         <div class="col-md-3 pt-3">
-                            <a href="" class="custom-link-footer" rel="nofollow noopener noreferrer"
-                                target="_blank">Privacy Policy</a>
+                            @if ($privacyUrl)
+                                <a href="{{ $privacyUrl }}" class="custom-link-footer"
+                                    rel="nofollow noopener noreferrer" target="_blank">Privacy Policy</a>
+                            @endif
                         </div>
                         <div class="col-md-3 pt-3">
-                            <a href="" class="custom-link-footer" rel="nofollow noopener noreferrer"
-                                target="_blank">Terms &amp; Conditions</a>
+                            @if ($termsUrl)
+                                <a href="{{ $termsUrl }}" class="custom-link-footer"
+                                    rel="nofollow noopener noreferrer" target="_blank">Terms &amp; Conditions</a>
+                            @endif
                         </div>
                     </div>
                 </footer>
