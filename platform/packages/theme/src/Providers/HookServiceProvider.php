@@ -56,7 +56,7 @@ class HookServiceProvider extends ServiceProvider
         PageTable::beforeRendering(function (): void {
             add_filter(PAGE_FILTER_PAGE_NAME_IN_ADMIN_LIST, function (string $name, Page $page) {
                 if (BaseHelper::isHomepage($page->getKey())) {
-                    $name .= Html::tag('span', ' — ' . trans('packages/page::pages.front_page'), [
+                    $name .= Html::tag('span', ' — '.trans('packages/page::pages.front_page'), [
                         'class' => 'additional-page-name',
                     ])->toHtml();
                 }
@@ -74,7 +74,7 @@ class HookServiceProvider extends ServiceProvider
         });
 
         add_filter('get_http_exception_view', function (string $defaultView, HttpExceptionInterface $exception) {
-            if (view()->exists($view = Theme::getThemeNamespace('views.' . $exception->getStatusCode()))) {
+            if (view()->exists($view = Theme::getThemeNamespace('views.'.$exception->getStatusCode()))) {
                 return $view;
             }
 
@@ -92,8 +92,8 @@ class HookServiceProvider extends ServiceProvider
         add_filter('email_template_logo', fn ($logo) => empty($logo) ? Theme::getLogo() : $logo);
         add_filter('email_template_logo_helper_text', function ($helperText) {
             return trans('packages/theme::theme.email_template_logo_helper_text')
-                . '<br />'
-                . $helperText;
+                .'<br />'
+                .$helperText;
         });
         add_filter(
             'email_template_copyright_text',
@@ -216,15 +216,28 @@ class HookServiceProvider extends ServiceProvider
                                 ],
                             ],
                             [
-                                'id' => 'term_and_privacy_policy_url',
+                                'id' => 'terms_of_service_url',
                                 'type' => 'text',
-                                'label' => trans('packages/theme::theme.term_and_privacy_policy_url'),
+                                'label' => trans('packages/theme::theme.terms_of_service_url'),
                                 'attributes' => [
-                                    'name' => 'term_and_privacy_policy_url',
+                                    'name' => 'terms_of_service_url',
                                     'value' => null,
                                     'options' => [
                                         'class' => 'form-control',
-                                        'placeholder' => 'https://example.com/term-and-privacy-policy',
+                                        'placeholder' => 'https://example.com/terms',
+                                    ],
+                                ],
+                            ],
+                            [
+                                'id' => 'privacy_policy_url',
+                                'type' => 'text',
+                                'label' => trans('packages/theme::theme.privacy_policy_url'),
+                                'attributes' => [
+                                    'name' => 'privacy_policy_url',
+                                    'value' => null,
+                                    'options' => [
+                                        'class' => 'form-control',
+                                        'placeholder' => 'https://example.com/privacy-policy',
                                     ],
                                 ],
                             ],
@@ -351,7 +364,7 @@ class HookServiceProvider extends ServiceProvider
             } elseif (Vimeo::isVimeoURL($url)) {
                 $videoId = Vimeo::getVimeoID($url);
                 if ($videoId) {
-                    $data['url'] = 'https://player.vimeo.com/video/' . $videoId;
+                    $data['url'] = 'https://player.vimeo.com/video/'.$videoId;
 
                     $type = 'vimeo';
                 }
@@ -474,7 +487,7 @@ class HookServiceProvider extends ServiceProvider
         add_filter(THEME_FRONT_HEADER, function (?string $html): ?string {
             $file = Theme::getStyleIntegrationPath();
             if ($this->app['files']->exists($file)) {
-                $html .= PHP_EOL . Html::style(Theme::asset()->url('css/style.integration.css?v=' . filectime($file)));
+                $html .= PHP_EOL.Html::style(Theme::asset()->url('css/style.integration.css?v='.filectime($file)));
             }
 
             return $html;
@@ -515,19 +528,19 @@ class HookServiceProvider extends ServiceProvider
             if (config('packages.theme.general.enable_custom_js')) {
                 if (setting('custom_header_js')) {
                     add_filter(THEME_FRONT_HEADER, function (?string $html): string {
-                        return $html . ThemeSupport::getCustomJS('header');
+                        return $html.ThemeSupport::getCustomJS('header');
                     }, 15);
                 }
 
                 if (setting('custom_body_js')) {
                     add_filter(THEME_FRONT_BODY, function (?string $html): string {
-                        return $html . ThemeSupport::getCustomJS('body');
+                        return $html.ThemeSupport::getCustomJS('body');
                     }, 15);
                 }
 
                 if (setting('custom_footer_js')) {
                     add_filter(THEME_FRONT_FOOTER, function (?string $html): string {
-                        return $html . ThemeSupport::getCustomJS('footer');
+                        return $html.ThemeSupport::getCustomJS('footer');
                     }, 15);
                 }
             }
@@ -535,19 +548,19 @@ class HookServiceProvider extends ServiceProvider
             if (config('packages.theme.general.enable_custom_html')) {
                 if (setting('custom_header_html')) {
                     add_filter(THEME_FRONT_HEADER, function (?string $html): string {
-                        return $html . ThemeSupport::getCustomHtml('header');
+                        return $html.ThemeSupport::getCustomHtml('header');
                     }, 16);
                 }
 
                 if (setting('custom_body_html')) {
                     add_filter(THEME_FRONT_BODY, function (?string $html): string {
-                        return $html . ThemeSupport::getCustomHtml('body');
+                        return $html.ThemeSupport::getCustomHtml('body');
                     }, 16);
                 }
 
                 if (setting('custom_footer_html')) {
                     add_filter(THEME_FRONT_FOOTER, function (?string $html): string {
-                        return $html . ThemeSupport::getCustomHtml('footer');
+                        return $html.ThemeSupport::getCustomHtml('footer');
                     }, 16);
                 }
             }
@@ -559,7 +572,7 @@ class HookServiceProvider extends ServiceProvider
                     return $html;
                 }
 
-                return $html . Html::style('vendor/core/packages/theme/css/admin-bar.css') . AdminBar::render();
+                return $html.Html::style('vendor/core/packages/theme/css/admin-bar.css').AdminBar::render();
             } catch (Throwable) {
                 return $html;
             }
@@ -580,7 +593,7 @@ class HookServiceProvider extends ServiceProvider
 
                 $link = view('packages/theme::guideline-link', [
                     'html' => $html,
-                    'editLink' => $editLink . '?shortcode=' . $compiler->getName(),
+                    'editLink' => $editLink.'?shortcode='.$compiler->getName(),
                     'editLabel' => __('Edit this shortcode'),
                 ])->render();
 
@@ -621,7 +634,7 @@ class HookServiceProvider extends ServiceProvider
                                 ->label(trans('core/setting::setting.general.locale'))
                                 ->choices(collect($availableLocales)
                                     ->pluck('name', 'locale')
-                                    ->map(fn ($item, $key) => $item . ' - ' . $key)
+                                    ->map(fn ($item, $key) => $item.' - '.$key)
                                     ->all())
                                 ->selected($defaultLocale)
                                 ->searchable()
@@ -647,7 +660,7 @@ class HookServiceProvider extends ServiceProvider
                     ...$rules,
                     'locale' => ['sometimes', Rule::in(array_keys(Language::getAvailableLocales()))],
                     'locale_direction' => ['sometimes', 'in:ltr,rtl'],
-                    'redirect_404_to_homepage' => [new OnOffRule()],
+                    'redirect_404_to_homepage' => [new OnOffRule],
                 ];
             }
 
@@ -670,7 +683,7 @@ class HookServiceProvider extends ServiceProvider
             if ($request instanceof AdminAppearanceRequest) {
                 $rules = [
                     ...$rules,
-                    'show_admin_bar' => $onOffRule = new OnOffRule(),
+                    'show_admin_bar' => $onOffRule = new OnOffRule,
                     'show_theme_guideline_link' => $onOffRule,
                 ];
             }
@@ -683,7 +696,7 @@ class HookServiceProvider extends ServiceProvider
     {
         $themes = fn () => count(BaseHelper::scanFolder(theme_path()));
 
-        return (new DashboardWidgetInstance())
+        return (new DashboardWidgetInstance)
             ->setType('stats')
             ->setPermission('theme.index')
             ->setTitle($themes === 1 ? trans('packages/theme::theme.theme') : trans('packages/theme::theme.themes'))

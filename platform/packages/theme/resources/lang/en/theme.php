@@ -80,6 +80,8 @@ return [
         ],
     ],
     'term_and_privacy_policy_url' => 'Terms and Privacy Policy URL',
+    'terms_of_service_url' => 'Terms of Service URL',
+    'privacy_policy_url' => 'Privacy Policy URL',
     'site_title_separator' => 'SEO title separator',
     'no_meta_keywords' => "Meta keywords was removed by Google, you don't need to add meta keywords to your website. Learn more: :link",
 ];

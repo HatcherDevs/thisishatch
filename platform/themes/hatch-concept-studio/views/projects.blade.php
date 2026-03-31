@@ -5,9 +5,12 @@
 <div id="main" style="padding-top: 132px;">
     <div class="container w-md-75">
         <h2 style="text-align: justify" class="pb-5">
-            Our day begins and ends with doing what we love - grabbing design by the horns and beating it black and blue
-            until it looks beautiful.
-            You will find nothing but unadulterated, kicking, living design here.
+            {!! BaseHelper::clean(
+                theme_option(
+                    'projects_intro_text',
+                    'Our day begins and ends with doing what we love - grabbing design by the horns and beating it black and blue until it looks beautiful. You will find nothing but unadulterated, kicking, living design here.',
+                ),
+            ) !!}
         </h2>
 
         @if ($categories->isNotEmpty())
@@ -47,6 +50,29 @@
                     <p>No projects found.</p>
                 </div>
             @endforelse
+        </div>
+
+        <div class="site-footer-static">
+            <div class="site-footer-inner">
+                <footer class=" py-3" role="contentinfo" aria-label="Site footer">
+                    <div class="row">
+                        <div class="col-md-6 pt-3">
+                            <a href="" class="custom-link-footer">All copyrights reserved &copy;Hatch Design
+                                Services
+                                L.L.C.
+                                2024</a>
+                        </div>
+                        <div class="col-md-3 pt-3">
+                            <a href="" class="custom-link-footer" rel="nofollow noopener noreferrer"
+                                target="_blank">Privacy Policy</a>
+                        </div>
+                        <div class="col-md-3 pt-3">
+                            <a href="" class="custom-link-footer" rel="nofollow noopener noreferrer"
+                                target="_blank">Terms &amp; Conditions</a>
+                        </div>
+                    </div>
+                </footer>
+            </div>
         </div>
     </div>
 </div>

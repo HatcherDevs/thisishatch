@@ -1,96 +1,104 @@
-.nav-link{
-    color: black;
-    padding-bottom: 1px;
-    padding-top: 1px;
+.nav-link {
+  color: black;
+  padding-bottom: 1px;
+  padding-top: 1px;
 }
-.nav-pills .nav-link.active{
-    background-color:transparent;
-    color: #0d6efd;
-    border-bottom: 1px solid #0d6efd;
-    border-radius: 0;
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    -ms-border-radius: 0;
-    -o-border-radius: 0;
-    padding: 1px;
+
+.nav-pills .nav-link.active {
+  background-color: transparent;
+  color: #0d6efd;
+  border-bottom: 1px solid #0d6efd;
+  border-radius: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  padding: 1px;
 }
-.nav-pills .nav-link #arrow{
-    display: none;
+
+.nav-pills .nav-link #arrow {
+  display: none;
 }
-.nav-pills .nav-link.active #arrow{
-    display: inline;
+
+.nav-pills .nav-link.active #arrow {
+  display: inline;
 }
+
 ul#projects-tab li {
   padding-right: 30px;
 }
 
-#projects-tab{
-    position: absolute;
-    top: 50px;
-    right: 50px;
-    z-index: 9999999999999999999999999999999999999;
-    background-color: #EDEDED;
-    border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -ms-border-radius: 5px;
-    -o-border-radius: 5px;
+#projects-tab {
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  z-index: 9999999999999999999999999999999999999;
+  background-color: #EDEDED;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
 }
 
-@media(max-width:1000px){
-    #projects-tab .nav-item{
-        width: 50%;
-        margin-bottom: 15px;
-    }
-    #projects-tab .nav-item .nav-link{
-        padding: .5rem .5rem 0px 0px;
-        
-        font-size: smaller;
-    }
-    #projects-tab{
-        top: 0;
-        right: 0px;
-        padding-left: 10px;
-    }
+@media(max-width:1000px) {
+  #projects-tab .nav-item {
+    width: 50%;
+    margin-bottom: 15px;
+  }
+
+  #projects-tab .nav-item .nav-link {
+    padding: .5rem .5rem 0px 0px;
+
+    font-size: smaller;
+  }
+
+  #projects-tab {
+    top: 0;
+    right: 0px;
+    padding-left: 10px;
+  }
 }
 
-.project_item p{
-    color: black;
-}
-.project_item h5{
-    font-weight: normal;
+.project_item p {
+  color: black;
 }
 
-
-.popover .content{
-    z-index: 99999999999999999999999999999999999999999999999999999999;
+.project_item h5 {
+  font-weight: normal;
 }
 
 
+.popover .content {
+  z-index: 99999999999999999999999999999999999999999999999999999999;
+}
 
-#page3{
+
+
+#page3 {
   height: 80vh;
-  width:100%;
+  width: 100%;
   position: relative;
-  margin-bottom: 200px!important;
+  margin-bottom: 200px !important;
 }
+
 .swiper-button-next:after,
-.swiper-button-prev:after{
+.swiper-button-prev:after {
   content: '';
   font-weight: 100;
   color: #1D1D1D;
 }
 
 .swiper-button-next i,
-.swiper-button-prev i{
+.swiper-button-prev i {
   color: #0514F0;
 }
 
 .swiper-button-next,
-.swiper-button-prev{
+.swiper-button-prev {
   color: #1D1D1D;
-  top: 95%!important;
-  width: fit-content!important;
+  top: 95% !important;
+  width: fit-content !important;
   display: flex;
   font-weight: 100;
   justify-content: space-evenly;
@@ -101,13 +109,16 @@ ul#projects-tab li {
 .swiper-container {
   padding: 80px 0;
 }
-@media(max-width:1200px){
+
+@media(max-width:1200px) {
+
   .swiper-button-next,
-  .swiper-button-prev{
+  .swiper-button-prev {
     width: 40%;
     top: 85%;
   }
-  #page3{
+
+  #page3 {
     height: 90vh;
   }
 }
@@ -121,18 +132,21 @@ ul#projects-tab li {
   align-items: center;
 }
 
-.swiper-button-next:after, .swiper-button-prev:after{
-  content: ''!important;
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  content: '' !important;
 }
-.swiper-button-next, .swiper-button-prev{
-  color: #1D1D1D!important;
-  top: 95%!important;
-  display: flex!important;
-  font-weight: 100!important;
-  justify-content: space-evenly!important;
-  align-items: center!important;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif!important;
-  width: 10%!important;
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #1D1D1D !important;
+  top: 95% !important;
+  display: flex !important;
+  font-weight: 100 !important;
+  justify-content: space-evenly !important;
+  align-items: center !important;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
+  width: 10% !important;
 
 }
 
@@ -142,4 +156,8 @@ ul#projects-tab li {
   height: 518px;
   width: 636px;
   object-fit: cover;
+}
+
+.site-footer-static {
+  position: static;
 }

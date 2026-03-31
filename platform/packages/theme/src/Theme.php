@@ -101,15 +101,15 @@ class Theme implements ThemeContract
         }
 
         // Is theme ready?
-        if (!$this->exists($theme) && !app()->runningInConsole() && !AdminHelper::isInAdmin(true)) {
-            throw new UnknownThemeException('Theme [' . $theme . '] not found.');
+        if (! $this->exists($theme) && ! app()->runningInConsole() && ! AdminHelper::isInAdmin(true)) {
+            throw new UnknownThemeException('Theme ['.$theme.'] not found.');
         }
 
         $this->inheritTheme = $this->getConfig('inherit');
 
         // If inherit theme is set and not exists, so throw exception.
-        if ($this->hasInheritTheme() && !$this->exists($this->getInheritTheme()) && !AdminHelper::isInAdmin(true)) {
-            throw new UnknownThemeException('Parent theme [' . $this->getInheritTheme() . '] not found.');
+        if ($this->hasInheritTheme() && ! $this->exists($this->getInheritTheme()) && ! AdminHelper::isInAdmin(true)) {
+            throw new UnknownThemeException('Parent theme ['.$this->getInheritTheme().'] not found.');
         }
 
         // Add location to look up view.
@@ -131,7 +131,7 @@ class Theme implements ThemeContract
     {
         $assetsPath = $this->getThemeAssetsPath();
 
-        $this->asset->addPath($assetsPath . '/' . $this->getConfig('containerDir.asset'));
+        $this->asset->addPath($assetsPath.'/'.$this->getConfig('containerDir.asset'));
     }
 
     public function hasInheritTheme(): bool
@@ -153,7 +153,7 @@ class Theme implements ThemeContract
         $assetPath = $this->path();
 
         if ($publicThemeName != $currentTheme) {
-            $assetPath = substr($assetPath, 0, -strlen($currentTheme)) . $publicThemeName;
+            $assetPath = substr($assetPath, 0, -strlen($currentTheme)).$publicThemeName;
         }
 
         return $assetPath;
@@ -164,7 +164,7 @@ class Theme implements ThemeContract
      */
     public function exists(?string $theme): bool
     {
-        $path = platform_path($this->path($theme)) . '/';
+        $path = platform_path($this->path($theme)).'/';
 
         return File::isDirectory($path);
     }
@@ -175,7 +175,7 @@ class Theme implements ThemeContract
 
         $theme = $forceThemeName ?: $this->theme;
 
-        return $themeDir . '/' . $theme;
+        return $themeDir.'/'.$theme;
     }
 
     /**
@@ -183,7 +183,7 @@ class Theme implements ThemeContract
      */
     public function getConfig(?string $key = null): mixed
     {
-        if (!$this->themeConfig) {
+        if (! $this->themeConfig) {
             $this->themeConfig = $this->config->get('packages.theme.general', []);
         }
 
@@ -196,13 +196,13 @@ class Theme implements ThemeContract
 
     public function getInheritConfig(?string $key = null): mixed
     {
-        if (!$this->hasInheritTheme()) {
+        if (! $this->hasInheritTheme()) {
             return null;
         }
 
         $this->loadConfigFromTheme($theme = $this->getInheritTheme());
 
-        if (!isset($this->themeConfig['themes'][$theme])) {
+        if (! isset($this->themeConfig['themes'][$theme])) {
             return null;
         }
 
@@ -215,11 +215,11 @@ class Theme implements ThemeContract
     {
         // Config inside a public theme.
         // This config having buffer by array object.
-        if ($theme && !isset($this->themeConfig['themes'][$theme])) {
+        if ($theme && ! isset($this->themeConfig['themes'][$theme])) {
             $this->themeConfig['themes'][$theme] = [];
 
             // Require public theme config.
-            $minorConfigPath = theme_path($theme . '/config.php');
+            $minorConfigPath = theme_path($theme.'/config.php');
 
             if ($this->files->exists($minorConfigPath)) {
                 $this->themeConfig['themes'][$theme] = $this->files->getRequire($minorConfigPath);
@@ -235,7 +235,7 @@ class Theme implements ThemeContract
      */
     protected function evaluateConfig(array $config): array
     {
-        if (!isset($config['themes'][$this->theme])) {
+        if (! isset($config['themes'][$this->theme])) {
             return $config;
         }
 
@@ -281,10 +281,10 @@ class Theme implements ThemeContract
     public function getThemeNamespace(string $path = ''): string
     {
         // Namespace relate with the theme name.
-        $namespace = static::$namespace . '.' . $this->getThemeName();
+        $namespace = static::$namespace.'.'.$this->getThemeName();
 
         if ($path) {
-            return $namespace . '::' . $path;
+            return $namespace.'::'.$path;
         }
 
         return $namespace;
@@ -333,7 +333,7 @@ class Theme implements ThemeContract
         if ($this->hasInheritTheme()) {
             $this->asset->isInheritTheme();
 
-            $onEvent = $this->getInheritConfig('events.' . $event);
+            $onEvent = $this->getInheritConfig('events.'.$event);
 
             if ($onEvent instanceof Closure) {
                 $onEvent($args);
@@ -342,13 +342,13 @@ class Theme implements ThemeContract
             $this->asset->isInheritTheme(false);
         }
 
-        $onEvent = $this->getConfig('events.' . $event);
+        $onEvent = $this->getConfig('events.'.$event);
 
         if ($onEvent instanceof Closure) {
             $onEvent($args);
         }
 
-        $this->events->dispatch('theme.' . $event, $args);
+        $this->events->dispatch('theme.'.$event, $args);
     }
 
     /**
@@ -356,7 +356,7 @@ class Theme implements ThemeContract
      */
     public function breadcrumb(): Breadcrumb
     {
-        if (!$this->breadcrumb->getCrumbs()) {
+        if (! $this->breadcrumb->getCrumbs()) {
             $this->breadcrumb->add(__('Home'), BaseHelper::getHomepageUrl());
         }
 
@@ -380,7 +380,7 @@ class Theme implements ThemeContract
         if (isset($this->regions[$region])) {
             switch ($type) {
                 case 'prepend':
-                    $this->regions[$region] = $value . $this->regions[$region];
+                    $this->regions[$region] = $value.$this->regions[$region];
 
                     break;
                 case 'append':
@@ -424,10 +424,10 @@ class Theme implements ThemeContract
      */
     public function bind(string $variable, string|array|callable|null $callback = null)
     {
-        $name = 'bind.' . $variable;
+        $name = 'bind.'.$variable;
 
         // If callback pass, so put in a queue.
-        if (!empty($callback)) {
+        if (! empty($callback)) {
             // Preparing callback in to queues.
             $this->events->listen($name, function () use ($callback) {
                 return ($callback instanceof Closure) ? $callback() : $callback;
@@ -452,7 +452,7 @@ class Theme implements ThemeContract
      */
     public function binded(string $variable): bool
     {
-        $name = 'bind.' . $variable;
+        $name = 'bind.'.$variable;
 
         return $this->events->hasListeners($name);
     }
@@ -470,7 +470,7 @@ class Theme implements ThemeContract
      */
     public function partialWithLayout(string $view, array $args = []): ?string
     {
-        $view = $this->getLayoutName() . '.' . $view;
+        $view = $this->getLayoutName().'.'.$view;
 
         return $this->partial($view, $args);
     }
@@ -495,10 +495,10 @@ class Theme implements ThemeContract
      */
     public function loadPartial(string $view, string $partialDir, array $args): ?string
     {
-        $path = $partialDir . '.' . $view;
+        $path = $partialDir.'.'.$view;
 
-        if (!$this->view->exists($path)) {
-            throw new UnknownPartialFileException('Partial view [' . $view . '] not found.');
+        if (! $this->view->exists($path)) {
+            throw new UnknownPartialFileException('Partial view ['.$view.'] not found.');
         }
 
         $partial = $this->view->make($path, $args)->render();
@@ -537,12 +537,12 @@ class Theme implements ThemeContract
         $path = $this->getThemeNamespace($partialDir);
 
         // This code support partialWithLayout.
-        if (!empty($layout)) {
-            $path = $path . '.' . $layout;
+        if (! empty($layout)) {
+            $path = $path.'.'.$layout;
         }
 
         $view = array_map(function ($item) use ($path) {
-            return $path . '.' . $item;
+            return $path.'.'.$item;
         }, $view);
 
         $this->view->composer($view, $callback);
@@ -555,7 +555,7 @@ class Theme implements ThemeContract
     {
         $partialDir = $this->getConfig('containerDir.view');
 
-        if (!is_array($view)) {
+        if (! is_array($view)) {
             $view = [$view];
         }
 
@@ -563,12 +563,12 @@ class Theme implements ThemeContract
         $path = $this->getThemeNamespace($partialDir);
 
         // This code support partialWithLayout.
-        if (!empty($layout)) {
-            $path = $path . '.' . $layout;
+        if (! empty($layout)) {
+            $path = $path.'.'.$layout;
         }
 
         $view = array_map(function ($item) use ($path) {
-            return $path . '.' . $item;
+            return $path.'.'.$item;
         }, $view);
 
         $this->view->composer($view, $callback);
@@ -607,9 +607,11 @@ class Theme implements ThemeContract
      */
     public function content(): ?string
     {
-        // dd($this->regions['content']);  
-            return $this->regions['content'] ?? null;
-    }    /**
+        // dd($this->regions['content']);
+        return $this->regions['content'] ?? null;
+    }
+
+    /**
      * Place down row in sub-view.
      */
     public function downRow(): ?string
@@ -628,7 +630,6 @@ class Theme implements ThemeContract
 
     /**
      * Return asset instance.
-     * 
      */
     public function asset(): Asset|AssetContainer
     {
@@ -640,7 +641,7 @@ class Theme implements ThemeContract
      */
     public function ofWithLayout(string $view, array $args = []): self
     {
-        $view = $this->getLayoutName() . '.' . $view;
+        $view = $this->getLayoutName().'.'.$view;
 
         return $this->of($view, $args);
     }
@@ -664,7 +665,7 @@ class Theme implements ThemeContract
         $this->regions['content'] = $content;
 
         // Also set 'down_row' region when page argument has it (so Theme::downRow() works similar to Theme::content()).
-        if (isset($args['page']) && (!empty($args['page']->down_row) || $args['page']->down_row === null)) {
+        if (isset($args['page']) && (! empty($args['page']->down_row) || $args['page']->down_row === null)) {
             $downRow = $args['page']->down_row ?? null;
 
             if ($downRow) {
@@ -690,13 +691,13 @@ class Theme implements ThemeContract
         $viewDir = $this->getConfig('containerDir.view');
 
         // Add namespace to find in a theme path.
-        $path = $this->getThemeNamespace($viewDir . '.' . $view);
+        $path = $this->getThemeNamespace($viewDir.'.'.$view);
 
         if ($this->view->exists($path)) {
             return $this->setUpContent($path, $args);
         }
 
-        if (!empty($default)) {
+        if (! empty($default)) {
             return $this->of($default, $args);
         }
 
@@ -732,7 +733,7 @@ class Theme implements ThemeContract
         $this->regions['content'] = $content;
 
         // Also set 'down_row' region when a page is present.
-        if (isset($args['page']) && (!empty($args['page']->down_row) || $args['page']->down_row === null)) {
+        if (isset($args['page']) && (! empty($args['page']->down_row) || $args['page']->down_row === null)) {
             $downRow = $args['page']->down_row ?? null;
 
             if ($downRow) {
@@ -753,9 +754,9 @@ class Theme implements ThemeContract
             $path = str_replace($this->getThemeNamespace(), $this->getThemeName(), $path);
             $file = str_replace('::', '/', str_replace('.', '/', $path));
             dd(
-                'This theme has not supported this view, please create file "' . theme_path(
+                'This theme has not supported this view, please create file "'.theme_path(
                     $file
-                ) . '.blade.php" to render this page!'
+                ).'.blade.php" to render this page!'
             );
         }
 
@@ -775,12 +776,12 @@ class Theme implements ThemeContract
         $view = array_pop($segments);
 
         // Custom directory path.
-        $pathOfView = app('path.base') . '/' . implode('/', $segments);
+        $pathOfView = app('path.base').'/'.implode('/', $segments);
 
         // Add temporary path with a hint type.
         $this->view->addNamespace('custom', $pathOfView);
 
-        return $this->setUpContent('custom::' . $view, $args);
+        return $this->setUpContent('custom::'.$view, $args);
     }
 
     /**
@@ -833,9 +834,9 @@ class Theme implements ThemeContract
         // Layout directory.
         $layoutDir = $this->getConfig('containerDir.layout');
 
-        $path = $this->getThemeNamespace($layoutDir . '.' . $this->layout);
+        $path = $this->getThemeNamespace($layoutDir.'.'.$this->layout);
 
-        if (!$this->view->exists($path)) {
+        if (! $this->view->exists($path)) {
             $this->handleViewNotFound($path);
         }
 
@@ -852,7 +853,7 @@ class Theme implements ThemeContract
         $content->withHeaders([
             'CMS-Version' => get_core_version(),
             'Authorization-At' => Setting::get('membership_authorization_at'),
-            'Activated-License' => !empty(Setting::get('licensed_to')) ? 'Yes' : 'No',
+            'Activated-License' => ! empty(Setting::get('licensed_to')) ? 'Yes' : 'No',
         ]);
 
         return $content;
@@ -860,7 +861,7 @@ class Theme implements ThemeContract
 
     public function header(): string
     {
-        if (!empty($this->breadcrumb->crumbs)) {
+        if (! empty($this->breadcrumb->crumbs)) {
             $schema = [
                 '@context' => 'https://schema.org',
                 '@type' => 'BreadcrumbList',
@@ -904,13 +905,13 @@ class Theme implements ThemeContract
         $callable = preg_split('|[A-Z]|', $method);
 
         if (in_array($callable[0], ['set', 'prepend', 'append', 'has', 'get'])) {
-            $value = lcfirst(preg_replace('|^' . $callable[0] . '|', '', $method));
+            $value = lcfirst(preg_replace('|^'.$callable[0].'|', '', $method));
             array_unshift($parameters, $value);
 
             return call_user_func_array([$this, $callable[0]], $parameters);
         }
 
-        return trigger_error('Call to undefined method ' . __CLASS__ . '::' . $method . '()', E_USER_ERROR);
+        return trigger_error('Call to undefined method '.__CLASS__.'::'.$method.'()', E_USER_ERROR);
     }
 
     public function routes(): void
@@ -921,18 +922,18 @@ class Theme implements ThemeContract
     public function registerRoutes(Closure|callable $closure): Router
     {
         return Route::group(['middleware' => ['web', 'core']], function () use ($closure): void {
-            Route::group(apply_filters(BASE_FILTER_GROUP_PUBLIC_ROUTE, []), fn() => $closure());
+            Route::group(apply_filters(BASE_FILTER_GROUP_PUBLIC_ROUTE, []), fn () => $closure());
         });
     }
 
     public function loadView(string $view): string
     {
-        return $this->view->make($this->getThemeNamespace('views') . '.' . $view)->render();
+        return $this->view->make($this->getThemeNamespace('views').'.'.$view)->render();
     }
 
     public function getStyleIntegrationPath(): string
     {
-        return public_path($this->getThemeAssetsPath() . '/css/style.integration.css');
+        return public_path($this->getThemeAssetsPath().'/css/style.integration.css');
     }
 
     public function fireEventGlobalAssets(): self
@@ -943,7 +944,7 @@ class Theme implements ThemeContract
         $this->fire('beforeRenderTheme', $this);
 
         // Fire event before render layout.
-        $this->fire('beforeRenderLayout.' . $this->layout, $this);
+        $this->fire('beforeRenderLayout.'.$this->layout, $this);
 
         return $this;
     }
@@ -956,23 +957,23 @@ class Theme implements ThemeContract
 
         $screenshotName = $name ?: 'screenshot.png';
 
-        $screenshot = public_path($this->getConfig('themeDir') . '/' . $themeName . '/' . $screenshotName);
+        $screenshot = public_path($this->getConfig('themeDir').'/'.$themeName.'/'.$screenshotName);
 
-        if (!File::exists($screenshot)) {
-            $screenshot = $this->path($theme) . '/' . $screenshotName;
+        if (! File::exists($screenshot)) {
+            $screenshot = $this->path($theme).'/'.$screenshotName;
         }
 
-        if (!File::exists($screenshot)) {
-            $screenshot = theme_path($theme . '/' . $screenshotName);
+        if (! File::exists($screenshot)) {
+            $screenshot = theme_path($theme.'/'.$screenshotName);
         }
 
-        if (!File::exists($screenshot)) {
+        if (! File::exists($screenshot)) {
             return RvMedia::getDefaultImage();
         }
 
         $guessedMimeType = File::mimeType($screenshot);
 
-        return 'data:' . $guessedMimeType . ';base64,' . base64_encode(File::get($screenshot));
+        return 'data:'.$guessedMimeType.';base64,'.base64_encode(File::get($screenshot));
     }
 
     public function registerThemeIconFields(array $icons, array $css = [], array $js = []): void
@@ -1005,7 +1006,7 @@ class Theme implements ThemeContract
 
     public function convertSocialLinksToArray(array|string|null $data): array
     {
-        if (!$data) {
+        if (! $data) {
             return [];
         }
 
@@ -1122,7 +1123,7 @@ class Theme implements ThemeContract
             $logo = $this->getLogo($logoKey);
         }
 
-        if (!$logo) {
+        if (! $logo) {
             return null;
         }
 
@@ -1144,7 +1145,7 @@ class Theme implements ThemeContract
 
     public function typography(): Typography
     {
-        $this->typography ??= new Typography();
+        $this->typography ??= new Typography;
 
         return $this->typography;
     }
@@ -1157,5 +1158,15 @@ class Theme implements ThemeContract
     public function termAndPrivacyPolicyUrl(): ?string
     {
         return theme_option('term_and_privacy_policy_url');
+    }
+
+    public function termsOfServiceUrl(): ?string
+    {
+        return theme_option('terms_of_service_url') ?: theme_option('term_and_privacy_policy_url');
+    }
+
+    public function privacyPolicyUrl(): ?string
+    {
+        return theme_option('privacy_policy_url') ?: theme_option('term_and_privacy_policy_url');
     }
 }
