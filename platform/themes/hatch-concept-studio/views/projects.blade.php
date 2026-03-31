@@ -38,7 +38,8 @@
                         <img src="{{ RvMedia::getImageUrl($project->cover ?: $project->image) }}" class="card-img-top"
                             alt="{{ $project->title }}" loading="lazy" />
                         <h5 class="card-title pt-2">{{ $project->title }}</h5>
-                        <p>{{ $project->tagline ?: optional($project->category)->name }}</p>
+                        <p>{{ $project->tags->pluck('name')->implode(' | ') ?: optional($project->category)->name }}
+                        </p>
                     </a>
                 </div>
             @empty

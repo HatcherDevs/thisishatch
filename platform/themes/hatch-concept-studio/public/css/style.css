@@ -1111,3 +1111,10 @@ body.open-card {
     padding-bottom: 0;
   }
 }
+
+
+.project-card .card-img-top {
+  height: 518px;
+  width: 636px;
+  object-fit: cover;
+}
