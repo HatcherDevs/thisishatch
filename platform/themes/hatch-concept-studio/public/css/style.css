@@ -47,12 +47,12 @@ body {
 }
 
 #page4 {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  position: relative;
+  left: auto;
+  right: auto;
+  bottom: auto;
   width: 100%;
-  z-index: 1000000000002;
+  z-index: auto;
 }
 
 #page4 .site-footer-inner {
@@ -539,7 +539,7 @@ canvas {
   position: relative;
   z-index: 100000000;
   position: relative;
-  opacity: 0;
+  opacity: 1;
   background-color: #ededed;
 
 }
@@ -1074,14 +1074,14 @@ body.open-card {
 }
 
 .site-footer-end {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  position: relative;
+  left: auto;
+  right: auto;
+  bottom: auto;
   width: 100%;
-  z-index: 20;
+  z-index: auto;
   background: #d3d3d3;
-  height: 96px;
+  height: auto;
   display: flex;
   align-items: flex-end;
 }

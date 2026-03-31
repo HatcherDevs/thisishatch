@@ -4,6 +4,119 @@
   padding-top: 1px;
 }
 
+.projects-carousel-block {
+  margin: 48px 0;
+  position: relative;
+}
+
+.projects-carousel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.projects-carousel-title {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.projects-carousel-nav {
+  display: flex;
+  gap: 10px;
+}
+
+.projects-carousel-nav-btn {
+  border: 1px solid #0f0f0f;
+  background: transparent;
+  color: #0f0f0f;
+  padding: 6px 14px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.projects-carousel-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.projects-carousel-media {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #e8e8e8;
+}
+
+.projects-carousel-image {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.projects-carousel-card:hover .projects-carousel-image {
+  transform: scale(1.03);
+}
+
+.projects-carousel-year {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: rgba(255, 255, 255, 0.88);
+  color: #111;
+  padding: 4px 10px;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.projects-carousel-body {
+  padding-top: 14px;
+}
+
+.projects-carousel-tags {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #6b6b6b;
+  margin-bottom: 6px;
+}
+
+.projects-carousel-name {
+  font-size: 20px;
+  font-weight: 600;
+  color: #111;
+}
+
+.projects-carousel-empty {
+  margin: 24px 0;
+  font-size: 16px;
+  color: #6b6b6b;
+}
+
+@media (max-width: 1024px) {
+  .projects-carousel-image {
+    height: 360px;
+  }
+}
+
+@media (max-width: 767px) {
+  .projects-carousel-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .projects-carousel-image {
+    height: 320px;
+  }
+}
+
 .nav-pills .nav-link.active {
   background-color: transparent;
   color: #0d6efd;

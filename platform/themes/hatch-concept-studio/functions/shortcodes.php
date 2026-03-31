@@ -1,11 +1,13 @@
 <?php
 
+use Botble\Base\Enums\BaseStatusEnum;
 use Botble\Base\Forms\FieldOptions\MediaImageFieldOption;
 use Botble\Base\Forms\FieldOptions\SelectFieldOption;
 use Botble\Base\Forms\FieldOptions\TextFieldOption;
 use Botble\Base\Forms\Fields\MediaImageField;
 use Botble\Base\Forms\Fields\SelectField;
 use Botble\Base\Forms\Fields\TextField;
+use Botble\Projects\Models\Project;
 use Botble\Shortcode\Compilers\Shortcode as ShortcodeCompiler;
 use Botble\Shortcode\Facades\Shortcode;
 use Botble\Shortcode\Forms\ShortcodeForm;
@@ -124,6 +126,36 @@ Event::listen(RouteMatched::class, function (): void {
                         '1' => __('Yes'),
                     ])
                     ->selected($attributes['loop'] ?? '0')
+            );
+    });
+
+    Shortcode::register(
+        'projects-carousel',
+        __('Projects carousel'),
+        __('Display projects as a carousel'),
+        function (ShortcodeCompiler $shortcode) {
+            $projects = Project::query()
+                ->with(['category', 'tags'])
+                ->where('status', BaseStatusEnum::PUBLISHED)
+                ->latest('id')
+                ->get();
+
+            return Theme::partial('shortcodes.projects-carousel', compact('shortcode', 'projects'));
+        }
+    );
+
+    Shortcode::setAdminConfig('projects-carousel', function (array $attributes) {
+        return ShortcodeForm::createFromArray($attributes)
+            ->add(
+                'autoplay',
+                SelectField::class,
+                SelectFieldOption::make()
+                    ->label(__('Auto play'))
+                    ->choices([
+                        '0' => __('No'),
+                        '1' => __('Yes'),
+                    ])
+                    ->selected($attributes['autoplay'] ?? '0')
             );
     });
 });
