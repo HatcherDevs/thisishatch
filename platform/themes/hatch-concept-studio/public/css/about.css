@@ -28,7 +28,7 @@ body {
   height: 100%;
   width: 100%;
   bottom: 100%;
-  background-image: url(imgs/horse/turn02_0000.png);
+  background-image: url(../imgs/horse/turn02_0000.png);
   background-size: cover;
   background-position: center 60%;
   background-repeat: no-repeat;
@@ -107,6 +107,11 @@ body {
 .nav_list {
   list-style-type: none;
   padding-left: 0px;
+}
+
+.list-unstyled,
+.list-unstyled li {
+  list-style: none;
 }
 
 .nav_list a {

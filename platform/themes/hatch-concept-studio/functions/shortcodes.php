@@ -2,15 +2,18 @@
 
 use Botble\Base\Enums\BaseStatusEnum;
 use Botble\Base\Forms\FieldOptions\MediaImageFieldOption;
+use Botble\Base\Forms\FieldOptions\MediaImagesFieldOption;
 use Botble\Base\Forms\FieldOptions\SelectFieldOption;
 use Botble\Base\Forms\FieldOptions\TextFieldOption;
 use Botble\Base\Forms\Fields\MediaImageField;
+use Botble\Base\Forms\Fields\MediaImagesField;
 use Botble\Base\Forms\Fields\SelectField;
 use Botble\Base\Forms\Fields\TextField;
 use Botble\Projects\Models\Project;
 use Botble\Shortcode\Compilers\Shortcode as ShortcodeCompiler;
 use Botble\Shortcode\Facades\Shortcode;
 use Botble\Shortcode\Forms\ShortcodeForm;
+use Botble\Shortcode\ShortcodeField;
 use Botble\Theme\Facades\Theme;
 use Botble\Theme\Supports\ThemeSupport;
 use Illuminate\Routing\Events\RouteMatched;
@@ -157,5 +160,69 @@ Event::listen(RouteMatched::class, function (): void {
                     ])
                     ->selected($attributes['autoplay'] ?? '0')
             );
+    });
+
+    Shortcode::register(
+        'image-slides',
+        __('Image slides'),
+        __('Display image slides'),
+        function (ShortcodeCompiler $shortcode) {
+            return Theme::partial('shortcodes.image-slides', compact('shortcode'));
+        }
+    );
+
+    Shortcode::setAdminConfig('image-slides', function (array $attributes) {
+        return ShortcodeForm::createFromArray($attributes)
+            ->add(
+                'images',
+                MediaImagesField::class,
+                MediaImagesFieldOption::make()
+                    ->label(__('Images'))
+                    ->values($attributes['images'] ?? [])
+            )
+            ->add(
+                'autoplay',
+                SelectField::class,
+                SelectFieldOption::make()
+                    ->label(__('Auto play'))
+                    ->choices([
+                        '0' => __('No'),
+                        '1' => __('Yes'),
+                    ])
+                    ->selected($attributes['autoplay'] ?? '0')
+            );
+    });
+
+    Shortcode::register(
+        'columns-row',
+        __('Columns row'),
+        __('Display a row of columns with title, loop name, and link'),
+        function (ShortcodeCompiler $shortcode) {
+            $fields = ['col_title', 'loop_name', 'link'];
+            $tabs = (new ShortcodeField)->getTabsData($fields, $shortcode, 'col');
+
+            return Theme::partial('shortcodes.columns-row', compact('shortcode', 'tabs'));
+        }
+    );
+
+    Shortcode::setAdminConfig('columns-row', function (array $attributes) {
+        return (new ShortcodeField)->tabs([
+            'col_title' => [
+                'title' => __('Column title'),
+                'placeholder' => __('Column title'),
+            ],
+            'loop_name' => [
+                'title' => __('Items (one per line)'),
+                'type' => 'textarea',
+                'placeholder' => __('Item 1\nItem 2\nItem 3'),
+                'helper' => __('Write one item per line.'),
+            ],
+            'link' => [
+                'title' => __('Links (one per line)'),
+                'type' => 'textarea',
+                'placeholder' => __('https://example.com\nhttps://example.com/page'),
+                'helper' => __('Write one link per line, matching the items order.'),
+            ],
+        ], $attributes, 6, 1, 'col');
     });
 });

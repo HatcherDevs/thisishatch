@@ -33,7 +33,7 @@ $(() => {
             "'": '&#039;'
         }
 
-        return text.replace(/[&<>"']/g, function(m) { return map[m] })
+        return text.replace(/[&<>"']/g, function (m) { return map[m] })
     }
 
     $('[data-bb-toggle="shortcode-item-radio"]').on('change', () => {
@@ -53,6 +53,10 @@ $(() => {
             if ((!shortcodeAttribute || shortcodeAttribute !== 'content') && value) {
                 name = name.replace('[]', '')
                 if (value && typeof value === 'string') {
+                    if (element.is('textarea')) {
+                        value = value.replace(/\r?\n/g, '\\n')
+                    }
+
                     value = value.replace(/"([^"]*)"/g, '“$1”')
                     value = value.replace(/"/g, '“')
                 }

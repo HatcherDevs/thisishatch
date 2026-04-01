@@ -1,1 +1,243 @@
-(()=>{"use strict";$((function(){$.fn.serializeObject=function(){var e={},t=this.serializeArray();return $.each(t,(function(){e[this.name]?(e[this.name].push||(e[this.name]=[e[this.name]]),e[this.name].push(this.value||"")):e[this.name]=this.value||""})),e};var e=$("#shortcode-list-modal"),t=$("#shortcode-modal");function o(e){a({href:e.attr("href"),key:e.data("key"),name:e.data("name"),description:e.data("description")})}function a(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},o=e.href,a=e.key,d=e.name,r=(e.description,e.data),i=void 0===r?{}:r,n=e.update,c=void 0!==n&&n,s=e.previewImage,l=void 0===s?null:s;$(".shortcode-admin-config").html("");var h=$('.shortcode-modal button[data-bb-toggle="shortcode-add-single"]');h.text(h.data(c?"update-text":"add-text")),$(".shortcode-modal .modal-title").text(d),null!=l&&""!==l?$(".shortcode-modal .shortcode-preview-image-link").attr("href",l).show():$(".shortcode-modal .shortcode-preview-image-link").hide(),$(".shortcode-modal").modal("show");var u=t.find(".modal-content");Botble.showLoading(u),$httpClient.make().post(o,i).then((function(e){var t=e.data;$(".shortcode-data-form").trigger("reset"),$(".shortcode-input-key").val(a),$(".shortcode-admin-config").html(t.data),Botble.hideLoading(u),Botble.initResources(),Botble.initMediaIntegrate(),Botble.initFieldCollapse(),document.dispatchEvent(new CustomEvent("core-shortcode-config-loaded"))}))}$('[data-bb-toggle="shortcode-item-radio"]').on("change",(function(){$('[data-bb-toggle="shortcode-use"]').prop("disabled",!1).removeClass("disabled")})),$('[data-bb-toggle="shortcode-add-single"]').on("click",(function(e){e.preventDefault();var t=$(".shortcode-modal").find(".shortcode-data-form"),o=t.serializeObject(),a="";$.each(o,(function(e,o){var d=t.find('*[name="'+e+'"]'),r=d.data("shortcode-attribute");r&&"content"===r||!o||(e=e.replace("[]",""),o&&"string"==typeof o&&(o=(o=o.replace(/"([^"]*)"/g,"“$1”")).replace(/"/g,"“")),"content"!==d.data("shortcode-attribute")&&(e=e.replace("[]",""),a+=" "+e+'="'+o+'"'))}));var d="",r=t.find("*[data-shortcode-attribute=content]");null!=r&&null!=r.val()&&""!==r.val()&&(d=r.val());var i=$(this).closest(".shortcode-modal").find(".shortcode-input-key").val(),n=$(".add_shortcode_btn_trigger").data("result"),c="["+i+a+"]"+d+"[/"+i+"]";if(window.EDITOR&&window.EDITOR.CKEDITOR&&$(".editor-ckeditor").length>0)window.EDITOR.CKEDITOR[n].commands.execute("shortcode",c);else if($(".editor-tinymce").length>0)c="["+i+a+"]"+function(e){if("string"!=typeof e)return e;var t={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"};return e.replace(/[&<>"']/g,(function(e){return t[e]}))}(d)+"[/"+i+"]",tinymce.get(n).execCommand("mceInsertContent",!1,c);else{var s=new CustomEvent("core-insert-shortcode",{detail:{shortcode:c}});document.dispatchEvent(s)}$(this).closest(".modal").modal("hide")})),$(document).on("click",'[data-bb-toggle="shortcode-list-modal"]',(function(){e.modal("show")})),$('[data-bb-toggle="shortcode-select"]').on("dblclick",(function(e){o($(e.currentTarget))})),$('[data-bb-toggle="shortcode-use"]').on("click",(function(){o(e.find(".shortcode-item-input:checked").closest(".shortcode-item-wrapper")),$('[data-bb-toggle="shortcode-item-radio"]').prop("checked",!1),$('[data-bb-toggle="shortcode-use"]').prop("disabled",!0).addClass("disabled")})),$('[data-bb-toggle="shortcode-button-use"]').on("click",(function(e){o($(e.currentTarget).closest(".shortcode-item-wrapper"))})),t.on("show.bs.modal",(function(){e.modal("hide"),$('[data-bb-toggle="shortcode-item-radio"]').prop("checked",!1),$('[data-bb-toggle="shortcode-use"]').prop("disabled",!0).addClass("disabled")})),$(document).on("ckeditor-bb-shortcode-callback",(function(e){var t=e.detail;a({key:t.shortcode,href:t.options.url,previewImage:""})})),$(document).on("ckeditor-bb-shortcode-edit",(function(e){var t=e.detail,o=t.shortcode,d=t.name,r=$('[data-bb-toggle="shortcode-select"][data-key="'.concat(d,'"]')),i=r.length>0?r.data("description"):"";a({key:d,href:r.data("url"),data:{key:d,code:o},name:r.data("name"),description:i,previewImage:"",update:!0})})),$(".shortcode-list-modal").on("keyup",'input[type="search"]',(function(e){e.preventDefault();var t=$(this).val().toLowerCase();$(".shortcode-item-wrapper").each((function(e,o){var a=$(o),d=a.data("name").toLowerCase(),r=a.data("description").toLowerCase();d.includes(t)||r.includes(t)?a.parent().show():a.parent().hide()})),0===$(".shortcode-item-wrapper:visible").length?$(".shortcode-empty").show():$(".shortcode-empty").hide()})).on("click",'[data-bb-toggle="shortcode-clear-search"]',(function(e){e.preventDefault(),$(this).closest(".shortcode-list-modal").find('input[type="search"]').val("").trigger("keyup").trigger("focus")}))}))})();
+'use strict'
+
+$(() => {
+    $.fn.serializeObject = function () {
+        let o = {}
+        let a = this.serializeArray()
+        $.each(a, function () {
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]]
+                }
+                o[this.name].push(this.value || '')
+            } else {
+                o[this.name] = this.value || ''
+            }
+        })
+
+        return o
+    }
+
+    const $shortcodeListModal = $('#shortcode-list-modal')
+    const $shortcodeFormModal = $('#shortcode-modal')
+
+    // Function to escape HTML entities
+    function escapeHtml(text) {
+        if (typeof text !== 'string') return text
+
+        const map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        }
+
+        return text.replace(/[&<>"']/g, function (m) { return map[m] })
+    }
+
+    $('[data-bb-toggle="shortcode-item-radio"]').on('change', () => {
+        $('[data-bb-toggle="shortcode-use"]').prop('disabled', false).removeClass('disabled')
+    })
+
+    $('[data-bb-toggle="shortcode-add-single"]').on('click', function (event) {
+        event.preventDefault()
+
+        let formElement = $('.shortcode-modal').find('.shortcode-data-form')
+        let formData = formElement.serializeObject()
+        let attributes = ''
+
+        $.each(formData, function (name, value) {
+            let element = formElement.find('*[name="' + name + '"]')
+            let shortcodeAttribute = element.data('shortcode-attribute')
+            if ((!shortcodeAttribute || shortcodeAttribute !== 'content') && value) {
+                name = name.replace('[]', '')
+                if (value && typeof value === 'string') {
+                    if (element.is('textarea')) {
+                        value = value.replace(/\r?\n/g, '\\n')
+                    }
+
+                    value = value.replace(/"([^"]*)"/g, '“$1”')
+                    value = value.replace(/"/g, '“')
+                }
+
+                if (element.data('shortcode-attribute') !== 'content') {
+                    name = name.replace('[]', '')
+                    attributes += ' ' + name + '="' + value + '"'
+                }
+            }
+        })
+
+        let content = ''
+        let contentElement = formElement.find('*[data-shortcode-attribute=content]')
+        if (contentElement != null && contentElement.val() != null && contentElement.val() !== '') {
+            content = contentElement.val()
+        }
+
+        const $shortCodeKey = $(this).closest('.shortcode-modal').find('.shortcode-input-key').val()
+
+        const editorInstance = $('.add_shortcode_btn_trigger').data('result')
+
+        let shortcode = '[' + $shortCodeKey + attributes + ']' + content + '[/' + $shortCodeKey + ']'
+
+        if (window.EDITOR && window.EDITOR.CKEDITOR && $('.editor-ckeditor').length > 0) {
+            window.EDITOR.CKEDITOR[editorInstance].commands.execute('shortcode', shortcode)
+        } else if ($('.editor-tinymce').length > 0) {
+            shortcode = '[' + $shortCodeKey + attributes + ']' + escapeHtml(content) + '[/' + $shortCodeKey + ']'
+
+            tinymce.get(editorInstance).execCommand('mceInsertContent', false, shortcode)
+        } else {
+            const coreInsertShortCodeEvent = new CustomEvent('core-insert-shortcode', {
+                detail: { shortcode: shortcode },
+            })
+            document.dispatchEvent(coreInsertShortCodeEvent)
+        }
+
+        $(this).closest('.modal').modal('hide')
+    })
+
+    $(document).on('click', '[data-bb-toggle="shortcode-list-modal"]', () => {
+        $shortcodeListModal.modal('show')
+    })
+
+    $('[data-bb-toggle="shortcode-select"]').on('dblclick', (event) => {
+        const $currentTarget = $(event.currentTarget)
+
+        triggerShortcode($currentTarget)
+    })
+
+    $('[data-bb-toggle="shortcode-use"]').on('click', () => {
+        const $shortcodeSelected = $shortcodeListModal
+            .find('.shortcode-item-input:checked')
+            .closest('.shortcode-item-wrapper')
+
+        triggerShortcode($shortcodeSelected)
+
+        $('[data-bb-toggle="shortcode-item-radio"]').prop('checked', false)
+        $('[data-bb-toggle="shortcode-use"]').prop('disabled', true).addClass('disabled')
+    })
+
+    $('[data-bb-toggle="shortcode-button-use"]').on('click', (event) => {
+        const $shortcodeSelected = $(event.currentTarget).closest('.shortcode-item-wrapper')
+
+        triggerShortcode($shortcodeSelected)
+    })
+
+    function triggerShortcode(el) {
+        shortcodeCallback({
+            href: el.attr('href'),
+            key: el.data('key'),
+            name: el.data('name'),
+            description: el.data('description'),
+        })
+    }
+
+    function shortcodeCallback(params = {}) {
+        const { href, key, name, description = null, data = {}, update = false, previewImage = null } = params
+
+        $('.shortcode-admin-config').html('')
+
+        let $addShortcodeButton = $('.shortcode-modal button[data-bb-toggle="shortcode-add-single"]')
+
+        $addShortcodeButton.text($addShortcodeButton.data(update ? 'update-text' : 'add-text'))
+
+        $('.shortcode-modal .modal-title').text(name)
+
+        if (previewImage != null && previewImage !== '') {
+            $('.shortcode-modal .shortcode-preview-image-link').attr('href', previewImage).show()
+        } else {
+            $('.shortcode-modal .shortcode-preview-image-link').hide()
+        }
+
+        $('.shortcode-modal').modal('show')
+
+        const $modalLoading = $shortcodeFormModal.find('.modal-content')
+        Botble.showLoading($modalLoading)
+
+        $httpClient
+            .make()
+            .post(href, data)
+            .then(({ data }) => {
+                $('.shortcode-data-form').trigger('reset')
+                $('.shortcode-input-key').val(key)
+                $('.shortcode-admin-config').html(data.data)
+                Botble.hideLoading($modalLoading)
+
+                Botble.initResources()
+                Botble.initMediaIntegrate()
+                Botble.initFieldCollapse()
+
+                document.dispatchEvent(new CustomEvent('core-shortcode-config-loaded'))
+            })
+    }
+
+    $shortcodeFormModal.on('show.bs.modal', () => {
+        $shortcodeListModal.modal('hide')
+        $('[data-bb-toggle="shortcode-item-radio"]').prop('checked', false)
+        $('[data-bb-toggle="shortcode-use"]').prop('disabled', true).addClass('disabled')
+    })
+
+    $(document).on('ckeditor-bb-shortcode-callback', (e) => {
+        const { shortcode, options } = e.detail
+
+        shortcodeCallback({
+            key: shortcode,
+            href: options.url,
+            previewImage: '',
+        })
+    })
+
+    $(document).on('ckeditor-bb-shortcode-edit', (e) => {
+        const { shortcode, name } = e.detail
+        const $shortcodeItem = $(`[data-bb-toggle="shortcode-select"][data-key="${name}"]`)
+        const description = $shortcodeItem.length > 0 ? $shortcodeItem.data('description') : ''
+
+        shortcodeCallback({
+            key: name,
+            href: $shortcodeItem.data('url'),
+            data: {
+                key: name,
+                code: shortcode,
+            },
+            name: $shortcodeItem.data('name'),
+            description: description,
+            previewImage: '',
+            update: true,
+        })
+    })
+
+    $('.shortcode-list-modal')
+        .on('keyup', 'input[type="search"]', function (e) {
+            e.preventDefault()
+
+            const search = $(this).val().toLowerCase()
+
+            $('.shortcode-item-wrapper').each((index, element) => {
+                const $element = $(element)
+                const name = $element.data('name').toLowerCase()
+                const description = $element.data('description').toLowerCase()
+
+                if (name.includes(search) || description.includes(search)) {
+                    $element.parent().show()
+                } else {
+                    $element.parent().hide()
+                }
+            })
+
+            if ($('.shortcode-item-wrapper:visible').length === 0) {
+                $('.shortcode-empty').show()
+            } else {
+                $('.shortcode-empty').hide()
+            }
+        })
+        .on('click', '[data-bb-toggle="shortcode-clear-search"]', function (e) {
+            e.preventDefault()
+
+            $(this)
+                .closest('.shortcode-list-modal')
+                .find('input[type="search"]')
+                .val('')
+                .trigger('keyup')
+                .trigger('focus')
+        })
+})

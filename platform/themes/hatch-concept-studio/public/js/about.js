@@ -1,39 +1,48 @@
 //////////////////////////////////////////////////////////////////////
 
 
-  (function () {
-    const links = document.querySelectorAll('a');
-    const cursor = document.querySelector('.cursor');
-    const dogImage = document.getElementById("dogImage");
+(function () {
+  if (window.__aboutJsLoaded) {
+    return;
+  }
+  window.__aboutJsLoaded = true;
+  const links = document.querySelectorAll('a');
+  const cursor = document.querySelector('.cursor');
+  const dogImage = document.getElementById('dogImage');
 
-    const editCursor = e => {
-        const { clientX: x, clientY: y } = e;
-        cursor.style.left = x + 'px';
-        cursor.style.top = y + 'px';
-      };
+  const editCursor = e => {
+    const { clientX: x, clientY: y } = e;
+    if (!cursor) {
+      return;
+    }
 
-      dogImage.addEventListener('mouseenter', () => {
-        cursor.style.transform = 'scale(2)';
-      });
-      dogImage.addEventListener('mouseleave', () => {
-        cursor.style.transform = '';
-      });
+    cursor.style.left = x + 'px';
+    cursor.style.top = y + 'px';
+  };
 
+  if (dogImage && cursor) {
+    dogImage.addEventListener('mouseenter', () => {
+      cursor.style.transform = 'scale(2)';
+    });
+    dogImage.addEventListener('mouseleave', () => {
+      cursor.style.transform = '';
+    });
+  }
+
+  if (cursor) {
     links.forEach(link => {
       link.addEventListener('mouseenter', () => {
         cursor.style.transform = 'scale(3)';
       });
-  
+
       link.addEventListener('mouseleave', () => {
         cursor.style.transform = '';
       });
     });
-  
-    document.addEventListener('mousemove', editCursor);
 
-  
-  })();
-  
+    document.addEventListener('mousemove', editCursor);
+  }
+
   // Dog Notifications
 
   // Array of random notifications
@@ -49,11 +58,16 @@
   let imageShown = false;
 
   function showRandomNotification() {
+    const notification = document.getElementById('notification');
+    const notificationSound = document.getElementById('notificationSound');
+
+    if (!notification || !notificationSound) {
+      return;
+    }
+
     const randomIndex = Math.floor(Math.random() * notifications.length);
     const randomNotification = notifications[randomIndex];
-    document.getElementById("notification").innerText = randomNotification;
-
-    const notificationSound = document.getElementById("notificationSound");
+    notification.innerText = randomNotification;
 
     // تشغيل الرنة إذا لم تكن قد تم تشغيلها بالفعل
     if (!soundPlayed) {
@@ -84,7 +98,10 @@
   }
 
   function shakeDog() {
-    const dogImage = document.getElementById("dogImage");
+    const dogImage = document.getElementById('dogImage');
+    if (!dogImage) {
+      return;
+    }
     // dogImage.style.animation = "shake 0.5s";
     setTimeout(() => {
       dogImage.style.animation = "";
@@ -94,77 +111,93 @@
   // استمع لحدث النقر لتحديث الإشعار والاهتزاز
   function popUp() {
     const notification = document.getElementById('notification');
-    notification.style.scale=0;
-  
+    if (!notification) {
+      return;
+    }
+
+    notification.style.scale = 0;
+
     setTimeout(() => {
-      notification.style.scale=1;
+      notification.style.scale = 1;
     }, 500);
   }
-  
-  
+
+
   // استمع لحدث النقر لتحديث الإشعار والاهتزاز
-  document.getElementById('dog').addEventListener('click', () => {
-    popUp();
-    showRandomNotification();
-  });
+  const dog = document.getElementById('dog');
+  if (dog) {
+    dog.addEventListener('click', () => {
+      popUp();
+      showRandomNotification();
+    });
+  }
 
   // تحديث الإشعار بشكل دوري
   // setInterval(() => {
   //   showRandomNotification();
   // }, 20000);
-//////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
 
 
 
-//////////////////////////////////////////////////////////////////////
-// احصل على عنصر navbar باستخدام ID الخاص به
-const navAbout = document.getElementById('nav_about');
-// احصل على ارتفاع عنصر navbar
-const navHeight = navAbout.offsetHeight;
-// احصل على عنصر main باستخدام ID الخاص به
-const mainDiv = document.getElementById('main');
-// قم بتعيين قيمة padding-top بناءً على ارتفاع navbar
-mainDiv.style.paddingTop = `${navHeight}px`;
-//////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+  // احصل على عنصر navbar باستخدام ID الخاص به
+  const navAbout = document.getElementById('nav_about');
+  // احصل على عنصر main باستخدام ID الخاص به
+  const mainDiv = document.getElementById('main');
+  if (navAbout && mainDiv) {
+    // احصل على ارتفاع عنصر navbar
+    const navHeight = navAbout.offsetHeight;
+    // قم بتعيين قيمة padding-top بناءً على ارتفاع navbar
+    mainDiv.style.paddingTop = `${navHeight}px`;
+  }
+  //////////////////////////////////////////////////////////////////////
 
 
-//////////////////////////////// Start strips ////////////////////////////////////
-// قائمة بأسماء الصور
-const images = [
-    "full.png",
-    "full0.png",
-    "full1.png",
-    "full2.png",
-    "full3.png"
-];
+  //////////////////////////////// Start strips ////////////////////////////////////
+  // قائمة بأسماء الصور
+  const imageElement = document.getElementById('strips');
+  let images = [];
 
-// احصل على عنصر الصورة باستخدام ID الخاص بها
-const imageElement = document.getElementById('strips');
+  if (imageElement) {
+    const dataImages = imageElement.getAttribute('data-images');
+    if (dataImages) {
+      try {
+        images = JSON.parse(dataImages) || [];
+      } catch (e) {
+        images = [];
+      }
+    }
 
-// متغير لتتبع الصورة الحالية
-let currentIndex = 0;
+    if (!images.length) {
+      images = [
+        "imgs/about/full.png",
+        "imgs/about/full0.png",
+        "imgs/about/full1.png",
+        "imgs/about/full2.png",
+        "imgs/about/full3.png"
+      ];
+    }
 
-// وظيفة لتحديث الصورة بانسيابية
-function updateImage() {
-    // إزالة أي تأثير تلاشي حالي عن طريق إزالته ثم إعادة تعيينه
-    imageElement.style.animation = 'none';
-    imageElement.offsetHeight; // إعادة تعيين التمرير للعنصر
-    imageElement.style.animation = 'fadeIn 1s ease-in-out';
+    // متغير لتتبع الصورة الحالية
+    let currentIndex = 0;
 
-    // تحديث الفهرس للانتقال إلى الصورة التالية
-    currentIndex = (currentIndex + 1) % images.length;
+    // وظيفة لتحديث الصورة بانسيابية
+    function updateImage() {
+      imageElement.style.animation = 'none';
+      imageElement.offsetHeight;
+      imageElement.style.animation = 'fadeIn 1s ease-in-out';
 
-    // تغيير مسار الصورة إلى المسار الجديد
-    imageElement.src = `imgs/about/${images[currentIndex]}`;
-}
+      currentIndex = (currentIndex + 1) % images.length;
+      imageElement.src = images[currentIndex];
+    }
 
-// استدعاء وظيفة التحديث كل 40 ثانية (40000 ميلي ثانية)
-setInterval(updateImage, 9000);
+    setInterval(updateImage, 9000);
+    updateImage();
+  }
 
-// تحديث الصورة الأولى عند تحميل الصفحة
-updateImage();
-
-//////////////////////////////// End strips ////////////////////////////////////
+  //////////////////////////////// End strips ////////////////////////////////////
+})();
 
 
 
