@@ -20,9 +20,15 @@
     <link rel="dns-prefetch" href="https://kit.fontawesome.com" />
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
 
+    @php
+        $favicon = theme_option('website_favicon');
+        $appleIcon = theme_option('website_apple_icon');
+        $faviconUrl = $favicon ? RvMedia::getImageUrl($favicon) : Theme::asset()->url('imgs/hatch-logo.ico');
+        $appleIconUrl = $appleIcon ? RvMedia::getImageUrl($appleIcon) : $faviconUrl;
+    @endphp
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ Theme::asset()->url('imgs/hatch-logo.ico') }}" />
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ Theme::asset()->url('imgs/hatch-logo.ico') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ $faviconUrl }}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ $appleIconUrl }}" />
 
     <!-- Preload critical above-fold CSS -->
     <link rel="preload" href="{{ Theme::asset()->url('css/style.css') }}" as="style" />
@@ -38,17 +44,23 @@
 
 <body {!! Theme::bodyAttributes() !!}>
     {!! apply_filters(THEME_FRONT_BODY, null) !!}
+    @php
+        $menuIcon = theme_option('header_menu_icon');
+        $menuLogo = theme_option('header_logo');
+        $menuTitle = theme_option('header_menu_title', 'This is Hatch');
+        $menuIconUrl = $menuIcon ? RvMedia::getImageUrl($menuIcon) : Theme::asset()->url('imgs/side_menu.png');
+        $menuLogoUrl = $menuLogo ? RvMedia::getImageUrl($menuLogo) : Theme::asset()->url('imgs/hatch_logo_white.png');
+    @endphp
     <div id="nav" role="navigation" aria-label="Main navigation">
-        <a href="#menu" aria-label="Open navigation menu"><img src="{{ Theme::asset()->url('imgs/side_menu.png') }}"
-                width="66%" alt="Menu" /></a>
+        <a href="#menu" aria-label="Open navigation menu"><img src="{{ $menuIconUrl }}" width="66%"
+                alt="Menu" /></a>
     </div>
 
     <div class="popover" id="menu">
         <div class="content">
             <a href="#" class="close"></a>
             <a href="#" class="hatch_logo">
-                <img class="mouseMove_hover" src="{{ Theme::asset()->url('imgs/hatch_logo_white.png') }}"
-                    alt="Hatch Concept Studio logo" />
+                <img class="mouseMove_hover" src="{{ $menuLogoUrl }}" alt="Hatch Concept Studio logo" />
             </a>
 
             <div class="nav">
@@ -67,7 +79,7 @@
                 @endif
             </div>
             <div class="this_is_hatch">
-                <h1>This is Hatch</h1>
+                <h1>{{ $menuTitle }}</h1>
             </div>
         </div>
     </div>
