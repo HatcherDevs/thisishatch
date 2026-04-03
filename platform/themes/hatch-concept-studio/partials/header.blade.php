@@ -40,6 +40,17 @@
     <link rel="stylesheet" href="{{ Theme::asset()->url('css/style.css') }}" />
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap-grid.min.css" />
+
+    @php
+        $bodyId = (string) Theme::getBodyAttribute('id');
+        $isSingleProjectPage = str_starts_with($bodyId, 'project-');
+    @endphp
+
+    @if ($isSingleProjectPage)
+        <link rel="stylesheet" href="{{ Theme::asset()->url('css/bootstrap.min.css') }}" />
+        <link rel="stylesheet" href="{{ Theme::asset()->url('css/about.css') }}" />
+        <link rel="stylesheet" href="{{ Theme::asset()->url('css/projects.css') }}" />
+    @endif
 </head>
 
 <body {!! Theme::bodyAttributes() !!}>

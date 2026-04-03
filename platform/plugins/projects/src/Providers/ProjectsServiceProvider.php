@@ -12,6 +12,7 @@ use Botble\Projects\Models\Project;
 use Botble\SeoHelper\Facades\SeoHelper;
 use Botble\Slug\Facades\SlugHelper;
 use Botble\Slug\Models\Slug;
+use Botble\Theme\Facades\Theme;
 use Illuminate\Support\Str;
 
 class ProjectsServiceProvider extends ServiceProvider
@@ -113,6 +114,8 @@ class ProjectsServiceProvider extends ServiceProvider
             ->latest('id')
             ->limit(8)
             ->get();
+
+        Theme::layout('project');
 
         return [
             'view' => 'project',
