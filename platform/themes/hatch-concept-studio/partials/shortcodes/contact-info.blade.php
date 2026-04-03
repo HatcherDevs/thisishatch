@@ -38,10 +38,12 @@
                     </span>
                 </div>
 
-                <div class="dubai-info d-flex justify-content-between pt-4" style="border-top: 1px solid #0514f0">
-                    <span>{{ $cairoLabel }}</span>
-                    <span>{!! nl2br(e($cairoAddress)) !!}</span>
-                </div>
+                @if (trim((string) $cairoAddress) !== '')
+                    <div class="dubai-info d-flex justify-content-between pt-4" style="border-top: 1px solid #0514f0">
+                        <span>{{ $cairoLabel }}</span>
+                        <span>{!! nl2br(e($cairoAddress)) !!}</span>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
