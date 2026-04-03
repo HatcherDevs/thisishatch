@@ -4,10 +4,12 @@ use Botble\Base\Enums\BaseStatusEnum;
 use Botble\Base\Forms\FieldOptions\MediaImageFieldOption;
 use Botble\Base\Forms\FieldOptions\MediaImagesFieldOption;
 use Botble\Base\Forms\FieldOptions\SelectFieldOption;
+use Botble\Base\Forms\FieldOptions\TextareaFieldOption;
 use Botble\Base\Forms\FieldOptions\TextFieldOption;
 use Botble\Base\Forms\Fields\MediaImageField;
 use Botble\Base\Forms\Fields\MediaImagesField;
 use Botble\Base\Forms\Fields\SelectField;
+use Botble\Base\Forms\Fields\TextareaField;
 use Botble\Base\Forms\Fields\TextField;
 use Botble\Projects\Models\Project;
 use Botble\Shortcode\Compilers\Shortcode as ShortcodeCompiler;
@@ -129,6 +131,104 @@ Event::listen(RouteMatched::class, function (): void {
                         '1' => __('Yes'),
                     ])
                     ->selected($attributes['loop'] ?? '0')
+            );
+    });
+
+    Shortcode::register(
+        'contact-info',
+        __('Contact info block'),
+        __('Display contact information and social links block'),
+        function (ShortcodeCompiler $shortcode) {
+            return Theme::partial('shortcodes.contact-info', compact('shortcode'));
+        }
+    );
+
+    Shortcode::setAdminConfig('contact-info', function (array $attributes) {
+        return ShortcodeForm::createFromArray($attributes)
+            ->add(
+                'heading',
+                TextField::class,
+                TextFieldOption::make()
+                    ->label(__('Heading'))
+                    ->placeholder(__('Don\'t be shy'))
+                    ->defaultValue('Don\'t be shy')
+            )
+            ->add(
+                'email',
+                TextField::class,
+                TextFieldOption::make()
+                    ->label(__('Email'))
+                    ->placeholder(__('info@thisishatch.com'))
+                    ->defaultValue('info@thisishatch.com')
+            )
+            ->add(
+                'dubai_label',
+                TextField::class,
+                TextFieldOption::make()
+                    ->label(__('Dubai label'))
+                    ->placeholder(__('Dubai'))
+                    ->defaultValue('Dubai')
+            )
+            ->add(
+                'dubai_address',
+                TextareaField::class,
+                TextareaFieldOption::make()
+                    ->label(__('Dubai address'))
+                    ->placeholder(__('Office B103, Bldg 6, Dubai Design District, Dubai, UAE'))
+                    ->defaultValue('Office B103, Bldg 6, Dubai Design District, Dubai, UAE')
+            )
+            ->add(
+                'dubai_phone_text',
+                TextField::class,
+                TextFieldOption::make()
+                    ->label(__('Dubai phone text'))
+                    ->placeholder(__('+971 (04) 4247 795'))
+                    ->defaultValue('+971 (04) 4247 795')
+            )
+            ->add(
+                'dubai_phone_link',
+                TextField::class,
+                TextFieldOption::make()
+                    ->label(__('Dubai phone link'))
+                    ->placeholder(__('+971044247795'))
+                    ->defaultValue('+971044247795')
+            )
+            ->add(
+                'cairo_label',
+                TextField::class,
+                TextFieldOption::make()
+                    ->label(__('Cairo label'))
+                    ->placeholder(__('Cairo'))
+                    ->defaultValue('Cairo')
+            )
+            ->add(
+                'cairo_address',
+                TextareaField::class,
+                TextareaFieldOption::make()
+                    ->label(__('Cairo address'))
+                    ->placeholder(__('17 Galal Al Din Al Deswqi, Almazah, Heliopolis, Cairo, Egypt'))
+                    ->defaultValue('17 Galal Al Din Al Deswqi, Almazah, Heliopolis, Cairo, Egypt')
+            )
+            ->add(
+                'behance_url',
+                TextField::class,
+                TextFieldOption::make()
+                    ->label(__('Behance URL'))
+                    ->placeholder(__('https://www.behance.net/'))
+            )
+            ->add(
+                'instagram_url',
+                TextField::class,
+                TextFieldOption::make()
+                    ->label(__('Instagram URL'))
+                    ->placeholder(__('https://www.instagram.com/thisishatch'))
+            )
+            ->add(
+                'linkedin_url',
+                TextField::class,
+                TextFieldOption::make()
+                    ->label(__('LinkedIn URL'))
+                    ->placeholder(__('https://www.linkedin.com/company/hatch-concept-studio'))
             );
     });
 
