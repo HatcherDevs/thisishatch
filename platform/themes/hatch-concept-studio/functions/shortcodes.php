@@ -199,7 +199,6 @@ Event::listen(RouteMatched::class, function (): void {
                 TextFieldOption::make()
                     ->label(__('Cairo label'))
                     ->placeholder(__('Cairo'))
-                    ->defaultValue('Cairo')
             )
             ->add(
                 'cairo_address',
@@ -207,7 +206,6 @@ Event::listen(RouteMatched::class, function (): void {
                 TextareaFieldOption::make()
                     ->label(__('Cairo address'))
                     ->placeholder(__('17 Galal Al Din Al Deswqi, Almazah, Heliopolis, Cairo, Egypt'))
-                    ->defaultValue('17 Galal Al Din Al Deswqi, Almazah, Heliopolis, Cairo, Egypt')
             )
             ->add(
                 'behance_url',

@@ -7,8 +7,8 @@
     $dubaiPhoneText = $shortcode->dubai_phone_text ?: '+971 (04) 4247 795';
     $dubaiPhoneLink = preg_replace('/\s+/', '', (string) ($shortcode->dubai_phone_link ?: '+971044247795'));
 
-    $cairoLabel = $shortcode->cairo_label ?: 'Cairo';
-    $cairoAddress = $shortcode->cairo_address ?: '17 Galal Al Din Al Deswqi, Almazah, Heliopolis, Cairo, Egypt';
+    $cairoLabel = trim((string) ($shortcode->cairo_label ?? ''));
+    $cairoAddress = trim((string) ($shortcode->cairo_address ?? ''));
 
     $behanceUrl = $shortcode->behance_url ?: '#';
     $instagramUrl = $shortcode->instagram_url ?: '#';
@@ -40,7 +40,7 @@
 
                 @if (trim((string) $cairoAddress) !== '')
                     <div class="dubai-info d-flex justify-content-between pt-4" style="border-top: 1px solid #0514f0">
-                        <span>{{ $cairoLabel }}</span>
+                        <span>{{ $cairoLabel !== '' ? $cairoLabel : 'Cairo' }}</span>
                         <span>{!! nl2br(e($cairoAddress)) !!}</span>
                     </div>
                 @endif
