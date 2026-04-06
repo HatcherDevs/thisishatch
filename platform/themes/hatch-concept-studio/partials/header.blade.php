@@ -61,16 +61,19 @@
         $menuTitle = theme_option('header_menu_title', 'This is Hatch');
         $menuIconUrl = $menuIcon ? RvMedia::getImageUrl($menuIcon) : Theme::asset()->url('imgs/side_menu.png');
         $menuLogoUrl = $menuLogo ? RvMedia::getImageUrl($menuLogo) : Theme::asset()->url('imgs/hatch_logo_white.png');
+        $backHomeUrl = Theme::asset()->url('imgs/back-home.png');
     @endphp
     <div id="nav" role="navigation" aria-label="Main navigation">
-        <a href="#menu" aria-label="Open navigation menu"><img src="{{ $menuIconUrl }}" width="66%"
+        <a href="#menu" aria-label="Open navigation menu"><img src="{{ $menuIconUrl }}" width="66%" class="nav-icon-img"
                 alt="Menu" /></a>
+        <a href="{{ url('/') }}" aria-label="Back to home"><img src="{{ $backHomeUrl }}" width="66%"
+                class="nav-icon-img" alt="Back to home" /></a>
     </div>
 
     <div class="popover" id="menu">
         <div class="content">
             <a href="#" class="close"></a>
-            <a href="#" class="hatch_logo">
+            <a href="{{ url('/') }}" class="hatch_logo">
                 <img class="mouseMove_hover" src="{{ $menuLogoUrl }}" alt="Hatch Concept Studio logo" />
             </a>
 

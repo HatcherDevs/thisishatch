@@ -269,3 +269,10 @@ ul#projects-tab li {
   width: 10% !important;
 
 }
+
+.mySwiper .swiper-slide img {
+  height: 577px;
+  min-width: 450px;
+  max-width: 500px;
+  object-fit: cover;
+}

@@ -56,68 +56,51 @@
             $galleryImages = array_filter((array) $project->gallery_images);
         @endphp
     </div>
-    @if (!empty($galleryImages))
-        <div id="page3" class="pb-5 mb-5">
-            <div class="swiper-container mySwiper pb-5 mb-5">
-                <div class="swiper-wrapper">
-                    @foreach ($galleryImages as $image)
-                        <div class="swiper-slide">
-                            <a href="#" class="slide-inner" onclick="return false;">
-                                <img src="{{ RvMedia::getImageUrl($image) }}" alt="{{ $project->title }}" />
-                            </a>
-                        </div>
-                    @endforeach
-                </div>
-                <div class="swiper-button-next">
-                    Next
-                    <i class="fa fa-arrow-right"></i>
-                </div>
-                <div class="swiper-button-prev">
-                    <i class="fa fa-arrow-left"></i>
-                    Previous
-                </div>
-            </div>
-        </div>
-    @endif
 </div>
 
-
-
-@if (!empty($relatedProjects) && $relatedProjects->isNotEmpty())
-
-
-
-
-
+@if (!empty($galleryImages))
     <div id="page3" class="pb-5 mb-5">
-        <div class="swiper-container">
+        <div class="swiper-container mySwiper pb-5 mb-5">
             <div class="swiper-wrapper">
-                @foreach ($relatedProjects as $project)
+                @foreach ($galleryImages as $image)
                     <div class="swiper-slide">
-                        <a href="{{ $project->url }}" class="slide-inner">
-                            <img src="{{ RvMedia::getImageUrl($project->cover ?: $project->image) }}"
-                                alt="{{ $project->title }}" loading="lazy" />
+                        <a href="#" class="slide-inner" onclick="return false;">
+                            <img src="{{ RvMedia::getImageUrl($image) }}" alt="{{ $project->title }}" />
                         </a>
                     </div>
                 @endforeach
             </div>
-            <!-- <div class="swiper-pagination"></div> -->
-            <div class="swiper-button-next">
-                Next Project
-                <i class="fa fa-arrow-right"></i>
-            </div>
-            <div class="swiper-button-prev">
-                <i class="fa fa-arrow-left"></i>
-                Previous Project
-            </div>
+
         </div>
     </div>
-
 @endif
 
 
 
 
+@if ($previousProject || $nextProject)
+    <div class="d-flex justify-content-between align-items-center pt-4 pb-5 mb-5">
+        @if ($previousProject)
+            <a href="{{ $previousProject->url }}" class="project-button-prev project-nav-prev"
+                style="text-decoration: none;">
+                <i class="fa fa-arrow-left"></i>
+                Previous Project
+            </a>
+        @else
+            <div></div>
+        @endif
+
+        @if ($nextProject)
+            <a href="{{ $nextProject->url }}" class="project-button-next project-nav-next"
+                style="text-decoration: none;">
+                Next Project
+                <i class="fa fa-arrow-right"></i>
+            </a>
+        @endif
+    </div>
+@endif
+
+<div class="pb-5 mb-5"></div>
 
 
 
@@ -139,8 +122,8 @@
                 },
             },
             navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
+                nextEl: '.mySwiper .swiper-button-next',
+                prevEl: '.mySwiper .swiper-button-prev',
             },
         });
 
@@ -158,10 +141,25 @@
                     slidesPerView: 3.4
                 },
             },
-            navigation: {
-                nextEl: '.other-projects-next',
-                prevEl: '.other-projects-prev',
-            },
+        });
+
+        document.querySelectorAll('.project-nav-next, .project-nav-prev').forEach(function(element) {
+            element.addEventListener('click', function() {
+                var targetUrl = element.getAttribute('data-url');
+                if (targetUrl) {
+                    window.location.href = targetUrl;
+                }
+            });
+
+            element.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    var targetUrl = element.getAttribute('data-url');
+                    if (targetUrl) {
+                        window.location.href = targetUrl;
+                    }
+                }
+            });
         });
     }
 </script>

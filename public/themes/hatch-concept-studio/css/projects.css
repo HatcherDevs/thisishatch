@@ -5,30 +5,116 @@
 }
 
 .projects-carousel-block {
-  height: 80vh;
-  width: 100%;
+  margin: 48px 0;
   position: relative;
-  margin-bottom: 200px;
 }
 
-.slide-inner {
+.projects-carousel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.projects-carousel-title {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.projects-carousel-nav {
+  display: flex;
+  gap: 10px;
+}
+
+.projects-carousel-nav-btn {
+  border: 1px solid #0f0f0f;
+  background: transparent;
+  color: #0f0f0f;
+  padding: 6px 14px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.projects-carousel-card {
   display: block;
-  width: 100%;
-  height: 100%;
   text-decoration: none;
+  color: inherit;
 }
 
-.slide-inner img {
+.projects-carousel-media {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #e8e8e8;
+}
+
+.projects-carousel-image {
   width: 100%;
-  height: 100%;
+  height: 420px;
   object-fit: cover;
   display: block;
+  transition: transform 0.4s ease;
+}
+
+.projects-carousel-card:hover .projects-carousel-image {
+  transform: scale(1.03);
+}
+
+.projects-carousel-year {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: rgba(255, 255, 255, 0.88);
+  color: #111;
+  padding: 4px 10px;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.projects-carousel-body {
+  padding-top: 14px;
+}
+
+.projects-carousel-tags {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #6b6b6b;
+  margin-bottom: 6px;
+}
+
+.projects-carousel-name {
+  font-size: 20px;
+  font-weight: 600;
+  color: #111;
 }
 
 .projects-carousel-empty {
   margin: 24px 0;
   font-size: 16px;
   color: #6b6b6b;
+}
+
+@media (max-width: 1024px) {
+  .projects-carousel-image {
+    height: 360px;
+  }
+}
+
+@media (max-width: 767px) {
+  .projects-carousel-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .projects-carousel-image {
+    height: 320px;
+  }
 }
 
 .nav-pills .nav-link.active {
@@ -109,7 +195,12 @@ ul#projects-tab li {
 
 
 
-
+#page3 {
+  height: 80vh;
+  width: 100%;
+  position: relative;
+  margin-bottom: 0px !important;
+}
 
 .swiper-button-next:after,
 .swiper-button-prev:after {
@@ -147,7 +238,7 @@ ul#projects-tab li {
     top: 85%;
   }
 
-  .projects-carousel-block {
+  #page3 {
     height: 90vh;
   }
 }
@@ -155,7 +246,7 @@ ul#projects-tab li {
 .swiper-slide {
   text-align: center;
   font-size: 18px;
-  background: #fff;
+  background: transparent;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -179,10 +270,9 @@ ul#projects-tab li {
 
 }
 
-
-.slide-inner img {
-  width: 636px;
-  height: 518px;
+.mySwiper .swiper-slide img {
+  height: 577px;
+  min-width: 450px;
+  max-width: 500px;
   object-fit: cover;
-  display: block;
 }

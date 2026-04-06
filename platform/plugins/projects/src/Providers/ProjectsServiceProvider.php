@@ -115,12 +115,24 @@ class ProjectsServiceProvider extends ServiceProvider
             ->limit(8)
             ->get();
 
+        $nextProject = Project::query()
+            ->where('status', BaseStatusEnum::PUBLISHED)
+            ->where('id', '>', $project->id)
+            ->orderBy('id')
+            ->first();
+
+        $previousProject = Project::query()
+            ->where('status', BaseStatusEnum::PUBLISHED)
+            ->where('id', '<', $project->id)
+            ->orderByDesc('id')
+            ->first();
+
         Theme::layout('project');
 
         return [
             'view' => 'project',
             'default_view' => 'plugins/projects::themes.project',
-            'data' => compact('project', 'relatedProjects'),
+            'data' => compact('project', 'relatedProjects', 'nextProject', 'previousProject'),
             'slug' => $project->slug,
         ];
     }

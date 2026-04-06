@@ -212,14 +212,27 @@ canvas {
 
 #nav,
 #nav_about {
-  display: flex;
+  /* display: flex; */
   align-items: center;
   justify-content: space-between;
-  width: 100%;
+  width: 6.5%;
   position: fixed;
   z-index: 99999999999999999999999;
   padding: 0px 0px;
   opacity: 0;
+}
+
+
+.nav-icon-img {
+  width: 66%;
+}
+
+@media (max-width: 768px) {
+  .nav-icon-img {
+    width: 80px;
+  }
+
+
 }
 
 
@@ -975,7 +988,7 @@ body.open-card {
 }
 
 .swiper-slide {
-  overflow: hidden;
+  /* overflow: hidden; */
   position: relative;
   z-index: 1;
   height: 450px;
@@ -984,7 +997,7 @@ body.open-card {
   display: block;
   text-align: center;
   background: #fff;
-  border-radius: 6px;
+  border-radius: 0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: -webkit-flex;
@@ -997,9 +1010,9 @@ body.open-card {
   -ms-flex-align: center;
   -webkit-align-items: center;
   align-items: center;
-  -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.3);
-  -moz-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.3);
+  /* -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.3); */
+  /* -moz-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.3); */
+  /* box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.3); */
 }
 
 .swiper-slide.swiper-slide-active {
@@ -1110,4 +1123,40 @@ body.open-card {
   width: 636px;
   height: 518px;
   object-fit: cover;
+}
+
+
+.project-button-next, .project-button-prev {
+    color: #1D1D1D !important;
+    top: 95% !important;
+    display: flex !important;
+    font-weight: 100 !important;
+    justify-content: space-evenly !important;
+    align-items: center !important;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
+    width: 10% !important;
+    
+
+}
+
+.project-button-next i, .project-button-prev i {
+    color: #0514F0;
+}
+.project-button-next:after, .project-button-prev:after {
+    font-family: swiper-icons;
+    font-size: var(--swiper-navigation-size);
+    text-transform: none !important;
+    letter-spacing: 0;
+    font-variant: initial;
+    line-height: 1;
+}
+
+.project-button-next,  .project-button-prev {
+    right: var(--swiper-navigation-sides-offset, 10px);
+    left: auto;
+}
+
+.project-button-prev,  .project-button-next {
+    left: var(--swiper-navigation-sides-offset, 10px);
+    right: auto;
 }

@@ -1,6 +1,4 @@
       @php
-          // projects متوقع أن تأتي من الكنترولر أو من الشورتكود
-          // إذا لم تكن موجودة، يمكن جلبها هنا (احتياطي)
           if (!isset($projects)) {
               $projects = \Botble\Projects\Models\Project::query()
                   ->where('status', \Botble\Base\Enums\BaseStatusEnum::PUBLISHED)
@@ -15,7 +13,7 @@
               <div class="swiper-container">
                   <div class="swiper-wrapper">
                       @foreach ($projects as $project)
-                          <div class="swiper-slide">
+                          <div class="swiper-slide" style="overflow: hidden;">
                               <a href="{{ $project->url }}" class="slide-inner">
                                   <img src="{{ RvMedia::getImageUrl($project->cover ?: $project->image) }}"
                                       alt="{{ $project->title }}" loading="lazy" />
