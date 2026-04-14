@@ -17,6 +17,7 @@ class Project extends BaseModel
         'image',
         'cover',
         'gallery_images',
+        'videos',
         'year',
         'tagline',
         'description',
@@ -32,6 +33,7 @@ class Project extends BaseModel
         'description' => SafeContent::class,
         'content' => SafeContent::class,
         'gallery_images' => 'array',
+        'videos' => 'array',
         'status' => BaseStatusEnum::class,
     ];
 

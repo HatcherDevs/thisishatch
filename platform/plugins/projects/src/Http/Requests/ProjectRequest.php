@@ -16,6 +16,8 @@ class ProjectRequest extends Request
             'cover' => ['nullable', 'string', 'max:255'],
             'gallery_images' => ['nullable', 'array'],
             'gallery_images.*' => ['nullable', 'string', 'max:255'],
+            'videos_json' => ['nullable', 'string'],
+            'videos' => ['nullable', 'array'],
             'year' => ['nullable', 'string', 'max:10'],
             'tagline' => ['nullable', 'string', 'max:65000'],
             'description' => ['nullable', 'string'],

@@ -3,6 +3,7 @@
 namespace Botble\Projects\Forms;
 
 use Botble\Base\Forms\FieldOptions\ContentFieldOption;
+use Botble\Base\Forms\FieldOptions\HtmlFieldOption;
 use Botble\Base\Forms\FieldOptions\MediaImageFieldOption;
 use Botble\Base\Forms\FieldOptions\MediaImagesFieldOption;
 use Botble\Base\Forms\FieldOptions\NameFieldOption;
@@ -12,6 +13,7 @@ use Botble\Base\Forms\FieldOptions\TagFieldOption;
 use Botble\Base\Forms\FieldOptions\TextareaFieldOption;
 use Botble\Base\Forms\FieldOptions\TextFieldOption;
 use Botble\Base\Forms\Fields\EditorField;
+use Botble\Base\Forms\Fields\HtmlField;
 use Botble\Base\Forms\Fields\MediaImageField;
 use Botble\Base\Forms\Fields\MediaImagesField;
 use Botble\Base\Forms\Fields\SelectField;
@@ -73,6 +75,14 @@ class ProjectForm extends FormAbstract
                     ->allowedShortcodes()
             )
             ->add(
+                'videos_ui',
+                HtmlField::class,
+                HtmlFieldOption::make()
+                    ->view('plugins/projects::forms.videos-field', [
+                        'videos' => $model?->videos ?? [],
+                    ])
+            )
+            ->add(
                 'status',
                 SelectField::class,
                 StatusFieldOption::make()
@@ -106,7 +116,9 @@ class ProjectForm extends FormAbstract
             ->add(
                 'gallery_images[]',
                 MediaImagesField::class,
-                MediaImagesFieldOption::make()->label(trans('plugins/projects::projects.form.gallery_images'))
+                MediaImagesFieldOption::make()
+                    ->label(trans('plugins/projects::projects.form.gallery_images'))
+                    ->values(array_filter($model?->gallery_images ?? []))
             )
             ->setBreakFieldPoint('status');
     }

@@ -29,6 +29,8 @@ class ProjectController extends BaseController
 
     public function store(ProjectRequest $request)
     {
+        $this->mergeVideosJson($request);
+
         $form = ProjectForm::create();
         $form->setRequest($request)->save();
 
@@ -52,6 +54,8 @@ class ProjectController extends BaseController
 
     public function update(Project $project, ProjectRequest $request)
     {
+        $this->mergeVideosJson($request);
+
         ProjectForm::createFromModel($project)->setRequest($request)->save();
 
         $this->syncTags($project, $request->input('tag_names'));
@@ -65,6 +69,16 @@ class ProjectController extends BaseController
     public function destroy(Project $project)
     {
         return DeleteResourceAction::make($project);
+    }
+
+    protected function mergeVideosJson(ProjectRequest $request): void
+    {
+        $json = $request->input('videos_json', '[]');
+        $videos = json_decode($json, true);
+        $request->merge([
+            'videos' => is_array($videos) ? $videos : [],
+            'gallery_images' => array_values(array_filter((array) $request->input('gallery_images', []))),
+        ]);
     }
 
     protected function syncTags(Project $project, string|array|null $tagInput): void
