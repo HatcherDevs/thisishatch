@@ -94,8 +94,20 @@
 
 <script src="{{ Theme::asset()->url('js/HomePage.js') }}" data-cfasync="false"></script>
 
-{!! Theme::asset()->scripts() !!}
-{!! Theme::footer() !!}
+@php
+    $themeScripts = Theme::asset()->scripts();
+    $themeScripts = preg_replace(
+        '/<script(?![^>]*data-cfasync)/i',
+        '<script data-cfasync="false"',
+        $themeScripts ?? '',
+    );
+
+    $themeFooter = Theme::footer();
+    $themeFooter = preg_replace('/<script(?![^>]*data-cfasync)/i', '<script data-cfasync="false"', $themeFooter ?? '');
+@endphp
+
+{!! $themeScripts !!}
+{!! $themeFooter !!}
 </body>
 
 </html>
