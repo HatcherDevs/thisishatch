@@ -316,10 +316,20 @@ let playButton = document.getElementById("play_button");
 let playBtnBlue = document.getElementById("playBtn");
 let pauseButton = document.getElementById("pause_button");
 let video = document.querySelector('video');
+let pendingPlayPromise = null;
 
 if (playButton && playBtnBlue && pauseButton && video) {
   playButton.addEventListener("click", function () {
-    video.play();
+    pendingPlayPromise = video.play();
+
+    if (pendingPlayPromise && typeof pendingPlayPromise.catch === 'function') {
+      pendingPlayPromise.catch(function (error) {
+        if (!error || error.name !== 'AbortError') {
+          console.error(error);
+        }
+      });
+    }
+
     playBtnBlue.innerText = "stop";
     playButton.classList.add('vplay');
     pauseButton.classList.remove('vpause');
@@ -327,6 +337,7 @@ if (playButton && playBtnBlue && pauseButton && video) {
   });
 
   pauseButton.addEventListener("click", function () {
+    pendingPlayPromise = null;
     video.pause();
     playBtnBlue.innerText = "play";
     playButton.classList.remove('vplay');
