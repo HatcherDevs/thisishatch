@@ -1,10 +1,9 @@
-﻿
-    <div id="dog">
-        <img id="dogImage" src="{{ Theme::asset()->url('imgs/dog.png') }}"
-            alt="Hatch Concept Studio - We dig into design & get our hands dirty" />
-        <span class="dog-bubble" id="notification">We dig into design & get our hands dirty.</span>
-        <!-- <audio id="notificationSound" src="imgs/mixkit-happy-puppy-barks-741.mp3"></audio> -->
-    </div>
+﻿<div id="dog">
+    <img id="dogImage" src="{{ Theme::asset()->url('imgs/dog.png') }}"
+        alt="Hatch Concept Studio - We dig into design & get our hands dirty" />
+    <span class="dog-bubble" id="notification">We dig into design & get our hands dirty.</span>
+    <!-- <audio id="notificationSound" src="imgs/mixkit-happy-puppy-barks-741.mp3"></audio> -->
+</div>
 
 <div class="layout"></div>
 <div class="cursor" style="padding: 15px">
