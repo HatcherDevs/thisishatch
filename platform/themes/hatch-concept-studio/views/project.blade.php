@@ -84,7 +84,7 @@
         @endif
 
         @if ($nextProject)
-            <a href="{{ $nextProject->url }}" class="project-button-next project-nav-next"
+            <a href="{{ $nextProject->url }}" class="project-button-next project-nav-next ms-auto"
                 style="text-decoration: none;">
                 Next Project
                 <i class="fa fa-arrow-right"></i>
