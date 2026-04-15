@@ -11,9 +11,9 @@
 </div>
 
 <!-- WebSite Schema with Search -->
-<script type="application/ld+json" data-cfasync="false">
+<script type="application/ld+json">
       {
-  "@context": "https://schema.org",
+        "@@context": "https://schema.org",
         "@type": "WebSite",
         "@id": "https://thisishatch.com/#website",
         "url": "https://thisishatch.com/",
@@ -27,9 +27,9 @@
     </script>
 
 <!-- Schema.org Structured Data -->
-<script type="application/ld+json" data-cfasync="false">
+<script type="application/ld+json">
       {
-  "@context": "https://schema.org",
+        "@@context": "https://schema.org",
         "@type": "LocalBusiness",
         "@id": "https://thisishatch.com/#organization",
         "name": "Hatch Concept Studio",
@@ -72,9 +72,9 @@
     </script>
 
 <!-- BreadcrumbList schema -->
-<script type="application/ld+json" data-cfasync="false">
+<script type="application/ld+json">
       {
-  "@context": "https://schema.org",
+        "@@context": "https://schema.org",
         "@type": "BreadcrumbList",
         "itemListElement": [
           {
@@ -87,27 +87,15 @@
       }
     </script>
 
-<script src="{{ Theme::asset()->url('js/locomotive-scroll.js') }}" data-cfasync="false"></script>
-<script src="{{ Theme::asset()->url('js/gsap.min.js') }}" data-cfasync="false"></script>
-<script src="{{ Theme::asset()->url('js/ScrollTrigger.min.js') }}" data-cfasync="false"></script>
-<script src="{{ Theme::asset()->url('js/swiper-bundle.min.js') }}" data-cfasync="false"></script>
+<script src="{{ Theme::asset()->url('js/locomotive-scroll.js') }}"></script>
+<script src="{{ Theme::asset()->url('js/gsap.min.js') }}"></script>
+<script src="{{ Theme::asset()->url('js/ScrollTrigger.min.js') }}"></script>
+<script src="{{ Theme::asset()->url('js/swiper-bundle.min.js') }}"></script>
 
-<script src="{{ Theme::asset()->url('js/HomePage.js') }}" data-cfasync="false"></script>
+<script src="{{ Theme::asset()->url('js/HomePage.js') }}"></script>
 
-@php
-    $themeScripts = Theme::asset()->scripts();
-    $themeScripts = preg_replace(
-        '/<script(?![^>]*data-cfasync)/i',
-        '<script data-cfasync="false"',
-        $themeScripts ?? '',
-    );
-
-    $themeFooter = Theme::footer();
-    $themeFooter = preg_replace('/<script(?![^>]*data-cfasync)/i', '<script data-cfasync="false"', $themeFooter ?? '');
-@endphp
-
-{!! $themeScripts !!}
-{!! $themeFooter !!}
+{!! Theme::asset()->scripts() !!}
+{!! Theme::footer() !!}
 </body>
 
 </html>
