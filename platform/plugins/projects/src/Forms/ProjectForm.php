@@ -63,11 +63,6 @@ class ProjectForm extends FormAbstract
                     ->rows(4)
             )
             ->add(
-                'description',
-                TextareaField::class,
-                TextareaFieldOption::make()->label(trans('plugins/projects::projects.form.description'))
-            )
-            ->add(
                 'content',
                 EditorField::class,
                 ContentFieldOption::make()

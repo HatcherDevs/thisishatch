@@ -8,12 +8,12 @@ use Botble\Base\Supports\DashboardMenuItem;
 use Botble\Base\Supports\ServiceProvider;
 use Botble\Base\Traits\LoadAndPublishDataTrait;
 use Botble\Media\Facades\RvMedia;
+use Botble\Page\Models\Page;
 use Botble\Projects\Models\Project;
 use Botble\SeoHelper\Facades\SeoHelper;
 use Botble\Slug\Facades\SlugHelper;
 use Botble\Slug\Models\Slug;
 use Botble\Theme\Facades\Theme;
-use Illuminate\Support\Str;
 
 class ProjectsServiceProvider extends ServiceProvider
 {
@@ -100,9 +100,10 @@ class ProjectsServiceProvider extends ServiceProvider
             return $slug;
         }
 
-        $description = Str::limit(strip_tags((string) ($project->description ?: $project->content)), 160);
+        $seoMeta = get_meta_data($project, 'seo_meta', true);
+        $seoDescription = is_array($seoMeta) ? trim((string) ($seoMeta['seo_description'] ?? '')) : '';
 
-        SeoHelper::setTitle($project->title)->setDescription($description);
+        SeoHelper::setTitle($project->title)->setDescription($seoDescription);
 
         if ($project->image) {
             SeoHelper::openGraph()->setImage(RvMedia::getImageUrl($project->image));
@@ -127,12 +128,26 @@ class ProjectsServiceProvider extends ServiceProvider
             ->orderByDesc('id')
             ->first();
 
+        $projectsPageId = Slug::query()
+            ->where('reference_type', Page::class)
+            ->where('key', 'projects')
+            ->value('reference_id');
+
+        $projectsPageCover = null;
+
+        if ($projectsPageId) {
+            $projectsPageCover = Page::query()
+                ->wherePublished()
+                ->where('id', $projectsPageId)
+                ->value('image');
+        }
+
         Theme::layout('project');
 
         return [
             'view' => 'project',
             'default_view' => 'plugins/projects::themes.project',
-            'data' => compact('project', 'relatedProjects', 'nextProject', 'previousProject'),
+            'data' => compact('project', 'relatedProjects', 'nextProject', 'previousProject', 'projectsPageCover'),
             'slug' => $project->slug,
         ];
     }

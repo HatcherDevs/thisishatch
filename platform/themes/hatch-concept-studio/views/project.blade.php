@@ -1,7 +1,7 @@
 <div class="container w-md-75">
     <div>
-        <img src="{{ RvMedia::getImageUrl($project->cover ?: $project->image) }}" class="img-fluid"
-            alt="{{ $project->title }}" />
+        <img src="{{ RvMedia::getImageUrl($projectsPageCover ?: ($project->cover ?: $project->image)) }}"
+            class="img-fluid" alt="{{ $project->title }}" />
 
         <div class="row pt-2">
             <div class="col-6">
@@ -40,12 +40,6 @@
             <p class="fw-bold pb-4 w-75">{{ $project->tagline }}</p>
         @endif
 
-        @if ($project->description)
-            <div class="w-100 d-flex justify-content-end pb-4">
-                <div class="w-75">{!! BaseHelper::clean($project->description) !!}</div>
-            </div>
-        @endif
-
         @if ($project->content)
             <div class="project-content pb-5" style="padding-left: 24.8%;">
                 {!! BaseHelper::clean(do_shortcode($project->content)) !!}
@@ -53,7 +47,7 @@
         @endif
 
         @php
-            $galleryImages = array_filter((array) $project->gallery_images);
+            $galleryImages = array_values(array_filter(array_unique(array_filter((array) $project->gallery_images))));
         @endphp
     </div>
 </div>
@@ -87,7 +81,6 @@
                 Previous Project
             </a>
         @else
-            <div></div>
         @endif
 
         @if ($nextProject)
@@ -150,15 +143,19 @@
                     @endif
                 @endforeach
             </div>
-            
-            @if(count(array_filter((array) $projectVideos, fn($v) => !empty($v['url']))) > 1)
+
+            @if (count(array_filter((array) $projectVideos, fn($v) => !empty($v['url']))) > 1)
                 <!-- Navigation -->
-                <button class="carousel-control-prev" type="button" data-bs-target="#projectVideoCarousel" data-bs-slide="prev" id="prevVideoSlideBtn">
-                    <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color: rgba(0,0,0,0.5); border-radius: 50%; padding: 25px;"></span>
+                <button class="carousel-control-prev" type="button" data-bs-target="#projectVideoCarousel"
+                    data-bs-slide="prev" id="prevVideoSlideBtn">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"
+                        style="background-color: rgba(0,0,0,0.5); border-radius: 50%; padding: 25px;"></span>
                     <span class="visually-hidden">Previous</span>
                 </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#projectVideoCarousel" data-bs-slide="next" id="nextVideoSlideBtn">
-                    <span class="carousel-control-next-icon" aria-hidden="true" style="background-color: rgba(0,0,0,0.5); border-radius: 50%; padding: 25px;"></span>
+                <button class="carousel-control-next" type="button" data-bs-target="#projectVideoCarousel"
+                    data-bs-slide="next" id="nextVideoSlideBtn">
+                    <span class="carousel-control-next-icon" aria-hidden="true"
+                        style="background-color: rgba(0,0,0,0.5); border-radius: 50%; padding: 25px;"></span>
                     <span class="visually-hidden">Next</span>
                 </button>
             @endif
@@ -169,7 +166,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             var videoCarousel = document.getElementById('projectVideoCarousel');
             var carousel = null;
-            
+
             if (videoCarousel) {
                 // Initialize bootstrap carousel if it exists
                 if (typeof bootstrap !== 'undefined' && bootstrap.Carousel) {
@@ -181,14 +178,14 @@
                     // Fallback vanilla JS sliding if Bootstrap JS is missing
                     let items = videoCarousel.querySelectorAll('.carousel-item');
                     let currentIndex = 0;
-                    
+
                     document.getElementById('nextVideoSlideBtn')?.addEventListener('click', function() {
                         items[currentIndex].classList.remove('active');
                         currentIndex = (currentIndex + 1) % items.length;
                         items[currentIndex].classList.add('active');
                         stopAllIframes();
                     });
-                    
+
                     document.getElementById('prevVideoSlideBtn')?.addEventListener('click', function() {
                         items[currentIndex].classList.remove('active');
                         currentIndex = (currentIndex - 1 + items.length) % items.length;
@@ -238,19 +235,8 @@
 <script>
     if (typeof Swiper !== 'undefined') {
         new Swiper('.mySwiper', {
-            slidesPerView: 3.4,
+            slidesPerView: 'auto',
             spaceBetween: 25,
-            breakpoints: {
-                320: {
-                    slidesPerView: 1.2
-                },
-                768: {
-                    slidesPerView: 2.2
-                },
-                1024: {
-                    slidesPerView: 3.4
-                },
-            },
             navigation: {
                 nextEl: '.mySwiper .swiper-button-next',
                 prevEl: '.mySwiper .swiper-button-prev',

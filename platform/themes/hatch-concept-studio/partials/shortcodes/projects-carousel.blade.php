@@ -15,7 +15,7 @@
                       @foreach ($projects as $project)
                           <div class="swiper-slide" style="overflow: hidden;">
                               <a href="{{ $project->url }}" class="slide-inner">
-                                  <img src="{{ RvMedia::getImageUrl($project->cover ?: $project->image) }}"
+                                  <img src="{{ RvMedia::getImageUrl($project->image ?: $project->cover) }}"
                                       alt="{{ $project->title }}" loading="lazy" />
                               </a>
                           </div>

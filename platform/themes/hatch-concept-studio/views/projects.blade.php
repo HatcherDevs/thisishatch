@@ -38,7 +38,7 @@
             @forelse ($projects as $project)
                 <div class="col-md-6 mb-4 project-card" data-category="{{ $project->category_id ?: 'none' }}">
                     <a href="{{ $project->url }}" class="text-decoration-none project_item d-block">
-                        <img src="{{ RvMedia::getImageUrl($project->cover ?: $project->image) }}" class="card-img-top"
+                        <img src="{{ RvMedia::getImageUrl($project->image ?: $project->cover) }}" class="card-img-top"
                             alt="{{ $project->title }}" loading="lazy" />
                         <h5 class="card-title pt-2">{{ $project->title }}</h5>
                         <p>{{ $project->tags->pluck('name')->implode(' | ') ?: optional($project->category)->name }}
