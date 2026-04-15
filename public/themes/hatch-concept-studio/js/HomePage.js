@@ -1,5 +1,6 @@
 // Add a check for mobile devices
 const isMobile = window.innerWidth <= 767; // You can adjust this breakpoint based on your design
+const pageElement = document.querySelector("#page");
 
 
 function locomotive() {
@@ -170,17 +171,19 @@ if (canvas) {
 
 
 
-  gsap.to("#page3", {
-    scrollTrigger: {
-      trigger: "#page",
-      start: "bottom top", // Trigger when the bottom of #page reaches the top of the viewport
-      end: "+=100%", // Adjust this value based on your design
-      pin: true, // Pin #page1 during the scroll
-      pinSpacing: false, // Disable automatic spacing adjustment
-      scroller: "#main",
-      scrub: true, // Smoothly transition between #page and #page1
-    },
-  });
+  if (pageElement) {
+    gsap.to("#page3", {
+      scrollTrigger: {
+        trigger: "#page",
+        start: "bottom top", // Trigger when the bottom of #page reaches the top of the viewport
+        end: "+=100%", // Adjust this value based on your design
+        pin: true, // Pin #page1 during the scroll
+        pinSpacing: false, // Disable automatic spacing adjustment
+        scroller: "#main",
+        scrub: true, // Smoothly transition between #page and #page1
+      },
+    });
+  }
 }
 
 
@@ -209,12 +212,14 @@ if (layoutOverlay && heroHorseBlock) {
   gsap.set(".layout", { display: "none", opacity: 0 });
 }
 
-gsap.to("#page", {
-  opacity: 1,
-  ease: "power2.inOut", // يمكنك تغيير هذا حسب التفضيلات
-  duration: 2, // يمكنك ضبط مدة التأثير
-  delay: 2, // يمكنك ضبط تأخير بداية التأثير
-});
+if (pageElement) {
+  gsap.to("#page", {
+    opacity: 1,
+    ease: "power2.inOut", // يمكنك تغيير هذا حسب التفضيلات
+    duration: 2, // يمكنك ضبط مدة التأثير
+    delay: 2, // يمكنك ضبط تأخير بداية التأثير
+  });
+}
 gsap.to("#nav", {
   opacity: 1,
   ease: "power2.inOut", // يمكنك تغيير هذا حسب التفضيلات

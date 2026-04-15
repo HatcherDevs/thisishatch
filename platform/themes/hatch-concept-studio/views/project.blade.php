@@ -162,7 +162,7 @@
         </div>
     </div>
 
-    <script>
+    <script data-cfasync="false">
         document.addEventListener('DOMContentLoaded', function() {
             var videoCarousel = document.getElementById('projectVideoCarousel');
             var carousel = null;
@@ -178,20 +178,26 @@
                     // Fallback vanilla JS sliding if Bootstrap JS is missing
                     let items = videoCarousel.querySelectorAll('.carousel-item');
                     let currentIndex = 0;
+                    var nextVideoSlideBtn = document.getElementById('nextVideoSlideBtn');
+                    var prevVideoSlideBtn = document.getElementById('prevVideoSlideBtn');
 
-                    document.getElementById('nextVideoSlideBtn')?.addEventListener('click', function() {
-                        items[currentIndex].classList.remove('active');
-                        currentIndex = (currentIndex + 1) % items.length;
-                        items[currentIndex].classList.add('active');
-                        stopAllIframes();
-                    });
+                    if (nextVideoSlideBtn) {
+                        nextVideoSlideBtn.addEventListener('click', function() {
+                            items[currentIndex].classList.remove('active');
+                            currentIndex = (currentIndex + 1) % items.length;
+                            items[currentIndex].classList.add('active');
+                            stopAllIframes();
+                        });
+                    }
 
-                    document.getElementById('prevVideoSlideBtn')?.addEventListener('click', function() {
-                        items[currentIndex].classList.remove('active');
-                        currentIndex = (currentIndex - 1 + items.length) % items.length;
-                        items[currentIndex].classList.add('active');
-                        stopAllIframes();
-                    });
+                    if (prevVideoSlideBtn) {
+                        prevVideoSlideBtn.addEventListener('click', function() {
+                            items[currentIndex].classList.remove('active');
+                            currentIndex = (currentIndex - 1 + items.length) % items.length;
+                            items[currentIndex].classList.add('active');
+                            stopAllIframes();
+                        });
+                    }
                 }
 
                 videoCarousel.addEventListener('slide.bs.carousel', stopAllIframes);
@@ -213,7 +219,7 @@
             document.querySelectorAll('.video-slide-item').forEach(function(item) {
                 var container = item.querySelector('.single-video-container');
                 var iframeContainer = item.querySelector('.single-video-iframe-container');
-                var iframe = iframeContainer?.querySelector('iframe');
+                var iframe = iframeContainer ? iframeContainer.querySelector('iframe') : null;
 
                 if (container && iframeContainer && iframe) {
                     container.addEventListener('click', function() {
@@ -232,7 +238,7 @@
 
 
 
-<script>
+<script data-cfasync="false">
     if (typeof Swiper !== 'undefined') {
         new Swiper('.mySwiper', {
             slidesPerView: 'auto',
