@@ -26,12 +26,14 @@ use Botble\Base\Forms\FormAbstract;
 use Botble\Projects\Http\Requests\ProjectRequest;
 use Botble\Projects\Models\Project;
 use Botble\Projects\Models\ProjectCategory;
+use Botble\Projects\Models\ProjectTag;
 
 class ProjectForm extends FormAbstract
 {
     public function setup(): void
     {
         $categoryChoices = ProjectCategory::query()->pluck('name', 'id')->all();
+        $tagChoices = ProjectTag::query()->orderBy('name')->pluck('name', 'name')->all();
 
         $tagValue = null;
         $model = $this->getModel();
@@ -100,11 +102,37 @@ class ProjectForm extends FormAbstract
                     ->emptyValue(trans('core/base::forms.select_placeholder'))
             )
             ->add(
+                'tag_names_theme_styles',
+                HtmlField::class,
+                HtmlFieldOption::make()->content('<style>
+                    .tagify__dropdown.users-list {
+                        background: var(--bb-body-bg);
+                        border: var(--bb-border-width) solid var(--bb-border-color);
+                        box-shadow: var(--bb-box-shadow);
+                    }
+
+                    .tagify__dropdown.users-list .tagify__dropdown__item {
+                        color: var(--bb-body-color);
+                    }
+
+                    .tagify__dropdown.users-list .tagify__dropdown__item strong {
+                        color: inherit;
+                    }
+
+                    .tagify__dropdown.users-list .tagify__dropdown__item:hover,
+                    .tagify__dropdown.users-list .tagify__dropdown__item--active {
+                        background: rgba(var(--bb-primary-rgb), 0.18);
+                        color: var(--bb-body-color);
+                    }
+                </style>')
+            )
+            ->add(
                 'tag_names',
                 TagField::class,
                 TagFieldOption::make()
                     ->label(trans('plugins/projects::projects.form.tags'))
                     ->placeholder(trans('plugins/projects::projects.form.tags'))
+                    ->choices($tagChoices)
                     ->value($tagValue)
             )
             ->add(
