@@ -41,7 +41,7 @@
         @endif
 
         @if ($project->content)
-            <div class="project-content pb-5" style="padding-left: 24.8%;">
+            <div class="project-content pb-5" style="padding-left: 12.8%;">
                 {!! BaseHelper::clean(do_shortcode($project->content)) !!}
             </div>
         @endif
