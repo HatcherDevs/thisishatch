@@ -15,7 +15,7 @@
     .preloader {
         position: fixed;
         inset: 0;
-        z-index: 99999;
+        z-index: 2147483647;
         background-color: {{ $preloaderBackgroundColor }};
         display: flex;
         align-items: center;

@@ -54,11 +54,11 @@
 </head>
 
 <body {!! Theme::bodyAttributes() !!}>
-    {!! apply_filters(THEME_FRONT_BODY, null) !!}
-
     @if (theme_option('preloader_enabled', 'no') === 'yes')
         {!! apply_filters('theme_preloader', Theme::partial('preloader')) !!}
     @endif
+
+    {!! apply_filters(THEME_FRONT_BODY, null) !!}
 
     @php
         $menuIcon = theme_option('header_menu_icon');
