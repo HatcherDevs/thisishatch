@@ -55,6 +55,11 @@
 
 <body {!! Theme::bodyAttributes() !!}>
     {!! apply_filters(THEME_FRONT_BODY, null) !!}
+
+    @if (theme_option('preloader_enabled', 'no') === 'yes')
+        {!! apply_filters('theme_preloader', Theme::partial('preloader')) !!}
+    @endif
+
     @php
         $menuIcon = theme_option('header_menu_icon');
         $menuLogo = theme_option('header_logo');
@@ -64,8 +69,8 @@
         $backHomeUrl = Theme::asset()->url('imgs/back-home.png');
     @endphp
     <div id="nav" role="navigation" aria-label="Main navigation">
-        <a href="#menu" aria-label="Open navigation menu"><img src="{{ $menuIconUrl }}" width="66%" class="nav-icon-img"
-                alt="Menu" /></a>
+        <a href="#menu" aria-label="Open navigation menu"><img src="{{ $menuIconUrl }}" width="66%"
+                class="nav-icon-img" alt="Menu" /></a>
         <a href="{{ url('/') }}" aria-label="Back to home"><img src="{{ $backHomeUrl }}" width="66%"
                 class="nav-icon-img" alt="Back to home" /></a>
     </div>
