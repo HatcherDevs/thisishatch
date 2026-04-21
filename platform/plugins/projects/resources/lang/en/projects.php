@@ -33,6 +33,7 @@ return [
         'content' => 'Content',
         'category' => 'Category',
         'tags' => 'Tags',
+        'highlight' => 'Highlight on home page',
         'name' => 'Name',
     ],
 ];

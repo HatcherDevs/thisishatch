@@ -238,6 +238,7 @@ Event::listen(RouteMatched::class, function (): void {
             $projects = Project::query()
                 ->with(['category', 'tags'])
                 ->where('status', BaseStatusEnum::PUBLISHED)
+                ->where('highlight', true)
                 ->latest('id')
                 ->get();
 

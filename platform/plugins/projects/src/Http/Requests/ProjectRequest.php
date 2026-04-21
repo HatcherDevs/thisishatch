@@ -25,6 +25,7 @@ class ProjectRequest extends Request
             'category_id' => ['nullable', Rule::exists('project_categories', 'id')],
             'tag_names' => ['nullable'],
             'status' => Rule::in(BaseStatusEnum::values()),
+            'highlight' => ['nullable', 'boolean'],
         ];
     }
 }

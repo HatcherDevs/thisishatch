@@ -7,6 +7,7 @@ use Botble\Base\Forms\FieldOptions\HtmlFieldOption;
 use Botble\Base\Forms\FieldOptions\MediaImageFieldOption;
 use Botble\Base\Forms\FieldOptions\MediaImagesFieldOption;
 use Botble\Base\Forms\FieldOptions\NameFieldOption;
+use Botble\Base\Forms\FieldOptions\OnOffFieldOption;
 use Botble\Base\Forms\FieldOptions\SelectFieldOption;
 use Botble\Base\Forms\FieldOptions\StatusFieldOption;
 use Botble\Base\Forms\FieldOptions\TagFieldOption;
@@ -16,6 +17,7 @@ use Botble\Base\Forms\Fields\EditorField;
 use Botble\Base\Forms\Fields\HtmlField;
 use Botble\Base\Forms\Fields\MediaImageField;
 use Botble\Base\Forms\Fields\MediaImagesField;
+use Botble\Base\Forms\Fields\OnOffCheckboxField;
 use Botble\Base\Forms\Fields\SelectField;
 use Botble\Base\Forms\Fields\TagField;
 use Botble\Base\Forms\Fields\TextareaField;
@@ -76,6 +78,13 @@ class ProjectForm extends FormAbstract
                     ->view('plugins/projects::forms.videos-field', [
                         'videos' => $model?->videos ?? [],
                     ])
+            )
+            ->add(
+                'highlight',
+                OnOffCheckboxField::class,
+                OnOffFieldOption::make()
+                    ->label(trans('plugins/projects::projects.form.highlight'))
+                    ->defaultValue((bool) $model?->highlight)
             )
             ->add(
                 'status',

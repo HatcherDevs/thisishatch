@@ -24,6 +24,7 @@ class Project extends BaseModel
         'content',
         'category_id',
         'status',
+        'highlight',
     ];
 
     protected $casts = [
@@ -35,6 +36,7 @@ class Project extends BaseModel
         'gallery_images' => 'array',
         'videos' => 'array',
         'status' => BaseStatusEnum::class,
+        'highlight' => 'boolean',
     ];
 
     public function category(): BelongsTo

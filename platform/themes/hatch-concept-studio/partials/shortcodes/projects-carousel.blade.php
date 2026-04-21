@@ -2,6 +2,7 @@
           if (!isset($projects)) {
               $projects = \Botble\Projects\Models\Project::query()
                   ->where('status', \Botble\Base\Enums\BaseStatusEnum::PUBLISHED)
+                  ->where('highlight', true)
                   ->latest('id')
                   ->limit(8)
                   ->get();
