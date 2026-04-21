@@ -1,9 +1,72 @@
-﻿<div id="dog">
-    <img id="dogImage" src="{{ Theme::asset()->url('imgs/dog.png') }}"
-        alt="Hatch Concept Studio - We dig into design & get our hands dirty" />
-    <span class="dog-bubble" id="notification">We dig into design & get our hands dirty.</span>
-    <!-- <audio id="notificationSound" src="imgs/mixkit-happy-puppy-barks-741.mp3"></audio> -->
-</div>
+﻿@if (theme_option('dog_enabled', 'yes') === 'yes')
+    @php
+        $dogMessages = preg_split(
+            '/\r\n|\r|\n/',
+            (string) theme_option('dog_messages', 'We dig into design & get our hands dirty.'),
+        );
+        $dogMessages = array_values(array_filter(array_map('trim', $dogMessages)));
+
+        if ($dogMessages === []) {
+            $dogMessages = ['We dig into design & get our hands dirty.'];
+        }
+
+        $dogLoopMessages = theme_option('dog_loop_messages', 'yes') === 'yes';
+    @endphp
+
+    <div id="dog" data-dog-messages='@json($dogMessages)'
+        data-dog-loop="{{ $dogLoopMessages ? 'yes' : 'no' }}">
+        <img id="dogImage" src="{{ Theme::asset()->url('imgs/dog.png') }}"
+            alt="Hatch Concept Studio - We dig into design & get our hands dirty" />
+        <span class="dog-bubble" id="notification">{{ $dogMessages[0] }}</span>
+        <!-- <audio id="notificationSound" src="imgs/mixkit-happy-puppy-barks-741.mp3"></audio> -->
+    </div>
+
+    <script>
+        (function() {
+            var dogElement = document.getElementById('dog');
+            var notificationElement = document.getElementById('notification');
+
+            if (!dogElement || !notificationElement) {
+                return;
+            }
+
+            var messages = [];
+            var loopMode = dogElement.getAttribute('data-dog-loop') === 'yes';
+
+            try {
+                var rawMessages = dogElement.getAttribute('data-dog-messages') || '[]';
+                messages = JSON.parse(rawMessages);
+            } catch (error) {
+                messages = [];
+            }
+
+            if (!Array.isArray(messages)) {
+                messages = [];
+            }
+
+            messages = messages.filter(function(message) {
+                return typeof message === 'string' && message.trim() !== '';
+            });
+
+            if (messages.length === 0) {
+                return;
+            }
+
+            notificationElement.textContent = messages[0];
+
+            if (!loopMode || messages.length < 2) {
+                return;
+            }
+
+            var currentIndex = 0;
+
+            window.setInterval(function() {
+                currentIndex = (currentIndex + 1) % messages.length;
+                notificationElement.textContent = messages[currentIndex];
+            }, 3000);
+        })();
+    </script>
+@endif
 
 <div class="layout"></div>
 <div class="cursor" style="padding: 15px">

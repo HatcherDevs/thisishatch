@@ -25,6 +25,13 @@ app()->booted(function () {
             ->priority(20)
     );
 
+    ThemeOption::setSection(
+        ThemeOptionSection::make('opt-text-subsection-header-dog')
+            ->title(__('Dog Widget'))
+            ->icon('ti ti-paw')
+            ->priority(21)
+    );
+
     theme_option()
         ->setField([
             'id' => 'primary_color',
@@ -183,6 +190,55 @@ app()->booted(function () {
             'label' => __('Apple touch icon'),
             'attributes' => [
                 'name' => 'website_apple_icon',
+            ],
+        ])
+        ->setField([
+            'id' => 'dog_enabled',
+            'section_id' => 'opt-text-subsection-header-dog',
+            'type' => 'customSelect',
+            'label' => __('Enable Dog Widget?'),
+            'attributes' => [
+                'name' => 'dog_enabled',
+                'list' => [
+                    'yes' => __('Yes'),
+                    'no' => __('No'),
+                ],
+                'value' => 'yes',
+                'options' => [
+                    'class' => 'form-control',
+                ],
+            ],
+        ])
+        ->setField([
+            'id' => 'dog_messages',
+            'section_id' => 'opt-text-subsection-header-dog',
+            'type' => 'textarea',
+            'label' => __('Dog messages (one per line)'),
+            'attributes' => [
+                'name' => 'dog_messages',
+                'value' => "We dig into design & get our hands dirty.\nLet us build something memorable together.",
+                'options' => [
+                    'class' => 'form-control',
+                    'rows' => 4,
+                    'placeholder' => __('Write one message per line'),
+                ],
+            ],
+        ])
+        ->setField([
+            'id' => 'dog_loop_messages',
+            'section_id' => 'opt-text-subsection-header-dog',
+            'type' => 'customSelect',
+            'label' => __('Loop dog messages?'),
+            'attributes' => [
+                'name' => 'dog_loop_messages',
+                'list' => [
+                    'yes' => __('Yes'),
+                    'no' => __('No'),
+                ],
+                'value' => 'yes',
+                'options' => [
+                    'class' => 'form-control',
+                ],
             ],
         ])
         ->setField([
