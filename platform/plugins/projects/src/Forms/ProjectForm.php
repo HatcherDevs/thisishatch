@@ -37,8 +37,11 @@ class ProjectForm extends FormAbstract
 
         $tagValue = null;
         $model = $this->getModel();
+        $videos = (array) data_get($model, 'videos', []);
+        $galleryImages = array_filter((array) data_get($model, 'gallery_images', []));
+        $highlight = (bool) data_get($model, 'highlight', false);
 
-        if ($model && $model->exists) {
+        if ($model instanceof Project && $model->exists) {
             $tagValue = $model->tags()->pluck('name')->implode(',');
         }
 
@@ -78,7 +81,7 @@ class ProjectForm extends FormAbstract
                 HtmlField::class,
                 HtmlFieldOption::make()
                     ->view('plugins/projects::forms.videos-field', [
-                        'videos' => $model?->videos ?? [],
+                        'videos' => $videos,
                     ])
             )
             ->add(
@@ -86,7 +89,7 @@ class ProjectForm extends FormAbstract
                 OnOffCheckboxField::class,
                 OnOffFieldOption::make()
                     ->label(trans('plugins/projects::projects.form.highlight'))
-                    ->defaultValue((bool) $model?->highlight)
+                    ->defaultValue($highlight)
             )
             ->add(
                 'status',
@@ -150,7 +153,7 @@ class ProjectForm extends FormAbstract
                 MediaImagesField::class,
                 MediaImagesFieldOption::make()
                     ->label(trans('plugins/projects::projects.form.gallery_images'))
-                    ->values(array_filter($model?->gallery_images ?? []))
+                    ->values($galleryImages)
             )
             ->setBreakFieldPoint('status');
     }
