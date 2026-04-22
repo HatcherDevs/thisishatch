@@ -239,7 +239,8 @@ Event::listen(RouteMatched::class, function (): void {
                 ->with(['category', 'tags'])
                 ->where('status', BaseStatusEnum::PUBLISHED)
                 ->where('highlight', true)
-                ->latest('id')
+                ->orderBy('order')
+                ->orderByDesc('id')
                 ->get();
 
             return Theme::partial('shortcodes.projects-carousel', compact('shortcode', 'projects'));

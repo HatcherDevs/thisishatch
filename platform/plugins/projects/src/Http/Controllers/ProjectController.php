@@ -9,7 +9,9 @@ use Botble\Projects\Http\Requests\ProjectRequest;
 use Botble\Projects\Models\Project;
 use Botble\Projects\Models\ProjectTag;
 use Botble\Projects\Tables\ProjectTable;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class ProjectController extends BaseController
 {
@@ -71,6 +73,69 @@ class ProjectController extends BaseController
         return DeleteResourceAction::make($project);
     }
 
+    public function moveUp(Project $project)
+    {
+        return $this->move($project, 'up');
+    }
+
+    public function moveDown(Project $project)
+    {
+        return $this->move($project, 'down');
+    }
+
+    public function reorder(Request $request)
+    {
+        $requestedIds = collect((array) $request->input('ids', []))
+            ->map(static fn ($id) => (int) $id)
+            ->filter(static fn (int $id) => $id > 0)
+            ->unique()
+            ->values();
+
+        if ($requestedIds->isEmpty()) {
+            return $this->httpResponse()
+                ->setError()
+                ->setMessage('No projects selected for reordering.');
+        }
+
+        $existingOrderedIds = Project::query()
+            ->orderBy('order')
+            ->orderByDesc('id')
+            ->pluck('id');
+
+        $validRequestedIds = $requestedIds
+            ->intersect($existingOrderedIds)
+            ->values();
+
+        $remainingIds = $existingOrderedIds
+            ->reject(fn (int $id) => $validRequestedIds->contains($id))
+            ->values();
+
+        $finalOrder = $validRequestedIds
+            ->merge($remainingIds)
+            ->values();
+
+        DB::transaction(function () use ($finalOrder): void {
+            foreach ($finalOrder as $index => $projectId) {
+                Project::query()
+                    ->whereKey($projectId)
+                    ->update([
+                        'order' => ($index + 1) * 10,
+                    ]);
+            }
+        });
+
+        return $this->httpResponse()->withUpdatedSuccessMessage();
+    }
+
+    public function toggleHighlight(Project $project, Request $request)
+    {
+        $project->update([
+            'highlight' => $request->boolean('highlight'),
+        ]);
+
+        return $this->httpResponse()->withUpdatedSuccessMessage();
+    }
+
     protected function mergeVideosJson(ProjectRequest $request): void
     {
         $json = $request->input('videos_json', '[]');
@@ -78,6 +143,7 @@ class ProjectController extends BaseController
         $request->merge([
             'videos' => is_array($videos) ? $videos : [],
             'gallery_images' => array_values(array_filter((array) $request->input('gallery_images', []))),
+            'highlight' => $request->boolean('highlight'),
         ]);
     }
 
@@ -154,5 +220,43 @@ class ProjectController extends BaseController
         }
 
         return trim($tag, " \t\n\r\0\x0B[]{}\"'");
+    }
+
+    protected function move(Project $project, string $direction)
+    {
+        $orderedProjectIds = Project::query()
+            ->orderBy('order')
+            ->orderByDesc('id')
+            ->pluck('id')
+            ->all();
+
+        $currentIndex = array_search($project->getKey(), $orderedProjectIds, true);
+
+        if ($currentIndex === false) {
+            return $this->httpResponse()
+                ->setPreviousUrl(route('projects.index'))
+                ->setError()
+                ->setMessage(trans('core/base::notices.not_found_message'));
+        }
+
+        $targetIndex = $direction === 'up' ? $currentIndex - 1 : $currentIndex + 1;
+
+        if (! isset($orderedProjectIds[$targetIndex])) {
+            return $this->httpResponse()
+                ->setPreviousUrl(route('projects.index'))
+                ->withUpdatedSuccessMessage();
+        }
+
+        [$orderedProjectIds[$currentIndex], $orderedProjectIds[$targetIndex]] = [$orderedProjectIds[$targetIndex], $orderedProjectIds[$currentIndex]];
+
+        foreach ($orderedProjectIds as $index => $projectId) {
+            Project::query()->whereKey($projectId)->update([
+                'order' => ($index + 1) * 10,
+            ]);
+        }
+
+        return $this->httpResponse()
+            ->setPreviousUrl(route('projects.index'))
+            ->withUpdatedSuccessMessage();
     }
 }

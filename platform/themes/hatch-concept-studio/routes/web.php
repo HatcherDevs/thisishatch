@@ -15,7 +15,8 @@ Theme::registerRoutes(function (): void {
         $projects = Project::query()
             ->with(['category', 'tags'])
             ->where('status', BaseStatusEnum::PUBLISHED)
-            ->latest('id')
+            ->orderBy('order')
+            ->orderByDesc('id')
             ->get();
 
         $categories = ProjectCategory::query()

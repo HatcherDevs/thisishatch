@@ -26,6 +26,7 @@ class ProjectRequest extends Request
             'tag_names' => ['nullable'],
             'status' => Rule::in(BaseStatusEnum::values()),
             'highlight' => ['nullable', 'boolean'],
+            'order' => ['nullable', 'integer', 'min:0', 'max:999999'],
         ];
     }
 }
