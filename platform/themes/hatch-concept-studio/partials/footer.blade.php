@@ -5,6 +5,10 @@
             (string) theme_option('dog_messages', 'We dig into design & get our hands dirty.'),
         );
         $dogMessages = array_values(array_filter(array_map('trim', $dogMessages)));
+        $dogMessages = array_map(
+            static fn(string $message): string => html_entity_decode($message, ENT_QUOTES | ENT_HTML5, 'UTF-8'),
+            $dogMessages,
+        );
 
         if ($dogMessages === []) {
             $dogMessages = ['We dig into design & get our hands dirty.'];
