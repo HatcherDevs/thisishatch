@@ -803,11 +803,12 @@ video {
 .video-custom .play-btn,
 .video-custom .pause-btn {
   position: absolute;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
-  top: 0px;
-  margin: auto;
+  left: 50%;
+  top: 50%;
+  right: auto;
+  bottom: auto;
+  margin: 0;
+  transform: translate(-50%, -50%);
   width: 100px;
   height: 100px;
   border-radius: 100%;
@@ -1119,44 +1120,50 @@ body.open-card {
 }
 
 
-.card-img-top  {
+.card-img-top {
   width: 636px;
   height: 518px;
   object-fit: cover;
 }
 
 
-.project-button-next, .project-button-prev {
-    color: #1D1D1D !important;
-    top: 95% !important;
-    display: flex !important;
-    font-weight: 100 !important;
-    justify-content: space-evenly !important;
-    align-items: center !important;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
-    width: 10% !important;
-    
+.project-button-next,
+.project-button-prev {
+  color: #1D1D1D !important;
+  top: 95% !important;
+  display: flex !important;
+  font-weight: 100 !important;
+  justify-content: space-evenly !important;
+  align-items: center !important;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
+  width: 10% !important;
+
 
 }
 
-.project-button-next i, .project-button-prev i {
-    color: #0514F0;
-}
-.project-button-next:after, .project-button-prev:after {
-    font-family: swiper-icons;
-    font-size: var(--swiper-navigation-size);
-    text-transform: none !important;
-    letter-spacing: 0;
-    font-variant: initial;
-    line-height: 1;
+.project-button-next i,
+.project-button-prev i {
+  color: #0514F0;
 }
 
-.project-button-next,  .project-button-prev {
-    right: var(--swiper-navigation-sides-offset, 10px);
-    left: auto;
+.project-button-next:after,
+.project-button-prev:after {
+  font-family: swiper-icons;
+  font-size: var(--swiper-navigation-size);
+  text-transform: none !important;
+  letter-spacing: 0;
+  font-variant: initial;
+  line-height: 1;
 }
 
-.project-button-prev,  .project-button-next {
-    left: var(--swiper-navigation-sides-offset, 10px);
-    right: auto;
+.project-button-next,
+.project-button-prev {
+  right: var(--swiper-navigation-sides-offset, 10px);
+  left: auto;
+}
+
+.project-button-prev,
+.project-button-next {
+  left: var(--swiper-navigation-sides-offset, 10px);
+  right: auto;
 }
