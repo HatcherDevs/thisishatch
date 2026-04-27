@@ -103,7 +103,7 @@
 
 
   function openBubble() {
-    if (!dogElement || !notificationElement || notifications.length === 0 || isOpen) {
+    if (!dogElement || !notificationElement || notifications.length === 0) {
       return;
     }
 
@@ -116,24 +116,31 @@
 
   function closeBubble() {
     if (!dogElement || !isOpen) {
+      if (notificationElement) {
+        notificationElement.style.scale = 0;
+      }
+
       return;
     }
 
     dogElement.classList.remove('is-open');
+    notificationElement.style.scale = 0;
     isOpen = false;
+  }
+
+  function rerunOpenEvent() {
+    closeBubble();
+
+    window.setTimeout(() => {
+      openBubble();
+    }, 120);
   }
 
   if (dogElement) {
     dogElement.addEventListener('mouseenter', openBubble);
     dogElement.addEventListener('mouseleave', closeBubble);
     dogElement.addEventListener('click', () => {
-      if (isOpen) {
-        closeBubble();
-
-        return;
-      }
-
-      openBubble();
+      rerunOpenEvent();
     });
   }
 

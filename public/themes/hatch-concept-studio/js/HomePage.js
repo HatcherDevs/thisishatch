@@ -476,10 +476,6 @@ var swiper = new Swiper('.swiper-container', {
   };
 
   const openBubble = () => {
-    if (isOpen) {
-      return;
-    }
-
     showNextMessage();
     dogElement.classList.add('is-open');
     isOpen = true;
@@ -489,22 +485,27 @@ var swiper = new Swiper('.swiper-container', {
 
   const closeBubble = () => {
     if (!isOpen) {
+      notificationElement.style.scale = 0;
+
       return;
     }
 
     dogElement.classList.remove('is-open');
+    notificationElement.style.scale = 0;
     isOpen = false;
+  };
+
+  const rerunOpenEvent = () => {
+    closeBubble();
+
+    window.setTimeout(() => {
+      openBubble();
+    }, 120);
   };
 
   dogElement.addEventListener('mouseenter', openBubble);
   dogElement.addEventListener('mouseleave', closeBubble);
   dogElement.addEventListener('click', () => {
-    if (isOpen) {
-      closeBubble();
-
-      return;
-    }
-
-    openBubble();
+    rerunOpenEvent();
   });
 })();
