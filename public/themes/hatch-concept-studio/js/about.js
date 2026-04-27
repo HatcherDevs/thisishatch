@@ -46,7 +46,6 @@
   // Dog Notifications
   const dogElement = document.getElementById('dog');
   const notificationElement = document.getElementById('notification');
-  const loopMode = dogElement && dogElement.getAttribute('data-dog-loop') === 'yes';
 
   let notifications = [];
 
@@ -67,34 +66,16 @@
     return typeof message === 'string' && message.trim() !== '';
   });
 
-  let currentIndex = 0;
+  let currentIndex = -1;
+  let isOpen = false;
 
-  if (notificationElement && notifications.length > 0) {
-    notificationElement.textContent = notifications[currentIndex];
-  }
-
-  function showRandomNotification() {
+  function showNextMessage() {
     if (!notificationElement || notifications.length === 0) {
       return;
     }
 
-    if (notifications.length === 1) {
-      popUp();
-      shakeDog();
-
-      return;
-    }
-
-    let nextIndex = currentIndex;
-
-    while (nextIndex === currentIndex) {
-      nextIndex = Math.floor(Math.random() * notifications.length);
-    }
-
-    currentIndex = nextIndex;
+    currentIndex = (currentIndex + 1) % notifications.length;
     notificationElement.textContent = notifications[currentIndex];
-    popUp();
-    shakeDog();
   }
 
   function shakeDog() {
@@ -108,7 +89,6 @@
     }, 500);
   }
 
-  // استمع لحدث النقر لتحديث الإشعار والاهتزاز
   function popUp() {
     if (!notificationElement) {
       return;
@@ -122,17 +102,39 @@
   }
 
 
-  // استمع لحدث النقر لتحديث الإشعار والاهتزاز
-  if (dogElement) {
-    dogElement.addEventListener('click', showRandomNotification);
+  function openBubble() {
+    if (!dogElement || !notificationElement || notifications.length === 0 || isOpen) {
+      return;
+    }
+
+    showNextMessage();
+    dogElement.classList.add('is-open');
+    isOpen = true;
+    popUp();
+    shakeDog();
   }
 
-  if (loopMode && notificationElement && notifications.length > 1) {
-    window.setInterval(() => {
-      currentIndex = (currentIndex + 1) % notifications.length;
-      notificationElement.textContent = notifications[currentIndex];
-      popUp();
-    }, 3000);
+  function closeBubble() {
+    if (!dogElement || !isOpen) {
+      return;
+    }
+
+    dogElement.classList.remove('is-open');
+    isOpen = false;
+  }
+
+  if (dogElement) {
+    dogElement.addEventListener('mouseenter', openBubble);
+    dogElement.addEventListener('mouseleave', closeBubble);
+    dogElement.addEventListener('click', () => {
+      if (isOpen) {
+        closeBubble();
+
+        return;
+      }
+
+      openBubble();
+    });
   }
 
   // تحديث الإشعار بشكل دوري

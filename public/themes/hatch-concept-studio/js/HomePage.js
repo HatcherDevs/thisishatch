@@ -430,8 +430,6 @@ var swiper = new Swiper('.swiper-container', {
   }
 
   let notifications = [];
-  const loopMode = dogElement.getAttribute('data-dog-loop') === 'yes';
-
   try {
     const rawMessages = dogElement.getAttribute('data-dog-messages') || '[]';
     notifications = JSON.parse(rawMessages);
@@ -451,8 +449,13 @@ var swiper = new Swiper('.swiper-container', {
     return;
   }
 
-  let currentIndex = 0;
-  notificationElement.textContent = notifications[currentIndex];
+  let currentIndex = -1;
+  let isOpen = false;
+
+  const showNextMessage = () => {
+    currentIndex = (currentIndex + 1) % notifications.length;
+    notificationElement.textContent = notifications[currentIndex];
+  };
 
   const popUp = () => {
     notificationElement.style.scale = 0;
@@ -472,33 +475,36 @@ var swiper = new Swiper('.swiper-container', {
     }, 500);
   };
 
-  const showRandomNotification = () => {
-    if (notifications.length === 1) {
-      popUp();
-      shakeDog();
-
+  const openBubble = () => {
+    if (isOpen) {
       return;
     }
 
-    let nextIndex = currentIndex;
-
-    while (nextIndex === currentIndex) {
-      nextIndex = Math.floor(Math.random() * notifications.length);
-    }
-
-    currentIndex = nextIndex;
-    notificationElement.textContent = notifications[currentIndex];
+    showNextMessage();
+    dogElement.classList.add('is-open');
+    isOpen = true;
     popUp();
     shakeDog();
   };
 
-  dogElement.addEventListener('click', showRandomNotification);
+  const closeBubble = () => {
+    if (!isOpen) {
+      return;
+    }
 
-  if (loopMode && notifications.length > 1) {
-    window.setInterval(() => {
-      currentIndex = (currentIndex + 1) % notifications.length;
-      notificationElement.textContent = notifications[currentIndex];
-      popUp();
-    }, 3000);
-  }
+    dogElement.classList.remove('is-open');
+    isOpen = false;
+  };
+
+  dogElement.addEventListener('mouseenter', openBubble);
+  dogElement.addEventListener('mouseleave', closeBubble);
+  dogElement.addEventListener('click', () => {
+    if (isOpen) {
+      closeBubble();
+
+      return;
+    }
+
+    openBubble();
+  });
 })();
