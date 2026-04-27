@@ -607,7 +607,7 @@ video {
   position: fixed;
   z-index: 999999999999999999999999999999999999999;
   padding: 0px 0px;
-  bottom: 12px;
+  bottom: 10px;
   right: 0%;
   display: flex;
   justify-content: end;
@@ -679,33 +679,21 @@ video {
 }
 
 #dog span.dog-bubble {
-  background: #0514F0;
+  background-image: url(https://peru-goat-391825.hostingersite.com/imgs/dog-bubble.png);
+  background-size: 100% 100%;
   position: absolute;
-  right: 92px;
-  top: auto;
-  bottom: 115px;
-  padding: 12px 18px;
-  font-size: 14px;
-  width: max-content;
-  max-width: 260px;
-  min-width: 120px;
-  min-height: 0;
-  height: auto;
-  line-height: 1.35;
-  white-space: normal;
-  word-break: break-word;
-  /* text-align: center; */
-  border-radius: 26px;
-  display: block;
+  padding: 8px 20px;
+  font-size: 5px;
+  width: 100%;
+  height: 40px;
   color: white;
+  top: -55%;
+  left: -60%;
   opacity: 0;
-  visibility: hidden;
-  transform: translateY(8px) scale(0.96);
-  transform-origin: bottom right;
-  transition: opacity .25s ease, transform .25s ease, visibility .25s ease;
+  transition: all .5s;
 }
 
-#dog span.dog-bubble::after {
+/* #dog span.dog-bubble::after {
   content: '';
   position: absolute;
   right: 25px;
@@ -715,7 +703,7 @@ video {
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
   border-top: 28px solid #0514F0;
-}
+} */
 
 .dog-bubble-scale {
   animation: pop 0.6s ease;
@@ -723,17 +711,13 @@ video {
 }
 
 #dog:hover span.dog-bubble {
-  /* width: max-content; */
-  min-width: 180px;
-  max-width: 180px;
-  min-height: 75px;
-  max-height: 75px;
-  height: auto;
-  font-size: 14px;
-  padding: 11px 17px;
+  width: 90%;
+  height: 90px;
+  top: -66%;
+  left: -40%;
+  font-size: smaller;
+  padding: 10px 20px;
   opacity: 1;
-  visibility: visible;
-  transform: translateY(0) scale(1);
   animation: pop 0.6s ease;
 }
 
@@ -757,15 +741,12 @@ video {
 /* الشاشات الكبيره */
 @media(min-width:1200px) {
   #dog span.dog-bubble {
-    right: 110px;
-    top: auto;
-    bottom: 125px;
-    width: max-content;
-    max-width: 260px;
-    min-height: 0;
-    height: auto;
-    font-size: 14px;
-    padding: 12px 18px;
+    width: 90%;
+    height: 90px;
+    top: -66%;
+    left: -40%;
+    font-size: smaller;
+    padding: 10px 20px;
   }
 
   #dog img {
@@ -775,12 +756,12 @@ video {
 
 @media(max-width: 767px) {
   #dog span.dog-bubble {
-    right: 76px;
-    top: auto;
-    bottom: 104px;
-    max-width: 230px;
-    font-size: 13px;
-    padding: 10px 14px;
+    width: 90%;
+    height: 90px;
+    top: -66%;
+    left: -40%;
+    font-size: smaller;
+    padding: 10px 20px;
   }
 }
 

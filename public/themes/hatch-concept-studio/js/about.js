@@ -44,57 +44,57 @@
   }
 
   // Dog Notifications
+  const dogElement = document.getElementById('dog');
+  const notificationElement = document.getElementById('notification');
+  const loopMode = dogElement && dogElement.getAttribute('data-dog-loop') === 'yes';
 
-  // Array of random notifications
-  const notifications = [
-    "“Woof, woof” That’s Welcome in dog.",
-    "Did you know? Hatch is a homegrown Dubai studio.",
-    "We dig into design & get our hands dirty.",
-    "Our team can speak more than 5 languages."
-    // Add more notifications as needed
-  ];
+  let notifications = [];
 
-  let soundPlayed = false;
-  let imageShown = false;
+  if (dogElement) {
+    try {
+      const rawMessages = dogElement.getAttribute('data-dog-messages') || '[]';
+      notifications = JSON.parse(rawMessages);
+    } catch (error) {
+      notifications = [];
+    }
+  }
+
+  if (!Array.isArray(notifications)) {
+    notifications = [];
+  }
+
+  notifications = notifications.filter((message) => {
+    return typeof message === 'string' && message.trim() !== '';
+  });
+
+  let currentIndex = 0;
+
+  if (notificationElement && notifications.length > 0) {
+    notificationElement.textContent = notifications[currentIndex];
+  }
 
   function showRandomNotification() {
-    const notification = document.getElementById('notification');
-    const notificationSound = document.getElementById('notificationSound');
-
-    if (!notification || !notificationSound) {
+    if (!notificationElement || notifications.length === 0) {
       return;
     }
 
-    const randomIndex = Math.floor(Math.random() * notifications.length);
-    const randomNotification = notifications[randomIndex];
-    notification.innerText = randomNotification;
+    if (notifications.length === 1) {
+      popUp();
+      shakeDog();
 
-    // تشغيل الرنة إذا لم تكن قد تم تشغيلها بالفعل
-    if (!soundPlayed) {
-      // notificationSound.play();
-      soundPlayed = true;
-
-      // إعادة تعيين الحالة بعد فترة زمنية (هنا 2 ثانية)
-      setTimeout(() => {
-        soundPlayed = false;
-      }, 100);
+      return;
     }
 
-    // عرض الصورة إذا لم تكن قد تم عرضها بالفعل
-    if (!imageShown) {
-      shakeDog();
-      imageShown = true;
+    let nextIndex = currentIndex;
 
-      // إعادة تعيين الحالة بعد فترة زمنية (هنا 500 مللي ثانية)
-      setTimeout(() => {
-        imageShown = false;
-      }, 100);
+    while (nextIndex === currentIndex) {
+      nextIndex = Math.floor(Math.random() * notifications.length);
     }
 
-    // استمع لحدث انتهاء التشغيل لتفعيل الاهتزاز بعد انتهاء الصوت
-    notificationSound.onended = () => {
-      shakeDog();
-    };
+    currentIndex = nextIndex;
+    notificationElement.textContent = notifications[currentIndex];
+    popUp();
+    shakeDog();
   }
 
   function shakeDog() {
@@ -110,26 +110,29 @@
 
   // استمع لحدث النقر لتحديث الإشعار والاهتزاز
   function popUp() {
-    const notification = document.getElementById('notification');
-    if (!notification) {
+    if (!notificationElement) {
       return;
     }
 
-    notification.style.scale = 0;
+    notificationElement.style.scale = 0;
 
     setTimeout(() => {
-      notification.style.scale = 1;
-    }, 500);
+      notificationElement.style.scale = 1;
+    }, 120);
   }
 
 
   // استمع لحدث النقر لتحديث الإشعار والاهتزاز
-  const dog = document.getElementById('dog');
-  if (dog) {
-    dog.addEventListener('click', () => {
+  if (dogElement) {
+    dogElement.addEventListener('click', showRandomNotification);
+  }
+
+  if (loopMode && notificationElement && notifications.length > 1) {
+    window.setInterval(() => {
+      currentIndex = (currentIndex + 1) % notifications.length;
+      notificationElement.textContent = notifications[currentIndex];
       popUp();
-      showRandomNotification();
-    });
+    }, 3000);
   }
 
   // تحديث الإشعار بشكل دوري

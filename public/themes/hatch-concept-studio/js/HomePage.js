@@ -420,82 +420,85 @@ var swiper = new Swiper('.swiper-container', {
 
 
 // Dog Notifications
+(function () {
+  const dogElement = document.getElementById('dog');
+  const notificationElement = document.getElementById('notification');
+  const dogImage = document.getElementById('dogImage');
 
-// Array of random notifications
-const notifications = [
-  "“Woof, woof” That’s Welcome in dog.",
-  "Did you know? Hatch is a homegrown Dubai studio.",
-  "We dig into design & get our hands dirty.",
-  "Our team can speak more than 5 languages."
-  // Add more notifications as needed
-];
-
-let soundPlayed = false;
-let imageShown = false;
-
-
-function showRandomNotification() {
-  const randomIndex = Math.floor(Math.random() * notifications.length);
-  const randomNotification = notifications[randomIndex];
-  document.getElementById('notification').innerText = randomNotification;
-
-  const notificationSound = document.getElementById('notificationSound');
-
-
-  // تشغيل الرنة إذا لم تكن قد تم تشغيلها بالفعل
-  if (!soundPlayed) {
-    // notificationSound.play();
-    soundPlayed = true;
-
-    // إعادة تعيين الحالة بعد فترة زمنية (هنا 2 ثانية)
-    setTimeout(() => {
-      soundPlayed = false;
-    }, 100);
+  if (!dogElement || !notificationElement) {
+    return;
   }
 
-  // عرض الصورة إذا لم تكن قد تم عرضها بالفعل
-  if (!imageShown) {
-    shakeDog();
-    imageShown = true;
+  let notifications = [];
+  const loopMode = dogElement.getAttribute('data-dog-loop') === 'yes';
 
-    // إعادة تعيين الحالة بعد فترة زمنية (هنا 500 مللي ثانية)
-    setTimeout(() => {
-      imageShown = false;
-    }, 100);
+  try {
+    const rawMessages = dogElement.getAttribute('data-dog-messages') || '[]';
+    notifications = JSON.parse(rawMessages);
+  } catch (error) {
+    notifications = [];
   }
 
-  // استمع لحدث انتهاء التشغيل لتفعيل الاهتزاز بعد انتهاء الصوت
-  notificationSound.onended = () => {
+  if (!Array.isArray(notifications)) {
+    notifications = [];
+  }
+
+  notifications = notifications.filter((message) => {
+    return typeof message === 'string' && message.trim() !== '';
+  });
+
+  if (notifications.length === 0) {
+    return;
+  }
+
+  let currentIndex = 0;
+  notificationElement.textContent = notifications[currentIndex];
+
+  const popUp = () => {
+    notificationElement.style.scale = 0;
+
+    setTimeout(() => {
+      notificationElement.style.scale = 1;
+    }, 120);
+  };
+
+  const shakeDog = () => {
+    if (!dogImage) {
+      return;
+    }
+
+    setTimeout(() => {
+      dogImage.style.animation = '';
+    }, 500);
+  };
+
+  const showRandomNotification = () => {
+    if (notifications.length === 1) {
+      popUp();
+      shakeDog();
+
+      return;
+    }
+
+    let nextIndex = currentIndex;
+
+    while (nextIndex === currentIndex) {
+      nextIndex = Math.floor(Math.random() * notifications.length);
+    }
+
+    currentIndex = nextIndex;
+    notificationElement.textContent = notifications[currentIndex];
+    popUp();
     shakeDog();
   };
-}
 
+  dogElement.addEventListener('click', showRandomNotification);
 
-function shakeDog() {
-  const dogImage = document.getElementById('dogImage');
-  // dogImage.style.animation = 'shake 0.5s';
-  setTimeout(() => {
-    dogImage.style.animation = '';
-  }, 500);
-}
-function popUp() {
-  const notification = document.getElementById('notification');
-  notification.style.scale = 0;
-
-  setTimeout(() => {
-    notification.style.scale = 1;
-  }, 500);
-}
-
-
-// استمع لحدث النقر لتحديث الإشعار والاهتزاز
-document.getElementById('dog').addEventListener('click', () => {
-  popUp();
-  showRandomNotification();
-});
-
-
-// تحديث الإشعار بشكل دوري
-// setInterval(() => {
-//   showRandomNotification();
-// }, 20000);
+  if (loopMode && notifications.length > 1) {
+    window.setInterval(() => {
+      currentIndex = (currentIndex + 1) % notifications.length;
+      notificationElement.textContent = notifications[currentIndex];
+      popUp();
+    }, 3000);
+  }
+})();
