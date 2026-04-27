@@ -682,7 +682,8 @@ video {
   background: #0514F0;
   position: absolute;
   right: 92px;
-  top: -112px;
+  top: auto;
+  bottom: 115px;
   padding: 12px 18px;
   font-size: 14px;
   width: max-content;
@@ -693,7 +694,7 @@ video {
   line-height: 1.35;
   white-space: normal;
   word-break: break-word;
-  text-align: center;
+  /* text-align: center; */
   border-radius: 26px;
   display: block;
   color: white;
@@ -707,13 +708,13 @@ video {
 #dog span.dog-bubble::after {
   content: '';
   position: absolute;
-  right: 18px;
-  bottom: -10px;
+  right: 25px;
+  bottom: -27px;
   width: 0;
   height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-top: 12px solid #0514F0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 28px solid #0514F0;
 }
 
 .dog-bubble-scale {
@@ -722,12 +723,14 @@ video {
 }
 
 #dog:hover span.dog-bubble {
-  width: max-content;
-  max-width: 260px;
-  min-height: 0;
+  /* width: max-content; */
+  min-width: 180px;
+  max-width: 180px;
+  min-height: 75px;
+  max-height: 75px;
   height: auto;
   font-size: 14px;
-  padding: 12px 18px;
+  padding: 11px 17px;
   opacity: 1;
   visibility: visible;
   transform: translateY(0) scale(1);
@@ -754,8 +757,9 @@ video {
 /* الشاشات الكبيره */
 @media(min-width:1200px) {
   #dog span.dog-bubble {
-    right: 92px;
-    top: -65px;
+    right: 110px;
+    top: auto;
+    bottom: 125px;
     width: max-content;
     max-width: 260px;
     min-height: 0;
@@ -772,7 +776,8 @@ video {
 @media(max-width: 767px) {
   #dog span.dog-bubble {
     right: 76px;
-    top: -104px;
+    top: auto;
+    bottom: 104px;
     max-width: 230px;
     font-size: 13px;
     padding: 10px 14px;
