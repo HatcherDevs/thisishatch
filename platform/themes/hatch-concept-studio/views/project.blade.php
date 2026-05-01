@@ -4,12 +4,12 @@
             class="img-fluid" alt="{{ $project->title }}" />
 
         <div class="row pt-2">
-            <div class="col-6">
+            <div class="col-2 col-md-6">
                 @if ($project->year)
                     <span style="color: #f8511e">{{ $project->year }}</span>
                 @endif
             </div>
-            <div class="col-6 text-end">
+            <div class="col-10 col-md-6 text-end">
                 @foreach ($project->tags as $tag)
                     @php
                         $tagLabel = trim((string) $tag->name);
