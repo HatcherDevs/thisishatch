@@ -173,6 +173,22 @@ ul#projects-tab li {
   }
 }
 
+@media(max-width: 767px) {
+  #projects-tab {
+    width: calc(100% - 80px);
+  }
+
+  .col-6.text-end .link-dark.fw-bold {
+    font-size: 11px;
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+  }
+
+  .col-6.text-end {
+    white-space: nowrap;
+  }
+}
+
 .project_item p {
   color: black;
 }

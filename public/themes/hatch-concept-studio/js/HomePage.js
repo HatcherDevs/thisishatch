@@ -43,6 +43,14 @@ function locomotive() {
 }
 locomotive();
 
+// Move hero scroll indicator outside #main so position:fixed works correctly
+// with LocomotiveScroll (which uses transforms on #main)
+(function () {
+  const indicator = document.querySelector('.hero-scroll-indicator');
+  if (indicator) {
+    document.body.appendChild(indicator);
+  }
+})();
 
 const canvas = document.querySelector("canvas");
 if (canvas) {
@@ -166,6 +174,8 @@ if (canvas) {
       gsap.set(".click_graphics", { opacity: 1, pointerEvents: "auto" });
     },
   });
+
+
 
 
 
