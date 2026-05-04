@@ -52,6 +52,8 @@ locomotive();
   }
 })();
 
+const heroScrollIndicator = document.querySelector('.hero-scroll-indicator');
+
 const canvas = document.querySelector("canvas");
 if (canvas) {
   const context = canvas.getContext("2d");
@@ -175,10 +177,21 @@ if (canvas) {
     },
   });
 
-
-
-
-
+  if (heroScrollIndicator) {
+    ScrollTrigger.create({
+      trigger: "#page>canvas",
+      scroller: "#main",
+      start: "top top",
+      end: "500% top",
+      onToggle: (self) => {
+        gsap.to(heroScrollIndicator, {
+          autoAlpha: self.isActive ? 1 : 0,
+          duration: 0.3,
+          overwrite: true,
+        });
+      },
+    });
+  }
 
   gsap.to("#page3", {
     scrollTrigger: {
