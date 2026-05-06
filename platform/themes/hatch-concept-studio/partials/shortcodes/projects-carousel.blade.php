@@ -23,14 +23,14 @@
                       @endforeach
                   </div>
                   <!-- <div class="swiper-pagination"></div> -->
-                  <div class="swiper-button-next">
+                  {{-- <div class="swiper-button-next d-noe">
                       Next Project
                       <i class="fa fa-arrow-right"></i>
                   </div>
-                  <div class="swiper-button-prev">
+                  <div class="swiper-button-prev d-noe">
                       <i class="fa fa-arrow-left"></i>
                       Previous Project
-                  </div>
+                  </div> --}}
               </div>
           </div>
       @endif
