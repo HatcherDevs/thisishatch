@@ -1122,6 +1122,12 @@ body.open-card {
   z-index: 1;
 }
 
+@media (max-width: 768px) {
+  #main .pin-spacer {
+    height: 571vh !important;
+  }
+}
+
 .swiper-slide.swiper-slide-next {
   z-index: 1;
 }
