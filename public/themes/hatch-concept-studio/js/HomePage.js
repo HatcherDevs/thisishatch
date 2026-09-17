@@ -92,9 +92,9 @@ if (canvas) {
     ease: `none`,
     scrollTrigger: {
       scrub: 0.15,
-      trigger: `#page>canvas`,
+      trigger: `#horse-scroll-spacer`,
       start: `top top`,
-      end: `600% top`,
+      end: `bottom top`,
       scroller: `#main`,
     },
     onUpdate: render,
