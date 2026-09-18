@@ -247,20 +247,35 @@ Event::listen(RouteMatched::class, function (): void {
         }
     );
 
-    Shortcode::setAdminConfig('projects-carousel', function (array $attributes) {
-        return ShortcodeForm::createFromArray($attributes)
-            ->add(
-                'autoplay',
-                SelectField::class,
-                SelectFieldOption::make()
-                    ->label(__('Auto play'))
-                    ->choices([
-                        '0' => __('No'),
-                        '1' => __('Yes'),
-                    ])
-                    ->selected($attributes['autoplay'] ?? '0')
-            );
-    });
+   Shortcode::setAdminConfig('projects-carousel', function (array $attributes) {
+    return ShortcodeForm::createFromArray($attributes)
+        ->add(
+            'right_title',
+            TextField::class,
+            TextFieldOption::make()
+                ->label(__('Right title'))
+                ->placeholder(__('Enter title displayed on the right'))
+        )
+        ->add(
+            'left_description',
+            TextareaField::class,
+            TextareaFieldOption::make()
+                ->label(__('Left description'))
+                ->placeholder(__('Enter description displayed on the left'))
+        )
+        ->add(
+            'autoplay',
+            SelectField::class,
+            SelectFieldOption::make()
+                ->label(__('Auto play'))
+                ->choices([
+                    '0' => __('No'),
+                    '1' => __('Yes'),
+                ])
+                ->selected($attributes['autoplay'] ?? '0')
+        );
+});
+
 
     Shortcode::register(
         'image-slides',
@@ -324,5 +339,43 @@ Event::listen(RouteMatched::class, function (): void {
                 'helper' => __('Write one link per line, matching the items order.'),
             ],
         ], $attributes, 6, 1, 'col');
+    });
+    // ----------------------------------------------------------------
+    // Register testmainels shortcode
+    // ----------------------------------------------------------------
+    Shortcode::register(
+        'testmainels',
+        __('Testmainels'),
+        __('Display a fixed portfolio layout similar to static example'),
+        function (ShortcodeCompiler $shortcode) {
+            // Fetch projects that match previous criteria used by projects-carousel
+            $projects = Project::query()
+                ->with(['category', 'tags'])
+                ->where('status', BaseStatusEnum::PUBLISHED)
+                ->where('highlight', true)
+                ->orderBy('order')
+                ->orderByDesc('id')
+                ->limit(8)
+                ->get();
+            return Theme::partial('shortcodes.testmainels', compact('shortcode', 'projects'));
+        }
+    );
+    // Add admin config for title and description fields
+    Shortcode::setAdminConfig('testmainels', function (array $attributes) {
+        return ShortcodeForm::createFromArray($attributes)
+            ->add(
+                'title',
+                TextField::class,
+                TextFieldOption::make()
+                    ->label(__('Title'))
+                    ->placeholder(__('Enter subtitle for the section'))
+            )
+            ->add(
+                'description',
+                TextareaField::class,
+                TextareaFieldOption::make()
+                    ->label(__('Description'))
+                    ->placeholder(__('Enter description for the section'))
+            );
     });
 });

@@ -435,6 +435,49 @@ var swiper = new Swiper('.swiper-container', {
   slideToClickedSlide: true,
 });
 
+
+
+const homeTestimonialsSwiperEl = document.querySelector('.home-testimonials-swiper');
+if (homeTestimonialsSwiperEl && typeof Swiper !== 'undefined') {
+  new Swiper('.home-testimonials-swiper', {
+    slidesPerView: 1.05,
+    spaceBetween: 16,
+    grabCursor: true,
+    loop: true,
+    loopAdditionalSlides: 3,
+    speed: 700,
+    autoplay: {
+      delay: 4500,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: true,
+    },
+    breakpoints: {
+      480: {
+        slidesPerView: 1.12,
+        spaceBetween: 18,
+      },
+      640: {
+        slidesPerView: 1.35,
+        spaceBetween: 20,
+      },
+      768: {
+        slidesPerView: 1.65,
+        spaceBetween: 22,
+      },
+      900: {
+        slidesPerView: 1.85,
+        spaceBetween: 24,
+      },
+      1200: {
+        slidesPerView: 2.5,
+        spaceBetween: 28,
+      },
+    },
+    navigation: {
+      nextEl: '.home-testimonials-next',
+    },
+  });
+}
 /*
 |------------------------------------------------------
 |  JS: Cards with Fullscreen zoom

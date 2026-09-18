@@ -34694,6 +34694,16 @@ namespace  {
         }
 
         /**
+         * @see \Botble\Base\Supports\MacroableModels::syncMacros()
+         * @param mixed $args
+         * @static
+         */
+        public static function getCompanyAttribute(...$args)
+        {
+            return \Illuminate\Database\Eloquent\Builder::getCompanyAttribute(...$args);
+        }
+
+        /**
          * Set the columns to be selected.
          *
          * @param mixed $columns
