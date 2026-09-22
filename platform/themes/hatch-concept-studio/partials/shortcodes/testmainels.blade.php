@@ -7,6 +7,23 @@
         ->latest('id')
         ->limit(8)
         ->get();
+
+
+       $minSlidesForLoop = 6;
+
+    if ($testimonials->count() > 0 && $testimonials->count() < $minSlidesForLoop) {
+        $repeated = collect();
+
+        while ($repeated->count() < $minSlidesForLoop) {
+            $repeated = $repeated->merge($testimonials);
+        }
+
+        $testimonials = $repeated->take($minSlidesForLoop);
+    }
+
+
+
+
 @endphp
 
 @if ($testimonials->isNotEmpty())

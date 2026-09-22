@@ -247,34 +247,34 @@ Event::listen(RouteMatched::class, function (): void {
         }
     );
 
-   Shortcode::setAdminConfig('projects-carousel', function (array $attributes) {
-    return ShortcodeForm::createFromArray($attributes)
-        ->add(
-            'right_title',
-            TextField::class,
-            TextFieldOption::make()
-                ->label(__('Right title'))
-                ->placeholder(__('Enter title displayed on the right'))
-        )
-        ->add(
-            'left_description',
-            TextareaField::class,
-            TextareaFieldOption::make()
-                ->label(__('Left description'))
-                ->placeholder(__('Enter description displayed on the left'))
-        )
-        ->add(
-            'autoplay',
-            SelectField::class,
-            SelectFieldOption::make()
-                ->label(__('Auto play'))
-                ->choices([
-                    '0' => __('No'),
-                    '1' => __('Yes'),
-                ])
-                ->selected($attributes['autoplay'] ?? '0')
-        );
-});
+    Shortcode::setAdminConfig('projects-carousel', function (array $attributes) {
+        return ShortcodeForm::createFromArray($attributes)
+            ->add(
+                'right_title',
+                TextField::class,
+                TextFieldOption::make()
+                    ->label(__('Right title'))
+                    ->placeholder(__('Enter title displayed on the right'))
+            )
+            ->add(
+                'left_description',
+                TextareaField::class,
+                TextareaFieldOption::make()
+                    ->label(__('Left description'))
+                    ->placeholder(__('Enter description displayed on the left'))
+            )
+            ->add(
+                'autoplay',
+                SelectField::class,
+                SelectFieldOption::make()
+                    ->label(__('Auto play'))
+                    ->choices([
+                        '0' => __('No'),
+                        '1' => __('Yes'),
+                    ])
+                    ->selected($attributes['autoplay'] ?? '0')
+            );
+    });
 
 
     Shortcode::register(
@@ -376,6 +376,64 @@ Event::listen(RouteMatched::class, function (): void {
                 TextareaFieldOption::make()
                     ->label(__('Description'))
                     ->placeholder(__('Enter description for the section'))
+            );
+    });
+
+    // ----------------------------------------------------------------
+    // Register two-columns-links shortcode
+    // ----------------------------------------------------------------
+    Shortcode::register(
+        'two-columns-links',
+        __('Two columns links'),
+        __('Display two columns, each with an image, description and a link'),
+        function (ShortcodeCompiler $shortcode) {
+            return Theme::partial('shortcodes.two-columns-links', compact('shortcode'));
+        }
+    );
+
+    Shortcode::setAdminConfig('two-columns-links', function (array $attributes) {
+        return ShortcodeForm::createFromArray($attributes)
+            ->add(
+                'left_image',
+                MediaImageField::class,
+                MediaImageFieldOption::make()
+                    ->label(__('Left image'))
+                    ->helperText(__('Optional. Image displayed above the left description.'))
+            )
+            ->add(
+                'left_description',
+                TextareaField::class,
+                TextareaFieldOption::make()
+                    ->label(__('Left description'))
+                    ->placeholder(__('Enter description displayed on the left'))
+            )
+            ->add(
+                'left_href',
+                TextField::class,
+                TextFieldOption::make()
+                    ->label(__('Left link URL'))
+                    ->placeholder(__('https://example.com/left'))
+            )
+            ->add(
+                'right_image',
+                MediaImageField::class,
+                MediaImageFieldOption::make()
+                    ->label(__('Right image'))
+                    ->helperText(__('Optional. Image displayed above the right description.'))
+            )
+            ->add(
+                'right_description',
+                TextareaField::class,
+                TextareaFieldOption::make()
+                    ->label(__('Right description'))
+                    ->placeholder(__('Enter description displayed on the right'))
+            )
+            ->add(
+                'right_href',
+                TextField::class,
+                TextFieldOption::make()
+                    ->label(__('Right link URL'))
+                    ->placeholder(__('https://example.com/right'))
             );
     });
 });

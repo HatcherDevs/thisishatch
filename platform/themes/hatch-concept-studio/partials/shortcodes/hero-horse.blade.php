@@ -1,6 +1,14 @@
 <div id="page">
+
     <canvas></canvas>
+
+
 </div>
+
+   
+
+
+
 
 <div class="hero-scroll-indicator" aria-hidden="true">
     <span class="hero-scroll-indicator-text">SCROLL FOR MORE</span>

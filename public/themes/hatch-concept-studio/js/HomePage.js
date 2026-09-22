@@ -3,46 +3,74 @@ const isMobile = window.innerWidth <= 767; // You can adjust this breakpoint bas
 
 
 function locomotive() {
-  const mainElement = document.querySelector("#main");
-  const isHomePage = document.querySelector("#page") !== null;
+    const mainElement = document.querySelector("#main");
+    const isHomePage = document.querySelector("#page") !== null;
 
-  if (!mainElement || !isHomePage || typeof LocomotiveScroll === 'undefined') {
-    return;
-  }
+    if (!mainElement || !isHomePage || typeof LocomotiveScroll === 'undefined') {
+        return;
+    }
 
-  gsap.registerPlugin(ScrollTrigger);
+    gsap.registerPlugin(ScrollTrigger);
 
-  const locoScroll = new LocomotiveScroll({
-    el: mainElement,
-    smooth: true,
-  });
-  locoScroll.on("scroll", ScrollTrigger.update);
+    const locoScroll = new LocomotiveScroll({
+        el: mainElement,
+        smooth: true,
+    });
 
-  ScrollTrigger.scrollerProxy("#main", {
-    scrollTop(value) {
-      return arguments.length
-        ? locoScroll.scrollTo(value, 0, 0)
-        : locoScroll.scroll.instance.scroll.y;
-    },
+    locoScroll.on("scroll", ScrollTrigger.update);
 
-    getBoundingClientRect() {
-      return {
-        top: 0,
-        left: 0,
-        width: window.innerWidth,
-        height: window.innerHeight,
-      };
-    },
+    // إضافة التحكم في ظهور/اختفاء #page حسب مقدار السكرول
+    const pageElement = document.querySelector("#page");
+    const scrollThreshold = 1320;
 
-    pinType: mainElement.style.transform
-      ? "transform"
-      : "fixed",
-  });
-  ScrollTrigger.addEventListener("refresh", () => locoScroll.update());
-  ScrollTrigger.refresh();
+    if (pageElement) {
+        locoScroll.on("scroll", function (scrollInstance) {
+            const scrollY = scrollInstance.scroll.y;
+
+            if (scrollY > scrollThreshold) {
+                gsap.to(pageElement, {
+                    opacity: 0,
+                    duration: 0.3,
+                    pointerEvents: "none",
+                    overwrite: true,
+                });
+            } else {
+                gsap.to(pageElement, {
+                    opacity: 1,
+                    duration: 0.3,
+                    pointerEvents: "auto",
+                    overwrite: true,
+                });
+            }
+        });
+    }
+
+    ScrollTrigger.scrollerProxy("#main", {
+        scrollTop(value) {
+            return arguments.length
+                ? locoScroll.scrollTo(value, 0, 0)
+                : locoScroll.scroll.instance.scroll.y;
+        },
+
+        getBoundingClientRect() {
+            return {
+                top: 0,
+                left: 0,
+                width: window.innerWidth,
+                height: window.innerHeight,
+            };
+        },
+
+        pinType: mainElement.style.transform
+            ? "transform"
+            : "fixed",
+    });
+
+    ScrollTrigger.addEventListener("refresh", () => locoScroll.update());
+    ScrollTrigger.refresh();
 }
-locomotive();
 
+locomotive();
 // Move hero scroll indicator outside #main so position:fixed works correctly
 // with LocomotiveScroll (which uses transforms on #main)
 (function () {
@@ -147,7 +175,7 @@ if (canvas) {
         scrub: 0.15,
         trigger: `#page>canvas`,
         start: `top top`,
-        end: `600% top`,
+        end: `100% top`,
         scroller: `#main`,
       },
       onUpdate: render,
@@ -156,6 +184,44 @@ if (canvas) {
 
 
   gsap.set(".click_graphics", { opacity: 1, pointerEvents: "auto" });
+
+
+  ScrollTrigger.create({
+    trigger: "#main",
+    scroller: "#main",
+    start: "top top",
+    end: "+=1320",
+    onLeave: () => {
+        gsap.to("#page", {
+            opacity: 0,
+            duration: 0.3,
+            pointerEvents: "none",
+            overwrite: true,
+        });
+
+        gsap.to(".click_graphics", {
+            opacity: 0,
+            duration: 0.3,
+            pointerEvents: "none",
+            overwrite: true,
+        });
+    },
+    onEnterBack: () => {
+        gsap.to("#page", {
+            opacity: 1,
+            duration: 0.3,
+            pointerEvents: "auto",
+            overwrite: true,
+        });
+
+        gsap.to(".click_graphics", {
+            opacity: 1,
+            duration: 0.3,
+            pointerEvents: "auto",
+            overwrite: true,
+        });
+    },
+});
 
   ScrollTrigger.create({
     trigger: "#page>canvas",
@@ -182,7 +248,7 @@ if (canvas) {
       trigger: "#page>canvas",
       scroller: "#main",
       start: "top top",
-      end: "500% top",
+      end: "200% top",
       onToggle: (self) => {
         gsap.to(heroScrollIndicator, {
           autoAlpha: self.isActive ? 1 : 0,

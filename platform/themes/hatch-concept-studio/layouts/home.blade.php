@@ -1,5 +1,6 @@
 {!! Theme::partial('header') !!}
 
+
 <span class="click_graphics at mouseMove_hover" data-speed="2">
     <img width="100%" src="{{ Theme::asset()->url('imgs/click_graphics/at.png') }}"
         alt="Creative agency Dubai social media marketing" />
@@ -22,37 +23,44 @@
 </span>
 
 <div id="main">
-    {!! Theme::loadView('index') !!}
+    {{-- <div id="horse-scroll-spacer" aria-hidden="true"></div> --}}
+
+
+
+    <div class="home-overlay-stack">
+        {!! Theme::loadView('index') !!}
 
 
 
 
-    <div id="page4">
-        <div class="site-footer-inner">
-            <footer class="container py-3" role="contentinfo" aria-label="Site footer">
-                @php
-                    $copyright = Theme::getSiteCopyright();
-                    $privacyUrl = Theme::privacyPolicyUrl();
-                    $termsUrl = Theme::termsOfServiceUrl();
-                @endphp
-                <div class="row">
-                    <div class="col-md-6 pt-3">
-                        <span class="custom-link-footer">
-                            {!! $copyright ?: 'All copyrights reserved &copy;Hatch Design Services L.L.C. ' . date('Y') !!}
+        <div id="page4">
+            <footer class="home-footer">
+                <div class="home-footer-inner">
+                    <nav class="home-footer-links" aria-label="Footer">
+                        @php
+                            $copyright = Theme::getSiteCopyright();
+                            $privacyUrl = Theme::privacyPolicyUrl();
+                            $termsUrl = Theme::termsOfServiceUrl();
+                        @endphp
+
+                        <span class="home-footer-link">
+                            {!! $copyright ?: 'All copyrights reserved &copy; Hatch Design Services L.L.C. ' . date('Y') !!}
                         </span>
-                    </div>
-                    <div class="col-md-3 pt-3">
+
                         @if ($privacyUrl)
-                            <a href="{{ $privacyUrl }}" class="custom-link-footer" rel="nofollow noopener noreferrer"
-                                target="_blank">Privacy Policy</a>
+                            <a href="{{ $privacyUrl }}" class="home-footer-link" rel="nofollow noopener noreferrer"
+                                target="_blank">
+                                Privacy Policy
+                            </a>
                         @endif
-                    </div>
-                    <div class="col-md-3 pt-3">
+
                         @if ($termsUrl)
-                            <a href="{{ $termsUrl }}" class="custom-link-footer" rel="nofollow noopener noreferrer"
-                                target="_blank">Terms &amp; Conditions</a>
+                            <a href="{{ $termsUrl }}" class="home-footer-link" rel="nofollow noopener noreferrer"
+                                target="_blank">
+                                Terms &amp; Conditions
+                            </a>
                         @endif
-                    </div>
+                    </nav>
                 </div>
             </footer>
         </div>
