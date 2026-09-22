@@ -1,5 +1,6 @@
 {!! Theme::partial('header') !!}
 
+<link rel="stylesheet" href="{{ asset('themes/hatch-concept-studio/css/home-sections.css') }}">
 
 <span class="click_graphics at mouseMove_hover" data-speed="2">
     <img width="100%" src="{{ Theme::asset()->url('imgs/click_graphics/at.png') }}"
@@ -21,9 +22,29 @@
     <img width="100%" src="{{ Theme::asset()->url('imgs/click_graphics/hashtah.png') }}"
         alt="Integrated marketing campaigns creative agency Dubai" />
 </span>
+<div id="page">
+
+    <canvas></canvas>
+
+
+</div>
+
+
+
+
+
+
+{{-- <div class="hero-scroll-indicator" aria-hidden="true">
+    <span class="hero-scroll-indicator-text">SCROLL FOR MORE</span>
+    <span class="hero-scroll-indicator-mouse">
+        <span class="hero-scroll-indicator-wheel"></span>
+    </span>
+    <span class="hero-scroll-indicator-arrow">&#8595;</span>
+</div> --}}
+
 
 <div id="main">
-    {{-- <div id="horse-scroll-spacer" aria-hidden="true"></div> --}}
+    <div id="horse-scroll-spacer" aria-hidden="true"></div>
 
 
 

@@ -8,8 +8,7 @@
         ->limit(8)
         ->get();
 
-
-       $minSlidesForLoop = 6;
+    $minSlidesForLoop = 6;
 
     if ($testimonials->count() > 0 && $testimonials->count() < $minSlidesForLoop) {
         $repeated = collect();
@@ -21,27 +20,18 @@
         $testimonials = $repeated->take($minSlidesForLoop);
     }
 
-
-
-
 @endphp
 
 @if ($testimonials->isNotEmpty())
-<link rel="stylesheet" href="{{ asset('themes/hatch-concept-studio/css/home-sections.css') }}">
 
-    <section
-        class="home-testimonials-section"
-        aria-label="Client testimonials"
-    >
+    <section class="home-testimonials-section" aria-label="Client testimonials">
         <div class="home-testimonials-inner">
             <header class="home-testimonials-header">
                 <h2>{{ $shortcode->title ?? 'Why our clients choose us' }}</h2>
 
                 <p>
-                    {!!
-                        $shortcode->description
-                        ?? '13 years. Countless success stories. Built together with clients<br>who trusted us every step of the way.'
-                    !!}
+                    {!! $shortcode->description ??
+                        '13 years. Countless success stories. Built together with clients<br>who trusted us every step of the way.' !!}
                 </p>
             </header>
         </div>
@@ -52,16 +42,12 @@
 
                     @foreach ($testimonials as $testimonial)
                         @php
-                            $testimonialContent = $testimonial->content
-                                ?? $testimonial->description
-                                ?? '';
+                            $testimonialContent = $testimonial->content ?? ($testimonial->description ?? '');
 
                             $testimonialName = $testimonial->name ?? '';
 
-                            $testimonialCompany = $testimonial->address
-                                ?? $testimonial->company
-                                ?? $testimonial->position
-                                ?? '';
+                            $testimonialCompany =
+                                $testimonial->address ?? ($testimonial->company ?? ($testimonial->position ?? ''));
                         @endphp
 
                         <article class="swiper-slide home-testimonial-card">
@@ -90,20 +76,10 @@
                 </div>
             </div>
 
-            <nav
-                class="home-testimonials-nav"
-                aria-label="Testimonials navigation"
-            >
-                <button
-                    type="button"
-                    class="home-testimonials-next"
-                    aria-label="Next testimonial"
-                >
-                    <img
-                        src="{{ Theme::asset()->url('imgs/projects/pd2-arrow.png') }}"
-                        alt=""
-                        aria-hidden="true"
-                    />
+            <nav class="home-testimonials-nav" aria-label="Testimonials navigation">
+                <button type="button" class="home-testimonials-next" aria-label="Next testimonial">
+                    <img src="{{ Theme::asset()->url('imgs/projects/pd2-arrow.png') }}" alt=""
+                        aria-hidden="true" />
                 </button>
             </nav>
         </div>

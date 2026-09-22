@@ -30,7 +30,6 @@
     $p5 = $projects->get(5);
 @endphp
 
-<link rel="stylesheet" href="{{ asset('themes/hatch-concept-studio/css/home-sections.css') }}">
 
 @if ($projects->isNotEmpty())
     <section id="page3" class="home-portfolio-section">

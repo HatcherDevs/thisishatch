@@ -3,300 +3,148 @@ const isMobile = window.innerWidth <= 767; // You can adjust this breakpoint bas
 
 
 function locomotive() {
-    const mainElement = document.querySelector("#main");
-    const isHomePage = document.querySelector("#page") !== null;
+  gsap.registerPlugin(ScrollTrigger);
 
-    if (!mainElement || !isHomePage || typeof LocomotiveScroll === 'undefined') {
-        return;
-    }
+  const locoScroll = new LocomotiveScroll({
+    el: document.querySelector("#main"),
+    smooth: true,
+    scrollFromAnywhere: true,
+  });
+  locoScroll.on("scroll", ScrollTrigger.update);
 
-    gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.scrollerProxy("#main", {
+    scrollTop(value) {
+      return arguments.length
+        ? locoScroll.scrollTo(value, 0, 0)
+        : locoScroll.scroll.instance.scroll.y;
+    },
 
-    const locoScroll = new LocomotiveScroll({
-        el: mainElement,
-        smooth: true,
-    });
+    getBoundingClientRect() {
+      return {
+        top: 0,
+        left: 0,
+        width: window.innerWidth,
+        height: window.innerHeight,
+      };
+    },
 
-    locoScroll.on("scroll", ScrollTrigger.update);
-
-    // إضافة التحكم في ظهور/اختفاء #page حسب مقدار السكرول
-    const pageElement = document.querySelector("#page");
-    const scrollThreshold = 1320;
-
-    if (pageElement) {
-        locoScroll.on("scroll", function (scrollInstance) {
-            const scrollY = scrollInstance.scroll.y;
-
-            if (scrollY > scrollThreshold) {
-                gsap.to(pageElement, {
-                    opacity: 0,
-                    duration: 0.3,
-                    pointerEvents: "none",
-                    overwrite: true,
-                });
-            } else {
-                gsap.to(pageElement, {
-                    opacity: 1,
-                    duration: 0.3,
-                    pointerEvents: "auto",
-                    overwrite: true,
-                });
-            }
-        });
-    }
-
-    ScrollTrigger.scrollerProxy("#main", {
-        scrollTop(value) {
-            return arguments.length
-                ? locoScroll.scrollTo(value, 0, 0)
-                : locoScroll.scroll.instance.scroll.y;
-        },
-
-        getBoundingClientRect() {
-            return {
-                top: 0,
-                left: 0,
-                width: window.innerWidth,
-                height: window.innerHeight,
-            };
-        },
-
-        pinType: mainElement.style.transform
-            ? "transform"
-            : "fixed",
-    });
-
-    ScrollTrigger.addEventListener("refresh", () => locoScroll.update());
-    ScrollTrigger.refresh();
+    pinType: document.querySelector("#main").style.transform
+      ? "transform"
+      : "fixed",
+  });
+  ScrollTrigger.addEventListener("refresh", () => locoScroll.update());
+  ScrollTrigger.refresh();
 }
-
 locomotive();
-// Move hero scroll indicator outside #main so position:fixed works correctly
-// with LocomotiveScroll (which uses transforms on #main)
-(function () {
-  const indicator = document.querySelector('.hero-scroll-indicator');
-  if (indicator) {
-    document.body.appendChild(indicator);
-  }
-})();
 
-const heroScrollIndicator = document.querySelector('.hero-scroll-indicator');
 
 const canvas = document.querySelector("canvas");
-if (canvas) {
-  const context = canvas.getContext("2d");
+const context = canvas.getContext("2d");
 
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+
+window.addEventListener("resize", function () {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-
-
-  window.addEventListener("resize", function () {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    render();
-  });
-
-  function files(index) {
-    const n = String(index).padStart(4, '0');
-    return `/themes/hatch-concept-studio/imgs/horse-webp/turn02_${n}.webp`;
-  }
-
-  const frameCount = 300;
-
-  const images = [];
-  const imageSeq = {
-    frame: 1,
-  };
-
-  for (let i = 0; i < frameCount; i++) {
-    const img = new Image();
-    img.src = files(i);
-    images.push(img);
-  }
-
-  gsap.to(imageSeq, {
-    frame: frameCount - 1,
-    snap: "frame",
-    ease: `none`,
-    scrollTrigger: {
-      scrub: 0.15,
-      trigger: `#horse-scroll-spacer`,
-      start: `top top`,
-      end: `bottom top`,
-      scroller: `#main`,
-    },
-    onUpdate: render,
-  });
-
-  images[1].onload = render;
-
-  function render() {
-    scaleImage(images[imageSeq.frame], context);
-  }
-
-  function scaleImage(img, ctx) {
-    var canvas = ctx.canvas;
-    var hRatio = canvas.width / img.width;
-    var vRatio = canvas.height / img.height;
-    var ratio = Math.max(hRatio, vRatio);
-
-    // Adjust the ratio for mobile devices
-    ratio *= 0.8;
-    if (isMobile) {
-      ratio *= 1; // You can adjust this scaling factor based on your design
-    }
-
-    var centerShift_x = (canvas.width - img.width * ratio) / 2;
-
-    // Position the image at the top of the canvas
-    var centerShift_y = 0;
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(
-      img,
-      0,
-      0,
-      img.width,
-      img.height,
-      centerShift_x,
-      centerShift_y,
-      img.width * ratio,
-      img.height * ratio
-    );
-  }
-
-  // Modify the media query for mobile devices
-  if (isMobile) {
-    gsap.to(imageSeq, {
-      frame: frameCount - 1,
-      snap: "frame",
-      ease: `none`,
-      scrollTrigger: {
-        scrub: 0.15,
-        trigger: `#page>canvas`,
-        start: `top top`,
-        end: `100% top`,
-        scroller: `#main`,
-      },
-      onUpdate: render,
-    });
-  }
-
-
-  gsap.set(".click_graphics", { opacity: 1, pointerEvents: "auto" });
-
-
-  ScrollTrigger.create({
-    trigger: "#main",
-    scroller: "#main",
-    start: "top top",
-    end: "+=1320",
-    onLeave: () => {
-        gsap.to("#page", {
-            opacity: 0,
-            duration: 0.3,
-            pointerEvents: "none",
-            overwrite: true,
-        });
-
-        gsap.to(".click_graphics", {
-            opacity: 0,
-            duration: 0.3,
-            pointerEvents: "none",
-            overwrite: true,
-        });
-    },
-    onEnterBack: () => {
-        gsap.to("#page", {
-            opacity: 1,
-            duration: 0.3,
-            pointerEvents: "auto",
-            overwrite: true,
-        });
-
-        gsap.to(".click_graphics", {
-            opacity: 1,
-            duration: 0.3,
-            pointerEvents: "auto",
-            overwrite: true,
-        });
-    },
+  render();
 });
 
-  ScrollTrigger.create({
-    trigger: "#page>canvas",
-    pin: true,
-    scroller: `#main`,
-    start: `top top`,
-    end: `500% top`,
-    onEnter: () => {
-      gsap.set(".click_graphics", { opacity: 1, pointerEvents: "auto" });
-    },
-    onEnterBack: () => {
-      gsap.set(".click_graphics", { opacity: 1, pointerEvents: "auto" });
-    },
-    onLeave: () => {
-      gsap.set(".click_graphics", { opacity: 0, pointerEvents: "none" });
-    },
-    onLeaveBack: () => {
-      gsap.set(".click_graphics", { opacity: 1, pointerEvents: "auto" });
-    },
-  });
+function files(index) {
+  const n = String(index).padStart(4, '0');
+  return `/themes/hatch-concept-studio/imgs/horse-webp/turn02_${n}.webp`;
+}
 
-  if (heroScrollIndicator) {
-    ScrollTrigger.create({
-      trigger: "#page>canvas",
-      scroller: "#main",
-      start: "top top",
-      end: "200% top",
-      onToggle: (self) => {
-        gsap.to(heroScrollIndicator, {
-          autoAlpha: self.isActive ? 1 : 0,
-          duration: 0.3,
-          overwrite: true,
-        });
-      },
-    });
+const frameCount = 300;
+
+const images = [];
+const imageSeq = {
+  frame: 1,
+};
+
+for (let i = 0; i < frameCount; i++) {
+  const img = new Image();
+  img.src = files(i);
+  images.push(img);
+}
+
+
+gsap.to(imageSeq, {
+  frame: frameCount - 1,
+  snap: "frame",
+  ease: `none`,
+  scrollTrigger: {
+    scrub: 0.15,
+    trigger: `#horse-scroll-spacer`,
+    start: `top top`,
+    end: `bottom top`,
+    scroller: `#main`,
+  },
+  onUpdate: render,
+});
+
+images[1].onload = render;
+
+function render() {
+  scaleImage(images[imageSeq.frame], context);
+}
+
+function scaleImage(img, ctx) {
+  var canvas = ctx.canvas;
+  var hRatio = canvas.width / img.width;
+  var vRatio = canvas.height / img.height;
+  var ratio = Math.max(hRatio, vRatio);
+
+  // Adjust the ratio for mobile devices
+  ratio *= 0.8;
+  if (isMobile) {
+    ratio *= 1; // You can adjust this scaling factor based on your design
   }
 
-  gsap.to("#page3", {
-    scrollTrigger: {
-      trigger: "#page",
-      start: "bottom top", // Trigger when the bottom of #page reaches the top of the viewport
-      end: "+=100%", // Adjust this value based on your design
-      pin: true, // Pin #page1 during the scroll
-      pinSpacing: false, // Disable automatic spacing adjustment
-      scroller: "#main",
-      scrub: true, // Smoothly transition between #page and #page1
-    },
-  });
+  var centerShift_x = (canvas.width - img.width * ratio) / 2;
+
+  // Position the image at the top of the canvas
+  var centerShift_y = 0;
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(
+    img,
+    0,
+    0,
+    img.width,
+    img.height,
+    centerShift_x,
+    centerShift_y,
+    img.width * ratio,
+    img.height * ratio
+  );
 }
 
 
 
-const layoutOverlay = document.querySelector(".layout");
-const heroHorseBlock = document.querySelector(".hatch-hero-horse");
+ScrollTrigger.create({
+  trigger: "#horse-scroll-spacer",
+  start: "top top",
+  end: "bottom top",
+  scroller: `#main`,
+  onUpdate: (self) => {
+    const horseActive = self.progress < 1;
+    gsap.set(".click_graphics", {
+      opacity: horseActive ? 1 : 0,
+      pointerEvents: horseActive ? "auto" : "none",
+    });
+  },
+});
 
-if (layoutOverlay && heroHorseBlock) {
-  const introOverlayTimeline = gsap.timeline();
-  introOverlayTimeline
-    .set(".layout", { bottom: "100%", opacity: 1, display: "block" })
-    .to(".layout", {
-      bottom: 0,
-      opacity: 1,
-      ease: "power2.inOut",
-      duration: 2,
-      delay: 0.8,
-    })
-    .to(".layout", {
-      opacity: 0,
-      ease: "power2.inOut",
-      duration: 1.2,
-    }, "+=1.2")
-    .set(".layout", { display: "none" });
-} else if (layoutOverlay) {
-  gsap.set(".layout", { display: "none", opacity: 0 });
-}
+gsap.set(".layout", { bottom: "100%", opacity: 1 });
+gsap.to(".layout", {
+  bottom: 0,
+  opacity: 1,
+  ease: "power2.inOut", // يمكنك تغيير هذا حسب التفضيلات
+  duration: 2, // يمكنك ضبط مدة التأثير
+  delay: 1, // يمكنك ضبط تأخير بداية التأثير
+});
 
 gsap.to("#page", {
   opacity: 1,
@@ -310,6 +158,20 @@ gsap.to("#nav", {
   duration: 2, // يمكنك ضبط مدة التأثير
   delay: 1.5, // يمكنك ضبط تأخير بداية التأثير
 });
+gsap.to(".click_graphics", {
+  opacity: 1,
+  ease: "power2.inOut",
+  duration: 2,
+  delay: 1.5,
+});
+gsap.to(".layout", {
+  opacity: 0,
+  display: 'none',
+  ease: "power2.inOut", // يمكنك تغيير هذا حسب التفضيلات
+  duration: 2, // يمكنك ضبط مدة التأثير
+  delay: 2, // يمكنك ضبط تأخير بداية التأثير
+});
+
 // ------------------------------------ For Icons on Header -------------------------
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -338,10 +200,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const links = document.querySelectorAll('a');
   const cursor = document.querySelector('.cursor');
 
-  if (!cursor) {
-    return;
-  }
-
   const editCursor = e => {
     const { clientX: x, clientY: y } = e;
     cursor.style.left = x + 'px';
@@ -349,39 +207,70 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   links.forEach(link => {
+    if (link.closest('.video-custom')) {
+      return;
+    }
+
     link.addEventListener('mouseenter', () => {
-      cursor.style.transform = 'scale(4)';
+      if (!cursor.classList.contains('is-video-play')) {
+        cursor.style.transform = 'translate(-50%, -50%) scale(4)';
+      }
     });
 
     link.addEventListener('mouseleave', () => {
-      cursor.style.transform = '';
+      if (!cursor.classList.contains('is-video-play')) {
+        cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+      }
     });
   });
 
   document.addEventListener('mousemove', editCursor);
-  const btnVideo = document.querySelector('.btnVideo');
+  var spanV = cursor.querySelector('#playBtn');
+  var videoCustom = document.querySelector('.video-custom');
+  var playButton = document.getElementById('play_button');
 
-  // const editCursorVideo = e => {
-  //   const { clientX: x, clientY: y } = e;
-  //   btnVideo.style.left = x + 'px';
-  //   btnVideo.style.top = y + 'px';
-  // };
-  var spanV = cursor.querySelector('span');
-  var page2 = document.getElementById('page2');
+  function syncPlayLabel() {
+    const isPlaying = document.documentElement.classList.contains('playvideo');
+    const label = isPlaying ? 'Stop' : 'Play';
+    const playSpan = playButton?.querySelector('span');
+    if (playSpan) {
+      playSpan.textContent = label;
+    }
+    if (spanV) {
+      spanV.textContent = label;
+    }
+  }
 
-  if (page2 && spanV) {
-    page2.addEventListener('mousemove', function () {
-      spanV.style.display = "block";
-      cursor.style.transform = 'scale(4)';
-      cursor.style.backgroundColor = 'blue';
-      cursor.style.mixBlendMode = 'normal';
+  function setVideoCursor(active) {
+    if (!videoCustom) {
+      return;
+    }
+
+    if (active) {
+      videoCustom.classList.add('is-hovering');
+      cursor.classList.add('is-video-play');
+      cursor.style.transform = 'translate(-50%, -50%)';
+      syncPlayLabel();
+    } else {
+      videoCustom.classList.remove('is-hovering');
+      cursor.classList.remove('is-video-play');
+      cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+    }
+  }
+
+  if (videoCustom) {
+    videoCustom.addEventListener('mouseenter', function () {
+      setVideoCursor(true);
     });
-    page2.addEventListener('mouseleave', function () {
-      spanV.style.display = "none";
-      cursor.style.transform = 'scale(1)';
-      cursor.style.backgroundColor = '#fff';
-      cursor.style.color = '#fff';
-      cursor.style.mixBlendMode = 'difference';
+
+    videoCustom.addEventListener('mouseleave', function () {
+      setVideoCursor(false);
+    });
+
+    videoCustom.addEventListener('click', function () {
+      if (playButton) {
+        playButton.click();
+      }
     });
   }
 
@@ -404,60 +293,52 @@ document.addEventListener('DOMContentLoaded', function () {
 let playButton = document.getElementById("play_button");
 let playBtnBlue = document.getElementById("playBtn");
 let pauseButton = document.getElementById("pause_button");
-let video = document.querySelector('video');
-let pendingPlayPromise = null;
+playButton.addEventListener("click", function (e) {
+  e.stopPropagation();
+  const playSpan = playButton.querySelector('span');
 
-if (playButton && playBtnBlue && pauseButton && video) {
-  playButton.addEventListener("click", function () {
-    pendingPlayPromise = video.play();
-
-    if (pendingPlayPromise && typeof pendingPlayPromise.catch === 'function') {
-      pendingPlayPromise.catch(function (error) {
-        if (!error || error.name !== 'AbortError') {
-          console.error(error);
-        }
-      });
-    }
-
-    playBtnBlue.innerText = "stop";
-    playButton.classList.add('vplay');
-    pauseButton.classList.remove('vpause');
-    document.querySelector('html').classList.add('playvideo');
-  });
-
-  pauseButton.addEventListener("click", function () {
-    pendingPlayPromise = null;
+  if (document.documentElement.classList.contains('playvideo')) {
     video.pause();
-    playBtnBlue.innerText = "play";
-    playButton.classList.remove('vplay');
-    pauseButton.classList.add('vpause');
-  });
-}
+    document.querySelector('html').classList.remove('playvideo');
+    if (playSpan) playSpan.textContent = 'Play';
+    playBtnBlue.textContent = 'Play';
+    return;
+  }
+
+  video.play();
+  document.querySelector('html').classList.add('playvideo');
+  if (playSpan) playSpan.textContent = 'Stop';
+  playBtnBlue.textContent = 'Stop';
+});
+
+pauseButton.addEventListener("click", function (e) {
+  e.stopPropagation();
+  video.pause();
+  document.querySelector('html').classList.remove('playvideo');
+  playButton.querySelector('span').textContent = 'Play';
+  playBtnBlue.textContent = 'Play';
+});
 //Video Play Pause Control End
 //Video Sound on & off Ctrl Start
 let soundOff = document.getElementById("sound-off");
 let soundOn = document.getElementById("sound-on");
 let soundCtrl = document.querySelector(".sound-ctrl");
 
-if (soundOff && soundOn && soundCtrl && video) {
-  soundOff.addEventListener("click", function () {
-    video.muted = true;
-    soundCtrl.classList.add('soundctrlshow');
-  });
+soundOff.addEventListener("click", function () {
+  video.muted = true;
+  soundCtrl.classList.add('soundctrlshow');
+});
 
-  soundOn.addEventListener("click", function () {
-    video.muted = false;
-    soundCtrl.classList.remove('soundctrlshow');
-  });
-}
+soundOn.addEventListener("click", function () {
+  video.muted = false;
+  soundCtrl.classList.remove('soundctrlshow');
+});
 //Video Sound on & off Ctrl End
-if (video && playButton && playBtnBlue) {
-  video.onended = function () {
-    document.querySelector('html').classList.remove('playvideo');
-    playButton.classList.remove('vplay');
-    playBtnBlue.innerText = "play";
-  };
-}
+video.onended = function () {
+  document.querySelector('html').classList.remove('playvideo');
+  playButton.querySelector('span').textContent = 'Play';
+  playBtnBlue.textContent = 'Play';
+};
 
 
 // Start Slider3D 
@@ -467,41 +348,38 @@ if (video && playButton && playBtnBlue) {
 |------------------------------------------------------
 */
 
-var swiper = new Swiper('.swiper-container', {
-  slidesPerView: 3.4,
-  spaceBetween: 25,
-  breakpoints: {
-    1024: {
-      slidesPerView: 3.4,
-      spaceBetween: 25,
+const swiperContainer = document.querySelector('.swiper-container');
+if (swiperContainer) {
+  var swiper = new Swiper('.swiper-container', {
+    slidesPerView: 3.4,
+    spaceBetween: 25,
+    breakpoints: {
+      1024: {
+        slidesPerView: 3.4,
+        spaceBetween: 25,
+      },
+      768: {
+        slidesPerView: 2.4,
+        spaceBetween: 25,
+      },
+      640: {
+        slidesPerView: 1.4,
+        spaceBetween: 25,
+      },
+      320: {
+        slidesPerView: 1.1,
+        spaceBetween: 25,
+      }
     },
-    768: {
-      slidesPerView: 2.4,
-      spaceBetween: 25,
+    centeredSlides: true,
+    grabCursor: true,
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
     },
-    640: {
-      slidesPerView: 1.4,
-      spaceBetween: 25,
-    },
-    320: {
-      slidesPerView: 1.1,
-      spaceBetween: 25,
-    }
-  },
-  centeredSlides: true,
-  grabCursor: true,
-  // pagination: {
-  // 	el: '.swiper-pagination',
-  // 	clickable: true,
-  // },
-  navigation: {
-    nextEl: '.swiper-button-next',
-    prevEl: '.swiper-button-prev',
-  },
-  slideToClickedSlide: true,
-});
-
-
+    slideToClickedSlide: true,
+  });
+}
 
 const homeTestimonialsSwiperEl = document.querySelector('.home-testimonials-swiper');
 if (homeTestimonialsSwiperEl && typeof Swiper !== 'undefined') {
@@ -544,6 +422,7 @@ if (homeTestimonialsSwiperEl && typeof Swiper !== 'undefined') {
     },
   });
 }
+
 /*
 |------------------------------------------------------
 |  JS: Cards with Fullscreen zoom
@@ -552,92 +431,88 @@ if (homeTestimonialsSwiperEl && typeof Swiper !== 'undefined') {
 
 
 // Dog Notifications
-(function () {
-  const dogElement = document.getElementById('dog');
-  const notificationElement = document.getElementById('notification');
-  const dogImage = document.getElementById('dogImage');
 
-  if (!dogElement || !notificationElement) {
-    return;
-  }
+// Array of random notifications
+const notifications = [
+  "“Woof, woof” That’s Welcome in dog.",
+  "Did you know? Hatch is a homegrown Dubai studio.",
+  "We dig into design & get our hands dirty.",
+  "Our team can speak more than 5 languages."
+  // Add more notifications as needed
+];
 
-  let notifications = [];
-  try {
-    const rawMessages = dogElement.getAttribute('data-dog-messages') || '[]';
-    notifications = JSON.parse(rawMessages);
-  } catch (error) {
-    notifications = [];
-  }
+let soundPlayed = false;
+let imageShown = false;
 
-  if (!Array.isArray(notifications)) {
-    notifications = [];
-  }
 
-  notifications = notifications.filter((message) => {
-    return typeof message === 'string' && message.trim() !== '';
-  });
+function showRandomNotification() {
+  const randomIndex = Math.floor(Math.random() * notifications.length);
+  const randomNotification = notifications[randomIndex];
+  document.getElementById('notification').innerText = randomNotification;
 
-  if (notifications.length === 0) {
-    return;
-  }
+  const notificationSound = document.getElementById('notificationSound');
 
-  let currentIndex = -1;
-  let isOpen = false;
 
-  const showNextMessage = () => {
-    currentIndex = (currentIndex + 1) % notifications.length;
-    notificationElement.textContent = notifications[currentIndex];
-  };
+  // تشغيل الرنة إذا لم تكن قد تم تشغيلها بالفعل
+  if (!soundPlayed) {
+    // notificationSound.play();
+    soundPlayed = true;
 
-  const popUp = () => {
-    notificationElement.style.scale = 0;
-
+    // إعادة تعيين الحالة بعد فترة زمنية (هنا 2 ثانية)
     setTimeout(() => {
-      notificationElement.style.scale = 1;
-    }, 120);
-  };
+      soundPlayed = false;
+    }, 100);
+  }
 
-  const shakeDog = () => {
-    if (!dogImage) {
-      return;
-    }
+  // عرض الصورة إذا لم تكن قد تم عرضها بالفعل
+  if (!imageShown) {
+    shakeDog();
+    imageShown = true;
 
+    // إعادة تعيين الحالة بعد فترة زمنية (هنا 500 مللي ثانية)
     setTimeout(() => {
-      dogImage.style.animation = '';
-    }, 500);
-  };
+      imageShown = false;
+    }, 100);
+  }
 
-  const openBubble = () => {
-    showNextMessage();
-    dogElement.classList.add('is-open');
-    isOpen = true;
-    popUp();
+  // استمع لحدث انتهاء التشغيل لتفعيل الاهتزاز بعد انتهاء الصوت
+  notificationSound.onended = () => {
     shakeDog();
   };
+}
 
-  const closeBubble = () => {
-    if (!isOpen) {
-      notificationElement.style.scale = 0;
 
-      return;
-    }
+function shakeDog() {
+  const dogImage = document.getElementById('dogImage');
+  // dogImage.style.animation = 'shake 0.5s';
+  setTimeout(() => {
+    dogImage.style.animation = '';
+  }, 500);
+}
+function popUp() {
+  const notification = document.getElementById('notification');
+  notification.style.scale = 0;
 
-    dogElement.classList.remove('is-open');
-    notificationElement.style.scale = 0;
-    isOpen = false;
-  };
+  setTimeout(() => {
+    notification.style.scale = 1;
+  }, 500);
+}
 
-  const rerunOpenEvent = () => {
-    closeBubble();
 
-    window.setTimeout(() => {
-      openBubble();
-    }, 120);
-  };
+// استمع لحدث النقر لتحديث الإشعار والاهتزاز
+document.getElementById('dog').addEventListener('click', () => {
+  popUp();
+  showRandomNotification();
+});
 
-  dogElement.addEventListener('mouseenter', openBubble);
-  dogElement.addEventListener('mouseleave', closeBubble);
-  dogElement.addEventListener('click', () => {
-    rerunOpenEvent();
-  });
-})();
+
+// تحديث الإشعار بشكل دوري
+// setInterval(() => {
+//   showRandomNotification();
+// }, 20000);
+
+window.addEventListener('load', function () {
+  if (typeof initHomeScrollEffects === 'function') {
+    initHomeScrollEffects();
+  }
+});
