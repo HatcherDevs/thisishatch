@@ -27,7 +27,7 @@
     
 @endif
 
-{{-- <div class="layout"></div> --}}
+<div class="layout"></div>
 
 <!-- WebSite Schema with Search -->
 <script type="application/ld+json">
