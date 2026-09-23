@@ -21,6 +21,8 @@
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
 
     @php
+        use Botble\Theme\Facades\Theme;
+
         $favicon = theme_option('website_favicon');
         $appleIcon = theme_option('website_apple_icon');
         $faviconUrl = $favicon ? RvMedia::getImageUrl($favicon) : Theme::asset()->url('imgs/hatch-logo.ico');
@@ -30,27 +32,12 @@
     <link rel="icon" type="image/x-icon" href="{{ $faviconUrl }}" />
     <link rel="apple-touch-icon" sizes="180x180" href="{{ $appleIconUrl }}" />
 
-    <!-- Preload critical above-fold CSS -->
-    <link rel="preload" href="{{ Theme::asset()->url('css/style.css') }}" as="style" />
 
-    <link rel="stylesheet" href="{{ Theme::asset()->url('css/locomotive-scroll.css') }}" />
-    <link rel="stylesheet" href="{{ Theme::asset()->url('css/swiper-bundle.min.css') }}" />
-    <link rel="stylesheet" href="{{ Theme::asset()->url('css/slider3D.css') }}" />
+
     <script src="https://kit.fontawesome.com/7b5e9f3ec6.js" crossorigin="anonymous" defer></script>
-    <link rel="stylesheet" href="{{ Theme::asset()->url('css/style.css') }}" />
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap-grid.min.css" />
+    {{-- {!! Theme::header() !!} --}}
+    {!! Theme::asset()->styles() !!}
 
-    @php
-        $bodyId = (string) Theme::getBodyAttribute('id');
-        $isSingleProjectPage = str_starts_with($bodyId, 'project-');
-    @endphp
-
-    @if ($isSingleProjectPage)
-        <link rel="stylesheet" href="{{ Theme::asset()->url('css/bootstrap.min.css') }}" />
-        <link rel="stylesheet" href="{{ Theme::asset()->url('css/about.css') }}" />
-        <link rel="stylesheet" href="{{ Theme::asset()->url('css/projects.css') }}" />
-    @endif
 </head>
 
 <body {!! Theme::bodyAttributes() !!}>

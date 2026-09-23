@@ -154,7 +154,7 @@
 
   //////////////////////////////////////////////////////////////////////
   // احصل على عنصر navbar باستخدام ID الخاص به
-  const navAbout = document.getElementById('nav_about');
+  const navAbout = document.getElementById('nav');
   // احصل على عنصر main باستخدام ID الخاص به
   const mainDiv = document.getElementById('main');
   if (navAbout && mainDiv) {
@@ -183,11 +183,11 @@
 
     if (!images.length) {
       images = [
-        "imgs/about/full.png",
-        "imgs/about/full0.png",
-        "imgs/about/full1.png",
-        "imgs/about/full2.png",
-        "imgs/about/full3.png"
+        "../imgs/about/full.png",
+        "../imgs/about/full0.png",
+        "../imgs/about/full1.png",
+        "../imgs/about/full2.png",
+        "../imgs/about/full3.png"
       ];
     }
 

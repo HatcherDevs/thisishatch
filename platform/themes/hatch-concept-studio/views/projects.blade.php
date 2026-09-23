@@ -1,6 +1,17 @@
-<link rel="stylesheet" href="{{ Theme::asset()->url('css/bootstrap.min.css') }}">
-<link rel="stylesheet" href="{{ Theme::asset()->url('css/about.css') }}">
-<link rel="stylesheet" href="{{ Theme::asset()->url('css/projects.css') }}">
+@php
+    use Botble\Theme\Facades\Theme;
+ Theme::addBodyAttributes(['class' => 'home-page']);
+    Theme::asset()
+        // ->container('before_header')
+        // ->container('after_header')
+        ->usePath(false)
+        ->add('home-locomotive-css', 'themes/hatch-concept-studio/css/locomotive-scroll.css')
+        ->add('home-swiper-css', 'themes/hatch-concept-studio/css/swiper-bundle.min.css')
+        ->add('home-slider-3d-css', 'themes/hatch-concept-studio/css/slider3D.css')
+        ->add('home-style-css', 'themes/hatch-concept-studio/css/style.css')
+        ->add('home-sections-css', 'themes/hatch-concept-studio/css/home-sections.css');
+@endphp
+
 
 
 <div class="container w-md-75">
@@ -55,79 +66,34 @@
 
 </div>
 
+<script src="{{ Theme::asset()->url('js/popper.min.js') }}"></script>
+<script src="{{ Theme::asset()->url('js/bootstrap.min.js') }}"></script>
+<script src="{{ Theme::asset()->url('js/about.js') }}"></script>
 
-<script>
-    (function() {
-        const tabList = document.getElementById('projects-tab');
-        const tabButtons = Array.from(document.querySelectorAll('#projects-tab .nav-link'));
-        const cards = Array.from(document.querySelectorAll('#projects-grid .project-card'));
-
-        if (!tabList || !tabButtons.length || !cards.length) {
-            return;
-        }
-
-        function applyFilter(button) {
-            if (!button) {
-                return;
-            }
-
-            const category = String(button.getAttribute('data-category') || '').trim();
-
-            tabButtons.forEach((item) => {
-                item.classList.remove('active');
-                item.setAttribute('aria-pressed', 'false');
-            });
-
-            button.classList.add('active');
-            button.setAttribute('aria-pressed', 'true');
-
-            cards.forEach((card) => {
-                const cardCategory = String(card.getAttribute('data-category') || '').trim();
-                const shouldShow = category === 'all' || category === cardCategory;
-                card.style.display = shouldShow ? '' : 'none';
-            });
-        }
-
-        function onTabInteract(event) {
-            const target = event.target instanceof Element ? event.target : null;
-            const button = target ? target.closest('.nav-link[data-category]') : null;
-
-            if (!button || !tabList.contains(button)) {
-                return;
-            }
-
-            event.preventDefault();
-            applyFilter(button);
-        }
-
-        tabList.addEventListener('click', onTabInteract, {
-            passive: false
-        });
-
-        tabList.addEventListener('pointerup', onTabInteract, {
-            passive: false
-        });
-
-        tabList.addEventListener('keydown', function(event) {
-            if (event.key !== 'Enter' && event.key !== ' ') {
-                return;
-            }
-
-            onTabInteract(event);
-        });
-    })();
-
-    function updateNavPillsOpacity() {
-        var navPills = document.querySelector('.nav-pills');
-        if (!navPills) return;
-        if (window.location.hash === '#menu') {
-            navPills.style.opacity = '0';
-            navPills.style.display = 'none';
+  <script>
+    function adjustWidthBasedOnNav() {
+      // تحقق من أن حجم الشاشة هو حجم شاشة الهاتف
+        if (window.matchMedia("(max-width: 767px)").matches) {
+            // احصل على عرض #nav_about a
+            var imgWidth = document.querySelector('#nav_about a').offsetWidth;
+    
+            // احسب النسبة المتبقية
+            var remainingWidth = 100 - (imgWidth / window.innerWidth * 100);
+            remainingWidth += 10.64;
+    
+            // قم بتعيين عرض #projects-tab
+            document.querySelector('#projects-tab').style.width = remainingWidth + '%';
         } else {
-            navPills.style.opacity = '1';
-            navPills.style.display = '';
+            // إذا كانت الشاشة أكبر من 767px، يمكنك إعادة ضبط العرض أو تركه كما هو
+            document.querySelector('#projects-tab').style.width = ''; // يعيد الضبط إلى القيمة الافتراضية
         }
     }
-    window.addEventListener('hashchange', updateNavPillsOpacity);
-    document.addEventListener('DOMContentLoaded', updateNavPillsOpacity);
-</script>
+    
+    // قم بتشغيل الوظيفة عند تحميل الصفحة
+    adjustWidthBasedOnNav();
+    
+    // استمع لحدث تغير حجم الشاشة
+    window.addEventListener('resize', adjustWidthBasedOnNav);
+  
+
+  </script>

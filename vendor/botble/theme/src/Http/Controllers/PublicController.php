@@ -22,7 +22,7 @@ class PublicController extends BaseController
 {
     public function getIndex()
     {
-        Theme::addBodyAttributes(['id' => 'page-home']);
+        // Theme::addBodyAttributes(['id' => 'page-home']);
 
         if (defined('PAGE_MODULE_SCREEN_NAME') && BaseHelper::getHomepageId()) {
             $data = (new PageService())->handleFrontRoutes(null);
@@ -81,7 +81,7 @@ class PublicController extends BaseController
 
         if (! empty($result) && is_array($result)) {
             if (isset($result['view'])) {
-                Theme::addBodyAttributes(['id' => Str::slug(Str::snake(Str::afterLast($slug->reference_type, '\\'))) . '-' . $slug->reference_id]);
+                // Theme::addBodyAttributes(['id' => Str::slug(Str::snake(Str::afterLast($slug->reference_type, '\\'))) . '-' . $slug->reference_id]);
 
                 return Theme::scope($result['view'], $result['data'], Arr::get($result, 'default_view'))->render();
             }

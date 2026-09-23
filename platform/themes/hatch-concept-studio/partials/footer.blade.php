@@ -154,12 +154,13 @@
       }
     </script>
 
-<script src="{{ Theme::asset()->url('js/locomotive-scroll.js') }}"></script>
+{{-- <script src="{{ Theme::asset()->url('js/locomotive-scroll.js') }}"></script>
 <script src="{{ Theme::asset()->url('js/gsap.min.js') }}"></script>
 <script src="{{ Theme::asset()->url('js/ScrollTrigger.min.js') }}"></script>
+<script src="{{ Theme::asset()->url('js/scroll-effects.js') }}"></script>
 <script src="{{ Theme::asset()->url('js/swiper-bundle.min.js') }}"></script>
+ --}}
 
-<script src="{{ Theme::asset()->url('js/HomePage.js') }}"></script>
 
 {!! Theme::asset()->scripts() !!}
 {!! Theme::footer() !!}

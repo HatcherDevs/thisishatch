@@ -54,15 +54,36 @@ body {
   }
 }
 
-#nav_about {
+#nav {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 100%;
+  justify-content: flex-start;
+  width: auto;
   position: fixed;
   z-index: 99999999999999999999999;
-  padding: 0px 0px;
-  opacity: 0;
+  padding: 0;
+  opacity: 1;
+  flex-direction: column;
+}
+
+#nav>a {
+  display: block;
+  width: clamp(48px, 5vw, 72px);
+  line-height: 0;
+  flex-shrink: 0;
+}
+
+#nav>a img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 767px) {
+
+  #nav>a {
+    width: clamp(42px, 10.5vw, 52px);
+  }
 }
 
 
@@ -106,11 +127,6 @@ body {
 .nav_list {
   list-style-type: none;
   padding-left: 0px;
-}
-
-.list-unstyled,
-.list-unstyled li {
-  list-style: none;
 }
 
 .nav_list a {
@@ -323,6 +339,148 @@ body {
 .sound-ctrl {
   opacity: 0;
 }
+
+/* End Dog Notifications */
+#dog {
+  width: auto;
+  position: fixed;
+  z-index: 999999999999999999999999999999999999999;
+  padding: 0px 0px;
+  bottom: 10px;
+  right: 0%;
+  display: flex;
+  justify-content: end;
+  transition: all 1s;
+  /* animation: shake 0.5s; */
+  -webkit-transition: all 1s;
+  -moz-transition: all 1s;
+  -ms-transition: all 1s;
+  -o-transition: all 1s;
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(0, 0) rotate(0);
+  }
+
+  10% {
+    transform: translate(-5px, 0) rotate(-5deg);
+  }
+
+  20% {
+    transform: translate(5px, 0) rotate(5deg);
+  }
+
+  30% {
+    transform: translate(-5px, 0) rotate(-5deg);
+  }
+
+  40% {
+    transform: translate(5px, 0) rotate(5deg);
+  }
+
+  50% {
+    transform: translate(-5px, 0) rotate(-5deg);
+  }
+
+  60% {
+    transform: translate(5px, 0) rotate(5deg);
+  }
+
+  70% {
+    transform: translate(-5px, 0) rotate(-5deg);
+  }
+
+  80% {
+    transform: translate(5px, 0) rotate(5deg);
+  }
+
+  90% {
+    transform: translate(-5px, 0) rotate(-5deg);
+  }
+
+  100% {
+    transform: translate(0, 0) rotate(0);
+  }
+}
+
+#dog img {
+  width: 100px;
+  transition: all .5s;
+  -webkit-transition: all .5s;
+  -moz-transition: all .5s;
+  -ms-transition: all .5s;
+  -o-transition: all .5s;
+}
+
+#dog:hover img {
+  width: 200px;
+}
+
+#dog span.dog-bubble {
+  background-image: url(../imgs/dog-bubble.png);
+  background-size: 100% 100%;
+  position: absolute;
+  padding: 8px 20px;
+  font-size: 5px;
+  width: 100%;
+  height: 40px;
+  color: white;
+  top: -55%;
+  left: -60%;
+  opacity: 0;
+  transition: all .5s;
+}
+
+.dog-bubble-scale {
+  transform: scale(0);
+  transition: all .5s;
+}
+
+#dog:hover span.dog-bubble {
+  width: 90%;
+  height: 90px;
+  top: -66%;
+  left: -40%;
+  font-size: smaller;
+  padding: 10px 20px;
+  opacity: 1;
+  animation: pop 0.6s ease;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0);
+  }
+
+  50% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+
+/* الشاشات الكبيره */
+@media(min-width:1200px) {
+  #dog span.dog-bubble {
+    width: 90%;
+    height: 90px;
+    top: -66%;
+    left: -40%;
+    font-size: smaller;
+    padding: 10px 20px;
+  }
+
+  #dog img {
+    width: 200px;
+  }
+}
+
+
+/* End Dog Notifications */
 
 
 .cursor {

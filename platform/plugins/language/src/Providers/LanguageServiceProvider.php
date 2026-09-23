@@ -108,16 +108,16 @@ class LanguageServiceProvider extends ServiceProvider
                             '2.2.0'
                         );
 
-                    Theme::asset()
-                        ->container('footer')
-                        ->usePath(false)
-                        ->add(
-                            'language-public-js',
-                            asset('vendor/core/plugins/language/js/language-public.js'),
-                            ['jquery'],
-                            [],
-                            '2.2.0'
-                        );
+                    // Theme::asset()
+                    //     ->container('footer')
+                    //     ->usePath(false)
+                    //     ->add(
+                    //         'language-public-js',
+                    //         asset('vendor/core/plugins/language/js/language-public.js'),
+                    //         ['jquery'],
+                    //         [],
+                    //         '2.2.0'
+                    //     );
                 }
 
                 Language::initModelRelations();

@@ -1,6 +1,27 @@
+@php
+    use Botble\Theme\Facades\Theme;
+ Theme::addBodyAttributes(['class' => 'home-page']);
+    Theme::asset()
+        // ->container('before_header')
+        // ->container('after_header')
+        ->usePath(false)
+        ->add('home-locomotive-css', 'themes/hatch-concept-studio/css/locomotive-scroll.css')
+        ->add('home-swiper-css', 'themes/hatch-concept-studio/css/swiper-bundle.min.css')
+        ->add('home-slider-3d-css', 'themes/hatch-concept-studio/css/slider3D.css')
+        ->add('home-style-css', 'themes/hatch-concept-studio/css/style.css')
+        ->add('home-sections-css', 'themes/hatch-concept-studio/css/home-sections.css');
+@endphp
+
+
 {!! Theme::partial('header') !!}
 
-<link rel="stylesheet" href="{{ asset('themes/hatch-concept-studio/css/home-sections.css') }}">
+
+
+
+
+
+
+
 
 <span class="click_graphics at mouseMove_hover" data-speed="2">
     <img width="100%" src="{{ Theme::asset()->url('imgs/click_graphics/at.png') }}"
@@ -90,4 +111,23 @@
 </div>
 
 
+
+
+@php
+
+    Theme::asset()
+        ->container('footer')
+        ->usePath(false)
+        ->add('home-locomotive-js', 'themes/hatch-concept-studio/js/locomotive-scroll.js')
+        ->add('home-gsap-js', 'themes/hatch-concept-studio/js/gsap.min.js')
+        ->add('home-scroll-trigger-js', 'themes/hatch-concept-studio/js/ScrollTrigger.min.js', ['home-gsap-js'])
+        ->add('home-swiper-js', 'themes/hatch-concept-studio/js/swiper-bundle.min.js')
+        ->add('home-page-js', 'themes/hatch-concept-studio/js/HomePage.js', [
+            'home-locomotive-js',
+            'home-gsap-js',
+            'home-scroll-trigger-js',
+            'home-swiper-js',
+        ]);
+
+@endphp
 {!! Theme::partial('footer') !!}
