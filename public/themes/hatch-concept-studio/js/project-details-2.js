@@ -99,3 +99,18 @@ window.addEventListener('load', function () {
     initPd2ScrollEffects();
   }
 });
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    document
+        .querySelectorAll('.pd2-project-nav button[data-url]')
+        .forEach(function (button) {
+            button.addEventListener('click', function () {
+                const url = button.getAttribute('data-url');
+
+                if (url) {
+                    window.location.href = url;
+                }
+            });
+        });
+});

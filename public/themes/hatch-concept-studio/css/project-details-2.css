@@ -426,3 +426,25 @@
     cursor: pointer;
   }
 }
+
+
+.pd2-grid--3 {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    width: 100%;
+}
+
+.pd2-grid--3 img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+@media (max-width: 767px) {
+    .pd2-grid--3 {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}

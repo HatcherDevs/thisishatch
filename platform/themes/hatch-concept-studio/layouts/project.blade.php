@@ -12,7 +12,7 @@
 
 {!! Theme::partial('header') !!}
 
-<main id="project-page-body" style="padding-top: 132px;">
+<main id="main" class="pd2-page">
     {!! Theme::content() !!}
 </main>
 
@@ -50,20 +50,30 @@
 
 
 
+
+
+
+
 @php
     $footerAssets = Theme::asset()->container('footer')->usePath(false);
 
     $footerAssets
-
-        ->add('projects-popper-js', 'themes/hatch-concept-studio/js/popper.min.js')
-        ->add('projects-bootstrap-js', 'themes/hatch-concept-studio/js/bootstrap.min.js', ['projects-popper-js'])
-        ->add('home-gsap-js', 'themes/hatch-concept-studio/js/gsap.min.js')
-        ->add('home-scroll-trigger-js', 'themes/hatch-concept-studio/js/ScrollTrigger.min.js', ['home-gsap-js'])
-        ->add('about-js', 'themes/hatch-concept-studio/js/about.js', ['about-bootstrap-js'])
-        ->add('home-swiper-js', 'themes/hatch-concept-studio/js/swiper-bundle.min.js')
-        ->add('home-swiper-js', 'themes/hatch-concept-studio/js/scroll-effects.js')
-        ->add('projects-popper-js', 'themes/hatch-concept-studio/js/project-details-2.js');
-
+        ->add('site-popper-js', 'themes/hatch-concept-studio/js/popper.min.js')
+        ->add('site-bootstrap-js', 'themes/hatch-concept-studio/js/bootstrap.min.js', ['site-popper-js'])
+        ->add('site-gsap-js', 'themes/hatch-concept-studio/js/gsap.min.js')
+        ->add('site-scroll-trigger-js', 'themes/hatch-concept-studio/js/ScrollTrigger.min.js', ['site-gsap-js'])
+        ->add('site-swiper-js', 'themes/hatch-concept-studio/js/swiper-bundle.min.js')
+        ->add('about-page-js', 'themes/hatch-concept-studio/js/about.js', ['site-bootstrap-js'])
+        ->add('project-scroll-effects-js', 'themes/hatch-concept-studio/js/scroll-effects.js', [
+            'site-gsap-js',
+            'site-scroll-trigger-js',
+        ])
+        ->add('project-details-js', 'themes/hatch-concept-studio/js/project-details-2.js', [
+            'site-bootstrap-js',
+            'site-gsap-js',
+            'site-scroll-trigger-js',
+            'site-swiper-js',
+            'project-scroll-effects-js',
+        ]);
 @endphp
-
 {!! Theme::partial('footer') !!}
