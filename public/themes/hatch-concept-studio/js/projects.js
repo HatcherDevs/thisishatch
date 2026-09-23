@@ -21,14 +21,54 @@
         }
     }
 
+    function initProjectFilter() {
+        const filterButtons = document.querySelectorAll(
+            '#projects-tab [data-category]'
+        );
+
+        const projectCards = document.querySelectorAll(
+            '#projects-grid .project-card'
+        );
+
+        if (!filterButtons.length || !projectCards.length) {
+            return;
+        }
+
+        filterButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                const selectedCategory = button.dataset.category;
+
+                filterButtons.forEach(function (item) {
+                    item.classList.remove('active');
+                });
+
+                button.classList.add('active');
+
+                projectCards.forEach(function (card) {
+                    const cardCategory = card.dataset.category;
+
+                    const shouldShow =
+                        selectedCategory === 'all' ||
+                        cardCategory === selectedCategory;
+
+                    card.style.display = shouldShow ? '' : 'none';
+                });
+            });
+        });
+    }
+
     function initProjectsPage() {
         adjustWidthBasedOnNav();
+        initProjectFilter();
 
         window.addEventListener('resize', adjustWidthBasedOnNav);
     }
 
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initProjectsPage);
+        document.addEventListener(
+            'DOMContentLoaded',
+            initProjectsPage
+        );
     } else {
         initProjectsPage();
     }

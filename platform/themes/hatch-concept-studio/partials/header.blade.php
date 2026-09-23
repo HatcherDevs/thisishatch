@@ -27,12 +27,21 @@
         $appleIcon = theme_option('website_apple_icon');
         $faviconUrl = $favicon ? RvMedia::getImageUrl($favicon) : Theme::asset()->url('imgs/hatch-logo.ico');
         $appleIconUrl = $appleIcon ? RvMedia::getImageUrl($appleIcon) : $faviconUrl;
+
+
+         Theme::asset()
+        ->usePath(false)
+        ->add(
+            'preloader-css',
+            'themes/hatch-concept-studio/css/preloader.css'
+        );
+
     @endphp
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ $faviconUrl }}" />
     <link rel="apple-touch-icon" sizes="180x180" href="{{ $appleIconUrl }}" />
 
-
+   
 
     <script src="https://kit.fontawesome.com/7b5e9f3ec6.js" crossorigin="anonymous" defer></script>
     {{-- {!! Theme::header() !!} --}}
@@ -90,23 +99,7 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var closeBtn = document.querySelector('.popover .close');
-            if (closeBtn) {
-                closeBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    if (window.location.hash === '#menu') {
-                        window.location.hash = '';
-                    } else {
-                        // fallback: إخفاء العنصر مباشرة لو لم يكن هناك hash
-                        var popover = document.getElementById('menu');
-                        if (popover) popover.classList.remove('active');
-                    }
-                });
-            }
-        });
-    </script>
+  
 </body>
 
 </html>

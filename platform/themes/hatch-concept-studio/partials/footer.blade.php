@@ -16,7 +16,6 @@
 
         $dogLoopMessages = theme_option('dog_loop_messages', 'yes') === 'yes';
     @endphp
-
     <div id="dog" data-dog-messages='@json($dogMessages)'
         data-dog-loop="{{ $dogLoopMessages ? 'yes' : 'no' }}">
         <img id="dogImage" src="{{ Theme::asset()->url('imgs/dog.png') }}"
@@ -161,6 +160,15 @@
 <script src="{{ Theme::asset()->url('js/swiper-bundle.min.js') }}"></script>
  --}}
 
+
+
+@php
+    Theme::asset()
+        ->container('footer')
+        ->usePath(false)
+        ->add('preloader-js', 'themes/hatch-concept-studio/js/preloader.js')
+        ->add('menu-js', 'themes/hatch-concept-studio/js/menu.js');
+@endphp
 
 {!! Theme::asset()->scripts() !!}
 {!! Theme::footer() !!}

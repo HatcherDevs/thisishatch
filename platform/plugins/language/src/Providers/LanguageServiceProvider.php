@@ -98,15 +98,15 @@ class LanguageServiceProvider extends ServiceProvider
                 }
 
                 if (defined('THEME_OPTIONS_MODULE_SCREEN_NAME') && ! $this->app->isDownForMaintenance()) {
-                    Theme::asset()
-                        ->usePath(false)
-                        ->add(
-                            'language-css',
-                            asset('vendor/core/plugins/language/css/language-public.css'),
-                            [],
-                            [],
-                            '2.2.0'
-                        );
+                    // Theme::asset()
+                    //     ->usePath(false)
+                    //     ->add(
+                    //         'language-css',
+                    //         asset('vendor/core/plugins/language/css/language-public.css'),
+                    //         [],
+                    //         [],
+                    //         '2.2.0'
+                    //     );
 
                     // Theme::asset()
                     //     ->container('footer')

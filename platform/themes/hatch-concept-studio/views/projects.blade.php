@@ -1,19 +1,3 @@
-@php
-    use Botble\Theme\Facades\Theme;
- Theme::addBodyAttributes(['class' => 'home-page']);
-    Theme::asset()
-        // ->container('before_header')
-        // ->container('after_header')
-        ->usePath(false)
-        ->add('home-locomotive-css', 'themes/hatch-concept-studio/css/locomotive-scroll.css')
-        ->add('home-swiper-css', 'themes/hatch-concept-studio/css/swiper-bundle.min.css')
-        ->add('home-slider-3d-css', 'themes/hatch-concept-studio/css/slider3D.css')
-        ->add('home-style-css', 'themes/hatch-concept-studio/css/style.css')
-        ->add('home-sections-css', 'themes/hatch-concept-studio/css/home-sections.css');
-@endphp
-
-
-
 <div class="container w-md-75">
     <h2 style="text-align: justify" class="pb-5">
         {!! BaseHelper::clean(
@@ -66,34 +50,3 @@
 
 </div>
 
-<script src="{{ Theme::asset()->url('js/popper.min.js') }}"></script>
-<script src="{{ Theme::asset()->url('js/bootstrap.min.js') }}"></script>
-<script src="{{ Theme::asset()->url('js/about.js') }}"></script>
-
-  <script>
-    function adjustWidthBasedOnNav() {
-      // تحقق من أن حجم الشاشة هو حجم شاشة الهاتف
-        if (window.matchMedia("(max-width: 767px)").matches) {
-            // احصل على عرض #nav_about a
-            var imgWidth = document.querySelector('#nav_about a').offsetWidth;
-    
-            // احسب النسبة المتبقية
-            var remainingWidth = 100 - (imgWidth / window.innerWidth * 100);
-            remainingWidth += 10.64;
-    
-            // قم بتعيين عرض #projects-tab
-            document.querySelector('#projects-tab').style.width = remainingWidth + '%';
-        } else {
-            // إذا كانت الشاشة أكبر من 767px، يمكنك إعادة ضبط العرض أو تركه كما هو
-            document.querySelector('#projects-tab').style.width = ''; // يعيد الضبط إلى القيمة الافتراضية
-        }
-    }
-    
-    // قم بتشغيل الوظيفة عند تحميل الصفحة
-    adjustWidthBasedOnNav();
-    
-    // استمع لحدث تغير حجم الشاشة
-    window.addEventListener('resize', adjustWidthBasedOnNav);
-  
-
-  </script>
