@@ -51,6 +51,9 @@
 
 
 
+<div class="cursor" style="padding: 15px">
+    <span id="playBtn">Play</span>
+</div>
 
 
 

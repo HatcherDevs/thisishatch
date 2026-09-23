@@ -93,6 +93,12 @@
         </div>
     </div>
 </div>
+
+
+<div class="cursor" style="padding: 15px">
+    <span id="playBtn" style="display: none">Play</span>
+</div>
+
 @php
     $footerAssets = Theme::asset()->container('footer')->usePath(false);
 

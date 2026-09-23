@@ -28,9 +28,6 @@
 @endif
 
 <div class="layout"></div>
-<div class="cursor" style="padding: 15px">
-    <span id="playBtn" >Play</span>
-</div>
 
 <!-- WebSite Schema with Search -->
 <script type="application/ld+json">

@@ -112,6 +112,9 @@
 
 
 
+<div class="cursor" style="padding: 15px">
+    <span id="playBtn" style="display: none">Play</span>
+</div>
 
 @php
 
