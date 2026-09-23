@@ -1163,3 +1163,85 @@ body.open-card {
   color: black;
   text-decoration: none;
 }
+
+
+
+.hero-scroll-indicator {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 1;
+  color: #2f2f2f;
+  pointer-events: none;
+  top: 85vh;
+
+}
+
+.hero-scroll-indicator-text {
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  font-weight: 500;
+}
+
+.hero-scroll-indicator-mouse {
+  width: 20px;
+  height: 34px;
+  border: 1.5px solid #2f2f2f;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  padding-top: 5px;
+}
+
+.hero-scroll-indicator-wheel {
+  width: 2px;
+  height: 8px;
+  border-radius: 2px;
+  background: #2f2f2f;
+  animation: scrollWheel 1.2s ease-in-out infinite;
+}
+
+.hero-scroll-indicator-arrow {
+  font-size: 12px;
+  line-height: 1;
+}
+
+@keyframes scrollWheel {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  70% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+}
+
+
+@media (max-width:1200px) {
+  canvas {
+    background-size: contain;
+  }
+
+  .layout {
+    background-size: contain;
+  }
+
+  .hero-scroll-indicator {
+    top: 85vh;
+  }
+
+  .hero-scroll-indicator-text {
+    font-size: 11px;
+  }
+}
