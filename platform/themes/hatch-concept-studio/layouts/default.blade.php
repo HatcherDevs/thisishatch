@@ -113,11 +113,10 @@
         $footerAssets
             ->add('projects-popper-js', 'themes/hatch-concept-studio/js/popper.min.js')
             ->add('projects-bootstrap-js', 'themes/hatch-concept-studio/js/bootstrap.min.js', ['projects-popper-js'])
-            ->add('about-js', 'themes/hatch-concept-studio/js/about.js', ['about-bootstrap-js']);
+            ->add('about-js', 'themes/hatch-concept-studio/js/about.js', ['about-bootstrap-js'])
+            ->add('projects-js', 'themes/hatch-concept-studio/js/projects.js', ['projects-bootstrap-js']);
 
-        if (request()->is('projects/*')) {
-            $footerAssets->add('project-details-js', 'themes/hatch-concept-studio/js/project-details.js');
-        }
+       
     }
     if (request()->is('contact-us')) {
         $footerAssets

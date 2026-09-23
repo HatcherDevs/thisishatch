@@ -28,7 +28,7 @@ ul#projects-tab li {
     position: absolute;
     top: 50px;
     right: 50px;
-    z-index: 9999999999999999999999999999999999999;
+    z-index: 130;
     background-color: #EDEDED;
     border-radius: 5px;
     -webkit-border-radius: 5px;
