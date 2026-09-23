@@ -29,7 +29,7 @@
 
 <div class="layout"></div>
 <div class="cursor" style="padding: 15px">
-    <span id="playBtn" style="display: none">Play</span>
+    <span id="playBtn" >Play</span>
 </div>
 
 <!-- WebSite Schema with Search -->

@@ -156,121 +156,21 @@
                         <source src="{{ $videoUrl }}" type="video/mp4">
                     </video>
                 @endif
+                <button type="button" class="pd2-play-btn pd2-play-btn--static" id="pd2PlayBtn" aria-hidden="true">
+                    Play
+                </button>
 
                 @if ($videoCoverUrl)
                     <div class="pd2-video-cover" id="pd2VideoCover"
                         style="background-image: url('{{ $videoCoverUrl }}');">
-                        <button type="button" class="pd2-play-btn pd2-play-btn--static" id="pd2PlayBtn"
-                            aria-label="{{ __('Play video') }}">
-                            Play
-                        </button>
+
                     </div>
                 @endif
 
             </div>
         </section>
 
-        <style>
-            .pd2-video-wrap {
-                position: relative;
-                width: 100%;
-                min-height: 300px;
-                aspect-ratio: 16 / 9;
-                overflow: hidden;
-                background: #000;
-            }
 
-            .pd2-video-wrap video,
-            .pd2-video-wrap iframe {
-                position: absolute;
-                inset: 0;
-                display: block;
-                width: 100%;
-                height: 100%;
-                min-height: 300px;
-                border: 0;
-                object-fit: cover;
-                background: #000;
-            }
-
-            .pd2-video-cover {
-                position: absolute;
-                inset: 0;
-                z-index: 5;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 100%;
-                height: 100%;
-                background-color: #000;
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: cover;
-                opacity: 1;
-                visibility: visible;
-                transition: opacity 0.3s ease, visibility 0.3s ease;
-            }
-
-            .pd2-video-cover::before {
-                position: absolute;
-                inset: 0;
-                z-index: 0;
-                background: rgba(0, 0, 0, 0.25);
-                content: "";
-            }
-
-            .pd2-video-cover.is-hidden {
-                visibility: hidden;
-                opacity: 0;
-                pointer-events: none;
-            }
-
-            .pd2-video-cover .pd2-play-btn {
-                position: relative;
-                z-index: 1;
-                cursor: pointer;
-            }
-        </style>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const wrapper = document.getElementById('pd2VideoCustom');
-                const cover = document.getElementById('pd2VideoCover');
-                const playButton = document.getElementById('pd2PlayBtn');
-                const media = document.getElementById('pd2Video');
-
-                if (!wrapper || !cover || !playButton || !media) {
-                    return;
-                }
-
-                playButton.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    event.stopPropagation();
-
-                    cover.classList.add('is-hidden');
-
-                    if (media.tagName.toLowerCase() === 'video') {
-                        media.play().catch(function(error) {
-                            console.warn('Video playback failed:', error);
-                        });
-
-                        return;
-                    }
-
-                    if (media.tagName.toLowerCase() === 'iframe') {
-                        const currentSrc = media.getAttribute('src');
-
-                        if (currentSrc && !currentSrc.includes('autoplay=1')) {
-                            const separator = currentSrc.includes('?') ? '&' : '?';
-
-                            media.setAttribute(
-                                'src',
-                                currentSrc + separator + 'autoplay=1'
-                            );
-                        }
-                    }
-                });
-            });
-        </script>
 
     @endif
 
@@ -337,7 +237,7 @@
         </section>
     @endif
 
-    {{-- <div class="pb-5 mb-5"></div> --}}
+
 
 
 </div>
