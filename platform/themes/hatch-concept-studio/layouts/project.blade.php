@@ -1,3 +1,15 @@
+@php
+    use Botble\Theme\Facades\Theme;
+
+    $assets = Theme::asset()->usePath(false);
+    $assets
+        ->add('about-js', 'themes/hatch-concept-studio/css/bootstrap.min.css')
+        ->add('about-css', 'themes/hatch-concept-studio/css/about.css')
+        ->add('contact-swiper-css', 'themes/hatch-concept-studio/css/swiper-bundle.min.css')
+        ->add('projects-css', 'themes/hatch-concept-studio/css/project-details-2.css');
+
+@endphp
+
 {!! Theme::partial('header') !!}
 
 <main id="project-page-body" style="padding-top: 132px;">
@@ -34,5 +46,24 @@
         </footer>
     </div>
 </div>
+
+
+
+
+@php
+    $footerAssets = Theme::asset()->container('footer')->usePath(false);
+
+    $footerAssets
+
+        ->add('projects-popper-js', 'themes/hatch-concept-studio/js/popper.min.js')
+        ->add('projects-bootstrap-js', 'themes/hatch-concept-studio/js/bootstrap.min.js', ['projects-popper-js'])
+        ->add('home-gsap-js', 'themes/hatch-concept-studio/js/gsap.min.js')
+        ->add('home-scroll-trigger-js', 'themes/hatch-concept-studio/js/ScrollTrigger.min.js', ['home-gsap-js'])
+        ->add('about-js', 'themes/hatch-concept-studio/js/about.js', ['about-bootstrap-js'])
+        ->add('home-swiper-js', 'themes/hatch-concept-studio/js/swiper-bundle.min.js')
+        ->add('home-swiper-js', 'themes/hatch-concept-studio/js/scroll-effects.js')
+        ->add('projects-popper-js', 'themes/hatch-concept-studio/js/project-details-2.js');
+
+@endphp
 
 {!! Theme::partial('footer') !!}

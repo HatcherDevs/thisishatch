@@ -24,51 +24,7 @@
         <!-- <audio id="notificationSound" src="imgs/mixkit-happy-puppy-barks-741.mp3"></audio> -->
     </div>
 
-    <script>
-        (function() {
-            var dogElement = document.getElementById('dog');
-            var notificationElement = document.getElementById('notification');
-
-            if (!dogElement || !notificationElement) {
-                return;
-            }
-
-            var messages = [];
-            var loopMode = dogElement.getAttribute('data-dog-loop') === 'yes';
-
-            try {
-                var rawMessages = dogElement.getAttribute('data-dog-messages') || '[]';
-                messages = JSON.parse(rawMessages);
-            } catch (error) {
-                messages = [];
-            }
-
-            if (!Array.isArray(messages)) {
-                messages = [];
-            }
-
-            messages = messages.filter(function(message) {
-                return typeof message === 'string' && message.trim() !== '';
-            });
-
-            if (messages.length === 0) {
-                return;
-            }
-
-            notificationElement.textContent = messages[0];
-
-            if (!loopMode || messages.length < 2) {
-                return;
-            }
-
-            var currentIndex = 0;
-
-            window.setInterval(function() {
-                currentIndex = (currentIndex + 1) % messages.length;
-                notificationElement.textContent = messages[currentIndex];
-            }, 3000);
-        })();
-    </script>
+    
 @endif
 
 <div class="layout"></div>
@@ -153,12 +109,6 @@
       }
     </script>
 
-{{-- <script src="{{ Theme::asset()->url('js/locomotive-scroll.js') }}"></script>
-<script src="{{ Theme::asset()->url('js/gsap.min.js') }}"></script>
-<script src="{{ Theme::asset()->url('js/ScrollTrigger.min.js') }}"></script>
-<script src="{{ Theme::asset()->url('js/scroll-effects.js') }}"></script>
-<script src="{{ Theme::asset()->url('js/swiper-bundle.min.js') }}"></script>
- --}}
 
 
 
@@ -167,6 +117,7 @@
         ->container('footer')
         ->usePath(false)
         ->add('preloader-js', 'themes/hatch-concept-studio/js/preloader.js')
+        ->add('dog-notification-js', 'themes/hatch-concept-studio/js/dog-notification.js')
         ->add('menu-js', 'themes/hatch-concept-studio/js/menu.js');
 @endphp
 

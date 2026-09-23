@@ -29,16 +29,19 @@
             ->add('projects-css', 'themes/hatch-concept-studio/css/projects.css');
     }
 
+
     /*
     |--------------------------------------------------------------------------
-    | Single project page
+    | contact-us page
     |--------------------------------------------------------------------------
     */
 
-    if (request()->is('projects/*')) {
+    if (request()->is('contact-us')) {
         $assets
-            ->add('project-details-css', 'themes/hatch-concept-studio/css/project-details.css')
-            ->add('project-details-js', 'themes/hatch-concept-studio/js/project-details.js');
+            ->add('contact-bootstrap-css', 'themes/hatch-concept-studio/css/bootstrap.min.css')
+            ->add('about-css', 'themes/hatch-concept-studio/css/about.css')
+            ->add('projects-css', 'themes/hatch-concept-studio/css/projects.css')
+            ->add('contact-swiper-css', 'themes/hatch-concept-studio/css/swiper-bundle.min.css');
     }
 @endphp
 
@@ -104,12 +107,18 @@
         $footerAssets
             ->add('projects-popper-js', 'themes/hatch-concept-studio/js/popper.min.js')
             ->add('projects-bootstrap-js', 'themes/hatch-concept-studio/js/bootstrap.min.js', ['projects-popper-js'])
-            ->add('about-js', 'themes/hatch-concept-studio/js/about.js', ['about-bootstrap-js'])
-            ->add('projects-js', 'themes/hatch-concept-studio/js/projects.js', ['projects-bootstrap-js']);
-    }
+            ->add('about-js', 'themes/hatch-concept-studio/js/about.js', ['about-bootstrap-js']);
 
-    if (request()->is('projects/*')) {
-        $footerAssets->add('project-details-js', 'themes/hatch-concept-studio/js/project-details.js');
+        if (request()->is('projects/*')) {
+            $footerAssets->add('project-details-js', 'themes/hatch-concept-studio/js/project-details.js');
+        }
+    }
+    if (request()->is('contact-us')) {
+        $footerAssets
+            ->add('contact-us-popper-js', 'themes/hatch-concept-studio/js/popper.min.js')
+            ->add('contact-us-bootstrap-js', 'themes/hatch-concept-studio/js/bootstrap.min.js', ['contact-us-popper-js'])
+            ->add('about-js', 'themes/hatch-concept-studio/js/about.js', ['about-bootstrap-js'])
+            ->add('contact-us-js', 'themes/hatch-concept-studio/js/contact-us.js', ['contact-us-bootstrap-js']);
     }
 @endphp
 
