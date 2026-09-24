@@ -152,6 +152,31 @@
     function getIsMobile() {
         return window.innerWidth <= 767;
     }
+
+
+function refreshScrollTriggers() {
+    if (
+        typeof window.ScrollTrigger === 'undefined'
+    ) {
+        return;
+    }
+
+    window.requestAnimationFrame(function () {
+        window.ScrollTrigger.refresh(true);
+
+        const main = document.querySelector('#main');
+
+        if (
+            main &&
+            main.__locomotiveScroll &&
+            typeof main.__locomotiveScroll.update === 'function'
+        ) {
+            main.__locomotiveScroll.update();
+        }
+    });
+}
+
+
     window.initHomeScrollEffects = function initHomeScrollEffects() {
         console.log('initHomeScrollEffects started');
 
