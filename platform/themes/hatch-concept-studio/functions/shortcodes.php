@@ -21,6 +21,15 @@ use Botble\Theme\Supports\ThemeSupport;
 use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Support\Facades\Event;
 
+
+
+
+
+
+
+
+
+
 Event::listen(RouteMatched::class, function (): void {
     ThemeSupport::registerGoogleMapsShortcode();
     ThemeSupport::registerYoutubeShortcode();
@@ -434,6 +443,117 @@ Event::listen(RouteMatched::class, function (): void {
                 TextFieldOption::make()
                     ->label(__('Right link URL'))
                     ->placeholder(__('https://example.com/right'))
+            );
+    });
+
+
+    // ----------------------------------------------------------------
+    // Register project-images shortcode
+    // ----------------------------------------------------------------
+    Shortcode::register(
+        'project-images',
+        __('Project images'),
+        __('Display project images with selectable layout'),
+        function (ShortcodeCompiler $shortcode) {
+            return Theme::partial(
+                'shortcodes.project-images',
+                compact('shortcode')
+            );
+        }
+    );
+
+    Shortcode::setAdminConfig('project-images', function (array $attributes) {
+        return ShortcodeForm::createFromArray($attributes)
+            ->add(
+                'layout',
+                SelectField::class,
+                SelectFieldOption::make()
+                    ->label(__('Images layout'))
+                    ->choices([
+                        'full-image' => __('Full image'),
+                        'two-inline' => __('2 inline images'),
+                        'two-vertical' => __('Up/down images'),
+                        'three-inline' => __('3 inline images'),
+                    ])
+                    ->selected($attributes['layout'] ?? 'full-image')
+            )
+            ->add(
+                'images',
+                MediaImagesField::class,
+                MediaImagesFieldOption::make()
+                    ->label(__('Images'))
+                    ->helperText(
+                        __('Select the required number of images for the selected layout.')
+                    )
+                    ->values($attributes['images'] ?? [])
+            );
+    });
+    // ----------------------------------------------------------------
+    // Register project-headline shortcode
+    // ----------------------------------------------------------------
+    Shortcode::register(
+        'project-headline',
+        __('Project headline'),
+        __('Display project title and description'),
+        function (ShortcodeCompiler $shortcode) {
+            return Theme::partial(
+                'shortcodes.project-headline',
+                compact('shortcode')
+            );
+        }
+    );
+
+    Shortcode::setAdminConfig('project-headline', function (array $attributes) {
+        return ShortcodeForm::createFromArray($attributes)
+            ->add(
+                'title',
+                TextField::class,
+                TextFieldOption::make()
+                    ->label(__('Title'))
+                    ->placeholder(__('Enter project headline'))
+                    ->required()
+            )
+            ->add(
+                'description',
+                TextareaField::class,
+                TextareaFieldOption::make()
+                    ->label(__('Description'))
+                    ->placeholder(__('Enter project description'))
+            );
+    });
+
+
+    // ----------------------------------------------------------------
+    // Register project-video shortcode
+    // ----------------------------------------------------------------
+    Shortcode::register(
+        'project-video',
+        __('Project video'),
+        __('Display a project video with cover image'),
+        function (ShortcodeCompiler $shortcode) {
+            return Theme::partial(
+                'shortcodes.project-video',
+                compact('shortcode')
+            );
+        }
+    );
+
+    Shortcode::setAdminConfig('project-video', function (array $attributes) {
+        return ShortcodeForm::createFromArray($attributes)
+            ->add(
+                'video_url',
+                TextField::class,
+                TextFieldOption::make()
+                    ->label(__('Video URL'))
+                    ->placeholder(__('https://www.youtube.com/watch?v=...'))
+                    ->required()
+            )
+            ->add(
+                'cover_image',
+                MediaImageField::class,
+                MediaImageFieldOption::make()
+                    ->label(__('Cover image'))
+                    ->helperText(__('Cover image displayed before playing the video.'))
             );
     });
 });

@@ -1,4 +1,6 @@
 @php
+    use Botble\Shortcode\Facades\Shortcode;
+
     $projectImage = $project->image ?: $project->cover;
 
     $projectImageUrl = $projectImage
@@ -15,67 +17,100 @@
 
     $projectContent = $project->content ?? '';
 
-    $projectTags = $project->tags ?? collect();
-
-    $projectCategory = $project->category ?? null;
-
-    // -----------
-    $projectVideos = $project->videos ?? [];
-
-    if (is_string($projectVideos)) {
-        $projectVideos = json_decode($projectVideos, true);
-    }
-
-    if (!is_array($projectVideos)) {
-        $projectVideos = [];
-    }
-
-    $projectVideos = collect($projectVideos)
-        ->filter(function ($video) {
-            return is_array($video) && !empty($video['url']);
-        })
-        ->values();
-
-    $firstVideo = $projectVideos->first();
-
-    $videoUrl = $firstVideo['url'] ?? null;
-    $videoCover = $firstVideo['cover'] ?? null;
-
-    $videoCoverUrl = $videoCover ? RvMedia::getImageUrl($videoCover) : Theme::asset()->url('imgs/timeline-video.png');
-
-    $youtubeId = null;
-    $vimeoId = null;
-
-    if ($videoUrl) {
-        if (preg_match('/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/', $videoUrl, $matches)) {
-            $youtubeId = $matches[1];
-        } elseif (preg_match('/vimeo\.com\/(\d+)/', $videoUrl, $matches)) {
-            $vimeoId = $matches[1];
+    $compileProjectShortcodes = function (?string $content) {
+        if (!$content) {
+            return '';
         }
+
+        $content = htmlspecialchars_decode($content, ENT_QUOTES);
+    $content = preg_replace('/<shortcode(?:\s[^>]*)@endphp|<\/shortcode>/i', '', $content);
+    $content = str_replace(['\\"', '\\\\'], ['"', '\\'], $content);
+
+    return Shortcode::compile($content);
+};
+
+$compiledProjectDescription = $compileProjectShortcodes($projectDescription);
+$compiledProjectContent = $compileProjectShortcodes($projectContent);
+
+$compiledProjectContent = preg_replace_callback(
+    '/(<section\b[^>]*class=")([^"]*\b(pd2-video|pd2-midtext|pd2-fullimg|pd2-grid|pd2-three-inline)\b[^"]*)(")/i',
+    function ($matches) {
+        $classes = $matches[2];
+
+        if (! preg_match('/\bnp-content\b/i', $classes)) {
+            $classes .= ' np-content';
+        }
+
+        return $matches[1]
+            . trim($classes)
+            . $matches[4];
+    },
+    $compiledProjectContent
+);
+
+$projectTags = $project->tags ?? collect();
+
+$projectCategory = $project->category ?? null;
+
+// -----------
+$projectVideos = $project->videos ?? [];
+
+if (is_string($projectVideos)) {
+    $projectVideos = json_decode($projectVideos, true);
+}
+
+if (!is_array($projectVideos)) {
+    $projectVideos = [];
+}
+
+$projectVideos = collect($projectVideos)
+    ->filter(function ($video) {
+        return is_array($video) && !empty($video['url']);
+    })
+    ->values();
+
+$firstVideo = $projectVideos->first();
+
+$videoUrl = $firstVideo['url'] ?? null;
+$videoCover = $firstVideo['cover'] ?? null;
+
+$videoCoverUrl = $videoCover ? RvMedia::getImageUrl($videoCover) : Theme::asset()->url('imgs/timeline-video.png');
+
+$youtubeId = null;
+$vimeoId = null;
+
+if ($videoUrl) {
+    if (preg_match('/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/', $videoUrl, $matches)) {
+        $youtubeId = $matches[1];
+    } elseif (preg_match('/vimeo\.com\/(\d+)/', $videoUrl, $matches)) {
+        $vimeoId = $matches[1];
     }
+}
 
-    $isExternalVideo = $youtubeId || $vimeoId;
+$isExternalVideo = $youtubeId || $vimeoId;
 
-    // ---------------------
-    $galleryImages = $project->gallery_images ?? [];
+// ---------------------
+$galleryImages = $project->gallery_images ?? [];
 
-    if (is_string($galleryImages)) {
-        $galleryImages = json_decode($galleryImages, true);
-    }
+if (is_string($galleryImages)) {
+    $galleryImages = json_decode($galleryImages, true);
+}
 
-    if (!is_array($galleryImages)) {
-        $galleryImages = [];
-    }
+if (!is_array($galleryImages)) {
+    $galleryImages = [];
+}
 
-    $galleryImages = array_values(array_filter($galleryImages));
-    $galleryCount = count($galleryImages);
+$galleryImages = array_values(array_filter($galleryImages));
+$galleryCount = count($galleryImages);
 
-    // dd($project,$projectVideos,$videoUrl,$youtubeId,$vimeoId);
+// dd($project,$projectVideos,$videoUrl,$youtubeId,$vimeoId);
 
-@endphp
+?>
 <div class="container w-md-75">
     <section class="pd2-hero">
-        <img class="pd2-hero-img img-fluid" src="{{ $projectImageUrl }}" alt="{{ $projectTitle }}" />
+        <img class="pd2-hero-img img-fluid"
+            src="{{ $projectImageUrl ?? Theme::asset()->url('imgs/projects/project-details/details.png') }}"
+            alt="{{ $projectTitle ?? ($project->title ?? '') }}" />
 
         <div class="row pt-2 pd2-meta">
             <div class="col-6">
@@ -121,22 +156,19 @@
             </p>
         @endif
 
-        @if ($projectDescription)
-            <div class="w-100 d-flex justify-content-end">
-                <div class="pd2-body w-75">
-                    {!! BaseHelper::clean($projectDescription) !!}
-                </div>
-            </div>
-        @endif
 
-        @if ($projectContent)
+
+        @if ($compiledProjectContent)
             <div class="w-100 d-flex justify-content-end">
-                <div class="pd2-body w-75">
-                    {!! BaseHelper::clean($projectContent) !!}
+                <div class="project-content pb-5">
+                    {!! $compiledProjectContent !!}
                 </div>
             </div>
         @endif
     </section>
+
+
+    
 
     @if ($videoUrl)
         <section class="pd2-video">

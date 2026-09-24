@@ -61,7 +61,7 @@ return [
             // );
 
             if (function_exists('shortcode')) {
-                $theme->composer(['page'], function (View $view) {
+                $theme->composer(['page', 'project'], function (View $view) {
                     $view->withShortcodes();
                 });
             }

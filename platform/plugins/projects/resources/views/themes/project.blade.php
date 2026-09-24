@@ -1,27 +1,41 @@
-<section class="project-single">
-    <div class="container">
-        <h1>{{ $project->title }}</h1>
+@php
+use Botble\Shortcode\Facades\Shortcode;
 
-        @if ($project->tagline)
-            <p>{{ $project->tagline }}</p>
-        @endif
+$projectContent = $project->content ?? '';
+$projectContent = htmlspecialchars_decode($projectContent, ENT_QUOTES);
+$projectContent = preg_replace('/<shortcode(?:\s[^>]*)?>|<\ /shortcode>/i', '', $projectContent);
+        $projectContent = str_replace(['\\"', '\\\\'], ['"', '\\'], $projectContent);
+        $compiledProjectContent = $projectContent ? Shortcode::compile($projectContent) : '';
+        ?>
 
-        @if ($project->cover)
-            <div class="project-cover">
-                <img src="{{ RvMedia::getImageUrl($project->cover) }}" alt="{{ $project->title }}">
+        <section class="project-single">
+            <div class="container">
+                <h1>
+                    {{ $project->title }}
+                </h1>
+
+                @if ($project->tagline)
+                    <p>
+                        {{ $project->tagline }}
+                    </p>
+                @endif
+
+                @if ($project->cover)
+                    <div class="project-cover">
+                        <img src="{{ RvMedia::getImageUrl($project->cover) }}" alt="{{ $project->title }}">
+                    </div>
+                @endif
+
+                @if ($project->description)
+                    <div class="project-description">
+                        {!! BaseHelper::clean($project->description) !!}
+                    </div>
+                @endif
+
+                @if ($project->content)
+                    <div class="project-content">
+                        {!! $compiledProjectContent !!}
+                    </div>
+                @endif
             </div>
-        @endif
-
-        @if ($project->description)
-            <div class="project-description">
-                {!! BaseHelper::clean($project->description) !!}
-            </div>
-        @endif
-
-        @if ($project->content)
-            <div class="project-content">
-                {!! BaseHelper::clean(do_shortcode($project->content)) !!}
-            </div>
-        @endif
-    </div>
-</section>
+        </section>
