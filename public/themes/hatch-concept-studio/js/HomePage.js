@@ -512,7 +512,11 @@ document.getElementById('dog').addEventListener('click', () => {
 // }, 20000);
 
 window.addEventListener('load', function () {
-  if (typeof initHomeScrollEffects === 'function') {
-    initHomeScrollEffects();
-  }
+    if (typeof window.initHomeScrollEffects === 'function') {
+        window.initHomeScrollEffects();
+    } else {
+        console.warn(
+            'initHomeScrollEffects is not defined'
+        );
+    }
 });

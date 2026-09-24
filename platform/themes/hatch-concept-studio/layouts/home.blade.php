@@ -130,15 +130,9 @@
         ->add('home-locomotive-js', 'themes/hatch-concept-studio/js/locomotive-scroll.js')
         ->add('home-gsap-js', 'themes/hatch-concept-studio/js/gsap.min.js')
         ->add('home-scroll-trigger-js', 'themes/hatch-concept-studio/js/ScrollTrigger.min.js', ['home-gsap-js'])
-        ->add('home-scroll-effects-js', 'themes/hatch-concept-studio/js/scroll-effects.js', ['home-gsap-js'])
+        ->add('home-scroll-effects-js', 'themes/hatch-concept-studio/js/scroll-effects.js', ['scroll-effects-js'])
         ->add('home-swiper-js', 'themes/hatch-concept-studio/js/swiper-bundle.min.js')
-        ->add('home-page-js', 'themes/hatch-concept-studio/js/HomePage.js', [
-            'home-locomotive-js',
-            'home-gsap-js',
-            'home-scroll-trigger-js',
-            'home-scroll-effects-js',
-            'home-swiper-js',
-        ]);
+        ->add('home-page-js', 'themes/hatch-concept-studio/js/HomePage.js', ['HomePage.js' ]);
 
 @endphp
 {!! Theme::partial('footer') !!}

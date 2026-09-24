@@ -151,64 +151,73 @@
     }
 
     window.initHomeScrollEffects = function initHomeScrollEffects() {
-        if (!canAnimate()) {
-            return;
-        }
+    console.log('initHomeScrollEffects started');
 
-        gsap.registerPlugin(ScrollTrigger);
+    if (!canAnimate()) {
+        return;
+    }
 
-        const portfolioSection = document.querySelector(
-            '.home-portfolio-section'
+    const isMobile = getIsMobile();
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const portfolioSection = document.querySelector(
+        '.home-portfolio-section'
+    );
+
+    if (!portfolioSection) {
+        console.warn(
+            '.home-portfolio-section not found'
         );
 
-        if (!portfolioSection) {
-            return;
-        }
+        return;
+    }
 
-        revealElements(
-            '.home-portfolio-section .portfolio-item',
+    revealElements(
+        '.home-portfolio-section .portfolio-item',
+        {
+            scroller: '#main',
+            y: isMobile ? 40 : 84,
+            scale: 0.95,
+            stagger: 0.08,
+        }
+    );
+
+    revealElements(
+        '.home-portfolio-section .portfolio-deco',
+        {
+            scroller: '#main',
+            y: isMobile ? 24 : 56,
+            scale: 0.88,
+            stagger: 0.06,
+            start: isMobile ? 'top bottom' : 'top 92%',
+        }
+    );
+
+    if (!isMobile) {
+        parallaxScale(
+            '.home-portfolio-section .portfolio-media img',
             {
-                scroller: window,
-                y: isMobile ? 40 : 84,
-                scale: 0.95,
-                stagger: 0.08
+                scroller: '#main',
+                fromScale: 1.14,
+                scrub: 0.85,
             }
         );
 
-        revealElements(
+        parallaxY(
             '.home-portfolio-section .portfolio-deco',
             {
-                scroller: window,
-                y: isMobile ? 24 : 56,
-                scale: 0.88,
-                stagger: 0.06,
-                start: 'top 92%'
+                scroller: '#main',
+                amount: 72,
+                scrub: 0.45,
             }
         );
+    }
 
-        if (!isMobile) {
-            parallaxScale(
-                '.home-portfolio-section .portfolio-media img',
-                {
-                    scroller: window,
-                    fromScale: 1.14,
-                    scrub: 0.85
-                }
-            );
+    refreshScrollTriggers();
 
-            parallaxY(
-                '.home-portfolio-section .portfolio-deco',
-                {
-                    scroller: window,
-                    amount: 72,
-                    scrub: 0.45
-                }
-            );
-        }
-
-        ScrollTrigger.refresh();
-    };
-
+    console.log('Home scroll effects initialized');
+};
     window.initPd2ScrollEffects = function initPd2ScrollEffects() {
         const projectSelector =
             '.pd2-grid img, .pd2-fullimg img, .pd2-slider';
