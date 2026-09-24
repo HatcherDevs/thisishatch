@@ -137,14 +137,14 @@ ScrollTrigger.create({
   },
 });
 
-gsap.set(".layout", { bottom: "100%", opacity: 1 });
-gsap.to(".layout", {
-  bottom: 0,
-  opacity: 1,
-  ease: "power2.inOut", // يمكنك تغيير هذا حسب التفضيلات
-  duration: 2, // يمكنك ضبط مدة التأثير
-  delay: 1, // يمكنك ضبط تأخير بداية التأثير
-});
+// gsap.set(".layout", { bottom: "100%", opacity: 1 });
+// gsap.to(".layout", {
+//   bottom: 0,
+//   opacity: 1,
+//   ease: "power2.inOut", // يمكنك تغيير هذا حسب التفضيلات
+//   duration: 2, // يمكنك ضبط مدة التأثير
+//   delay: 1, // يمكنك ضبط تأخير بداية التأثير
+// });
 
 gsap.to("#page", {
   opacity: 1,
@@ -164,13 +164,13 @@ gsap.to(".click_graphics", {
   duration: 2,
   delay: 1.5,
 });
-gsap.to(".layout", {
-  opacity: 0,
-  display: 'none',
-  ease: "power2.inOut", // يمكنك تغيير هذا حسب التفضيلات
-  duration: 2, // يمكنك ضبط مدة التأثير
-  delay: 2, // يمكنك ضبط تأخير بداية التأثير
-});
+// gsap.to(".layout", {
+//   opacity: 0,
+//   display: 'none',
+//   ease: "power2.inOut", // يمكنك تغيير هذا حسب التفضيلات
+//   duration: 2, // يمكنك ضبط مدة التأثير
+//   delay: 2, // يمكنك ضبط تأخير بداية التأثير
+// });
 
 // ------------------------------------ For Icons on Header -------------------------
 
