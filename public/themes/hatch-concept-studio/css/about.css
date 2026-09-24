@@ -690,3 +690,18 @@ body {
         width: 80px !important;
     }
 }
+
+
+@media (max-width: 767px) {
+    p[style*="margin-left:320px"], p[style*="margin-left: 320px"], p[style*="margin-left:240px"], p[style*="margin-left: 240px"] {
+        margin-left: clamp(44px, 4vw, 24px) !important;
+        width: calc(100% - 24px);
+    }
+}
+
+@media (max-width: 767px) {
+    p[style*="margin-left:320px"], p[style*="margin-left: 320px"], p[style*="margin-left:240px"], p[style*="margin-left: 240px"] {
+        margin-left: clamp(44px, 4vw, 24px) !important;
+        width: calc(100% - 24px);
+    }
+}
