@@ -178,7 +178,7 @@ function refreshScrollTriggers() {
 
 
     window.initHomeScrollEffects = function initHomeScrollEffects() {
-        console.log('initHomeScrollEffects started');
+        // console.log('initHomeScrollEffects started');
 
         if (!canAnimate()) {
             return;
@@ -243,7 +243,7 @@ function refreshScrollTriggers() {
 
         refreshScrollTriggers();
 
-        console.log('Home scroll effects initialized');
+        // console.log('Home scroll effects initialized');
     };
     window.initPd2ScrollEffects = function initPd2ScrollEffects() {
         const projectSelector =

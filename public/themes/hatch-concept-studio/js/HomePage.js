@@ -515,8 +515,8 @@ window.addEventListener('load', function () {
     if (typeof window.initHomeScrollEffects === 'function') {
         window.initHomeScrollEffects();
     } else {
-        console.warn(
-            'initHomeScrollEffects is not defined'
-        );
+        // console.warn(
+        //     'initHomeScrollEffects is not defined'
+        // );
     }
 });
