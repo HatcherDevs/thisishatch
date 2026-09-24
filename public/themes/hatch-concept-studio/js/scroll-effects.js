@@ -149,75 +149,77 @@
             );
         });
     }
-
-    window.initHomeScrollEffects = function initHomeScrollEffects() {
-    console.log('initHomeScrollEffects started');
-
-    if (!canAnimate()) {
-        return;
+    function getIsMobile() {
+        return window.innerWidth <= 767;
     }
+    window.initHomeScrollEffects = function initHomeScrollEffects() {
+        console.log('initHomeScrollEffects started');
 
-    const isMobile = getIsMobile();
+        if (!canAnimate()) {
+            return;
+        }
 
-    gsap.registerPlugin(ScrollTrigger);
+        const isMobile = getIsMobile();
 
-    const portfolioSection = document.querySelector(
-        '.home-portfolio-section'
-    );
+        gsap.registerPlugin(ScrollTrigger);
 
-    if (!portfolioSection) {
-        console.warn(
-            '.home-portfolio-section not found'
+        const portfolioSection = document.querySelector(
+            '.home-portfolio-section'
         );
 
-        return;
-    }
+        if (!portfolioSection) {
+            console.warn(
+                '.home-portfolio-section not found'
+            );
 
-    revealElements(
-        '.home-portfolio-section .portfolio-item',
-        {
-            scroller: '#main',
-            y: isMobile ? 40 : 84,
-            scale: 0.95,
-            stagger: 0.08,
+            return;
         }
-    );
 
-    revealElements(
-        '.home-portfolio-section .portfolio-deco',
-        {
-            scroller: '#main',
-            y: isMobile ? 24 : 56,
-            scale: 0.88,
-            stagger: 0.06,
-            start: isMobile ? 'top bottom' : 'top 92%',
-        }
-    );
-
-    if (!isMobile) {
-        parallaxScale(
-            '.home-portfolio-section .portfolio-media img',
+        revealElements(
+            '.home-portfolio-section .portfolio-item',
             {
                 scroller: '#main',
-                fromScale: 1.14,
-                scrub: 0.85,
+                y: isMobile ? 40 : 84,
+                scale: 0.95,
+                stagger: 0.08,
             }
         );
 
-        parallaxY(
+        revealElements(
             '.home-portfolio-section .portfolio-deco',
             {
                 scroller: '#main',
-                amount: 72,
-                scrub: 0.45,
+                y: isMobile ? 24 : 56,
+                scale: 0.88,
+                stagger: 0.06,
+                start: isMobile ? 'top bottom' : 'top 92%',
             }
         );
-    }
 
-    refreshScrollTriggers();
+        if (!isMobile) {
+            parallaxScale(
+                '.home-portfolio-section .portfolio-media img',
+                {
+                    scroller: '#main',
+                    fromScale: 1.14,
+                    scrub: 0.85,
+                }
+            );
 
-    console.log('Home scroll effects initialized');
-};
+            parallaxY(
+                '.home-portfolio-section .portfolio-deco',
+                {
+                    scroller: '#main',
+                    amount: 72,
+                    scrub: 0.45,
+                }
+            );
+        }
+
+        refreshScrollTriggers();
+
+        console.log('Home scroll effects initialized');
+    };
     window.initPd2ScrollEffects = function initPd2ScrollEffects() {
         const projectSelector =
             '.pd2-grid img, .pd2-fullimg img, .pd2-slider';
