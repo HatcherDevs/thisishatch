@@ -113,7 +113,7 @@ $galleryCount = count($galleryImages);
             alt="{{ $projectTitle ?? ($project->title ?? '') }}" />
 
         <div class="row pt-2 pd2-meta">
-            <div class="col-6">
+            <div class="col-2 col-md-6">
                 @if ($projectYear)
                     <span class="pd2-year">
                         {{ $projectYear }}
@@ -121,7 +121,7 @@ $galleryCount = count($galleryImages);
                 @endif
             </div>
 
-            <div class="col-6 pd2-tags">
+            <div class="col-10 col-md-6 text-end pd2-tags">
                 @if ($projectCategory)
                     <a href="{{ $projectCategory->url ?? '#' }}">
                         {{ $projectCategory->name }}
@@ -159,11 +159,11 @@ $galleryCount = count($galleryImages);
 
 
         @if ($compiledProjectContent)
-            <div class="w-100 d-flex justify-content-end">
+            
                 <div class="project-content pb-5">
                     {!! $compiledProjectContent !!}
                 </div>
-            </div>
+          
         @endif
     </section>
 

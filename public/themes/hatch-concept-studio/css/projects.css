@@ -141,3 +141,38 @@ ul#projects-tab li {
     height: 518px;
     object-fit: cover;
 }
+@media (max-width: 768px) {
+    .card-img-top {
+         width: 100% !important;
+        height: auto;
+    }
+}
+
+
+#projects-tab {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    z-index: 9999999999999999999999999999999999999;
+    background-color: #EDEDED;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+
+@media (max-width: 1000px) {
+    #projects-tab {
+        top: 0;
+        right: 0px;
+        padding-left: 10px;
+    }
+}
+
+@media (max-width: 767px) {
+    #projects-tab {
+        width: calc(100% - 80px);
+    }
+}
+

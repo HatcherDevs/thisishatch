@@ -405,7 +405,7 @@ body {
 }
 
 #dog img {
-  width: 100px;
+  width: 200px;
   transition: all .5s;
   -webkit-transition: all .5s;
   -moz-transition: all .5s;
@@ -681,5 +681,12 @@ body {
 }
 
 #dog img {
-   width: 200px;
+   width: 200px !important;
+}
+
+
+@media (max-width: 768px) {
+    .nav-icon-img {
+        width: 80px !important;
+    }
 }

@@ -1285,3 +1285,9 @@ body.open-card {
 #dog img {
   width: 200px;
 }
+
+@media (max-width: 768px) {
+    .nav-icon-img {
+        width: 80px !important;
+    }
+}

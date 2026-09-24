@@ -18,6 +18,11 @@
     max-width: 75%;
   }
 }
+@media (max-width: 767px) {
+    .pd2-hero-img {
+        height: 192px !important;
+    }
+}
 
 .pd2-hero {
   margin-bottom: 0;
@@ -67,7 +72,7 @@
 
 .pd2-title {
   color: #f8511e;
-  font-size: inherit;
+  font-size: calc(1.325rem + .9vw);
   font-weight: 300;
   line-height: 1.2;
   margin: 0;
