@@ -31,7 +31,7 @@ body.home-page {
   height: 100%;
   width: 100%;
   bottom: 100%;
-  background-image: url(../imgs/horse-webp/turn02_0000.webp);
+  /* background-image: url(../imgs/horse-webp/turn02_0000.webp); */
   background-size: cover;
   background-position: center 60%;
   background-repeat: no-repeat;
