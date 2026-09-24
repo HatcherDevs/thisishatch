@@ -135,3 +135,9 @@ ul#projects-tab li {
   width: 10%!important;
 
 }
+
+.card-img-top {
+    width: 636px;
+    height: 518px;
+    object-fit: cover;
+}
