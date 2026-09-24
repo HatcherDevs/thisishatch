@@ -512,3 +512,11 @@
   z-index: 1;
   cursor: pointer;
 }
+
+.pd2-meta > .col-6:first-child {
+  padding-left: 0;
+}
+
+.pd2-meta > .col-6:last-child {
+  padding-right: 0;
+}

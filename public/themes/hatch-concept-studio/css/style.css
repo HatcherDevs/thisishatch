@@ -670,9 +670,7 @@ canvas {
     margin-top: -70vh;
   }
 
-  body.home-page #dog img {
-    width: 72px;
-  }
+
 }
 
 video {
@@ -1244,4 +1242,9 @@ body.open-card {
   .hero-scroll-indicator-text {
     font-size: 11px;
   }
+}
+
+
+#dog img {
+   width: 200px;
 }
