@@ -155,15 +155,7 @@
 
 
     function refreshScrollTriggers() {
-        if (
-            typeof window.ScrollTrigger === 'undefined'
-        ) {
-            return;
-        }
-
         window.requestAnimationFrame(function () {
-            window.ScrollTrigger.refresh(true);
-
             const main = document.querySelector('#main');
 
             if (
@@ -172,6 +164,13 @@
                 typeof main.__locomotiveScroll.update === 'function'
             ) {
                 main.__locomotiveScroll.update();
+            }
+
+            // Do not call ScrollTrigger.refresh() here. With the Locomotive
+            // scroller proxy, a forced refresh can write scrollTop(0) and
+            // send the visitor back to the horse animation.
+            if (typeof window.ScrollTrigger !== 'undefined') {
+                window.ScrollTrigger.update();
             }
         });
     }
@@ -221,25 +220,25 @@
             }
         );
 
-        if (!isMobile) {
-            parallaxScale(
-                '.home-portfolio-section .portfolio-media img',
-                {
-                    scroller: '#main',
-                    fromScale: 1.14,
-                    scrub: 0.85,
-                }
-            );
+        // Use lighter values for the stacked mobile layout instead of disabling
+        // parallax entirely. Reduced-motion users remain excluded by canAnimate().
+        parallaxScale(
+            '.home-portfolio-section .portfolio-media img',
+            {
+                scroller: '#main',
+                fromScale: isMobile ? 1.06 : 1.14,
+                scrub: isMobile ? 0.65 : 0.85,
+            }
+        );
 
-            parallaxY(
-                '.home-portfolio-section .portfolio-deco',
-                {
-                    scroller: '#main',
-                    amount: 72,
-                    scrub: 0.45,
-                }
-            );
-        }
+        parallaxY(
+            '.home-portfolio-section .portfolio-deco',
+            {
+                scroller: '#main',
+                amount: isMobile ? 52 : 72,
+                scrub: isMobile ? 0.6 : 0.45,
+            }
+        );
 
         refreshScrollTriggers();
 

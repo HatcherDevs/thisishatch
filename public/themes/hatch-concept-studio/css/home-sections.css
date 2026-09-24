@@ -914,6 +914,7 @@
   }
 
   .home-about-strip {
+    grid-template-columns: 1fr;
     gap: 24px;
     margin-top: 40px;
     padding-bottom: 40px;
@@ -921,6 +922,15 @@
 
   .home-about-headline {
     font-size: clamp(1.55rem, 9vw, 2.15rem);
+    width: min(100%, 14ch);
+    text-align: left;
+  }
+
+  .home-about-headline .line,
+  .home-about-headline .line-1,
+  .home-about-headline .line-2,
+  .home-about-headline .line-3 {
+    text-align: left;
   }
 
   .home-about-copy {
@@ -1003,7 +1013,7 @@
     --cta-icon-gap: 2px;
     font-size: clamp(1.3rem, 6vw, 1.6rem);
     line-height: 1.1;
-    align-items: flex-start;
+    align-items: flex-end;
   }
 
   .home-cta-action-text .line-top {
@@ -1067,4 +1077,16 @@
     flex-wrap: wrap;
     align-items: center;
     gap: clamp(16px, 3vw, 48px);
+}
+
+
+@media (max-width: 767px) {
+    .home-footer-links {
+        align-items: flex-start !important;
+        gap: 10px !important;
+    }
+
+    .home-footer {
+        padding: 24px 16px 28px !important;
+    }
 }

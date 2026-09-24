@@ -1,4 +1,4 @@
-﻿@if (theme_option('dog_enabled', 'yes') === 'yes')
+@if (theme_option('dog_enabled', 'yes') === 'yes')
     @php
         $dogMessages = preg_split(
             '/\r\n|\r|\n/',

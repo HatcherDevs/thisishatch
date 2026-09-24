@@ -1,1 +1,1 @@
-﻿{!! Theme::content() !!}
+{!! Theme::content() !!}

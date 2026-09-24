@@ -10,6 +10,7 @@ function locomotive() {
     smooth: true,
     scrollFromAnywhere: true,
   });
+  document.querySelector("#main").__locomotiveScroll = locoScroll;
   locoScroll.on("scroll", ScrollTrigger.update);
 
   ScrollTrigger.scrollerProxy("#main", {
@@ -348,6 +349,7 @@ function hideVideoCover() {
   }
 }
 
+if (playButton) {
 playButton.addEventListener("click", function (e) {
   e.stopPropagation();
   e.stopImmediatePropagation();
@@ -374,7 +376,7 @@ playButton.addEventListener("click", function (e) {
 
     document.querySelector('html').classList.remove('playvideo');
     if (playSpan) playSpan.textContent = 'Play';
-    playBtnBlue.textContent = 'Play';
+    if (playBtnBlue) playBtnBlue.textContent = 'Play';
     return;
   }
 
@@ -386,11 +388,12 @@ playButton.addEventListener("click", function (e) {
     hideVideoCover();
     document.querySelector('html').classList.add('playvideo');
     if (playSpan) playSpan.textContent = 'Stop';
-    playBtnBlue.textContent = 'Stop';
+    if (playBtnBlue) playBtnBlue.textContent = 'Stop';
     return;
   }
 
   hideVideoCover();
+  if (!video) return;
   const playRequest = video.play();
 
   if (playRequest && typeof playRequest.catch === 'function') {
@@ -402,15 +405,17 @@ playButton.addEventListener("click", function (e) {
       document.querySelector('html').classList.remove('playvideo');
       showVideoCover();
       if (playSpan) playSpan.textContent = 'Play';
-      playBtnBlue.textContent = 'Play';
+      if (playBtnBlue) playBtnBlue.textContent = 'Play';
     });
   }
 
   document.querySelector('html').classList.add('playvideo');
   if (playSpan) playSpan.textContent = 'Stop';
-  playBtnBlue.textContent = 'Stop';
+  if (playBtnBlue) playBtnBlue.textContent = 'Stop';
 });
+}
 
+if (pauseButton) {
 pauseButton.addEventListener("click", function (e) {
   e.stopPropagation();
   if (video && video.tagName.toLowerCase() === 'iframe') {
@@ -423,34 +428,41 @@ pauseButton.addEventListener("click", function (e) {
     video.pause();
   }
   document.querySelector('html').classList.remove('playvideo');
-  playButton.querySelector('span').textContent = 'Play';
-  playBtnBlue.textContent = 'Play';
+  const playSpan = playButton?.querySelector('span');
+  if (playSpan) playSpan.textContent = 'Play';
+  if (playBtnBlue) playBtnBlue.textContent = 'Play';
 });
+}
 //Video Play Pause Control End
 //Video Sound on & off Ctrl Start
 let soundOff = document.getElementById("sound-off");
 let soundOn = document.getElementById("sound-on");
 let soundCtrl = document.querySelector(".sound-ctrl");
 
+if (soundOff) {
 soundOff.addEventListener("click", function () {
   if (video && video.tagName.toLowerCase() !== 'iframe') {
     video.muted = true;
   }
-  soundCtrl.classList.add('soundctrlshow');
+  if (soundCtrl) soundCtrl.classList.add('soundctrlshow');
 });
+}
 
+if (soundOn) {
 soundOn.addEventListener("click", function () {
   if (video && video.tagName.toLowerCase() !== 'iframe') {
     video.muted = false;
   }
-  soundCtrl.classList.remove('soundctrlshow');
+  if (soundCtrl) soundCtrl.classList.remove('soundctrlshow');
 });
+}
 //Video Sound on & off Ctrl End
 if (video && video.tagName.toLowerCase() === 'video') {
   video.onended = function () {
     document.querySelector('html').classList.remove('playvideo');
-    playButton.querySelector('span').textContent = 'Play';
-    playBtnBlue.textContent = 'Play';
+    const playSpan = playButton?.querySelector('span');
+    if (playSpan) playSpan.textContent = 'Play';
+    if (playBtnBlue) playBtnBlue.textContent = 'Play';
     showVideoCover();
   };
 }
@@ -499,13 +511,16 @@ if (swiperContainer) {
 const homeTestimonialsSwiperEl = document.querySelector('.home-testimonials-swiper');
 if (homeTestimonialsSwiperEl && typeof Swiper !== 'undefined') {
   const testimonialSlideCount = homeTestimonialsSwiperEl.querySelectorAll('.swiper-slide').length;
-  const enableTestimonialLoop = testimonialSlideCount > 3;
+  // The widest breakpoint displays 2.5 slides; loop mode needs at least six
+  // source slides there. Smaller sets use rewind to avoid cloned-slide warnings.
+  const enableTestimonialLoop = testimonialSlideCount >= 6;
 
   new Swiper('.home-testimonials-swiper', {
     slidesPerView: 1.05,
     spaceBetween: 16,
     grabCursor: true,
     loop: enableTestimonialLoop,
+    rewind: !enableTestimonialLoop,
     loopAdditionalSlides: enableTestimonialLoop ? 3 : 0,
     speed: 700,
     autoplay: {
