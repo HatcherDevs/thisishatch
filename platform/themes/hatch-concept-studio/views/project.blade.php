@@ -33,17 +33,24 @@ $compiledProjectDescription = $compileProjectShortcodes($projectDescription);
 $compiledProjectContent = $compileProjectShortcodes($projectContent);
 
 $compiledProjectContent = preg_replace_callback(
-    '/(<section\b[^>]*class=")([^"]*\b(pd2-video|pd2-midtext|pd2-fullimg|pd2-grid|pd2-three-inline)\b[^"]*)(")/i',
+    '/(<section\b[^>]*class=")([^"]*\b(?:pd2-video|pd2-midtext|pd2-fullimg|pd2-grid|pd2-three-inline)\b[^"]*)(")/i',
     function ($matches) {
         $classes = $matches[2];
 
-        if (! preg_match('/\bnp-content\b/i', $classes)) {
+        $isThreeInline = preg_match(
+            '/(?:^|\s)pd2-three-inline(?:\s|$)/i',
+            $classes
+        );
+
+        if ($isThreeInline) {
+            if (! preg_match('/(?:^|\s)pd2-three-inline-nm(?:\s|$)/i', $classes)) {
+                $classes .= ' pd2-three-inline-nm';
+            }
+        } elseif (! preg_match('/(?:^|\s)np-content(?:\s|$)/i', $classes)) {
             $classes .= ' np-content';
         }
 
-        return $matches[1]
-            . trim($classes)
-            . $matches[4];
+        return $matches[1] . trim($classes) . $matches[3];
     },
     $compiledProjectContent
 );
