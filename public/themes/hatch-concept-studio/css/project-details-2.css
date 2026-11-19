@@ -475,7 +475,7 @@
   position: relative;
   width: 100%;
   min-height: 300px;
-  aspect-ratio: 15.9 / 9;
+  aspect-ratio: 15.8 / 9;
   overflow: hidden;
   background: #000;
 }
@@ -490,7 +490,7 @@
   min-height: 300px;
   border: 0;
   object-fit: cover;
-  background: #000;
+  background: transparent;
 }
 
 .pd2-video-cover {
