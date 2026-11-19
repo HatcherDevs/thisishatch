@@ -198,7 +198,7 @@
 }
 
 .pd2-grid img {
-  width: 691px;
+  width: 100%;
   /* height: 1002px; */
   display: block;
   object-fit: cover;
