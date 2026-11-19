@@ -475,7 +475,7 @@
   position: relative;
   width: 100%;
   min-height: 300px;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 15.9 / 9;
   overflow: hidden;
   background: #000;
 }
