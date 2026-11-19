@@ -145,6 +145,12 @@ ul#projects-tab li {
     .card-img-top {
          width: 100% !important;
         height: auto;
+        /* height: 250px; */
+    }  
+    
+    .project-card .card-img-top {
+         width: 100% !important;
+        height: 250px;
     }
 }
 
