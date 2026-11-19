@@ -255,7 +255,7 @@
 
 .pd2-fullimg img {
   width: 1397px;
-  height: 688px;
+  /* height: 688px; */
   display: block;
   will-change: transform, opacity;
   object-fit: cover;
