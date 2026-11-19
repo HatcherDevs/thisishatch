@@ -33,3 +33,4 @@ graphify-out
 .graphifyignore
 .github/
 new-hatch-website
+.vscode/
