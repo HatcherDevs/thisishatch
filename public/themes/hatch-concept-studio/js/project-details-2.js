@@ -8,7 +8,7 @@
     const videoWrap = document.getElementById('pd2VideoCustom');
     const media = document.getElementById('pd2Video');
     const staticBtn = document.getElementById('pd2PlayBtn');
-    const cover = document.getElementById('pd2VideoCover');
+    let cover = document.getElementById('pd2VideoCover');
 
     if (!videoWrap || !media) {
       return;
@@ -23,6 +23,16 @@
     const mediaType = media.tagName.toLowerCase();
     const isHtmlVideo = mediaType === 'video';
     const isIframe = mediaType === 'iframe';
+
+    // iframes swallow pointer events, so a transparent layer must always sit
+    // above them; create one when the template rendered no cover element.
+    if (isIframe && !cover) {
+      cover = document.createElement('div');
+      cover.className =
+        'pd2-video-cover pd2-video-cover--transparent pd2-video-cover--interactive';
+      cover.id = 'pd2VideoCover';
+      videoWrap.appendChild(cover);
+    }
 
     let isPlaying = false;
 
@@ -47,15 +57,30 @@
     }
 
     function hideCover() {
-      if (cover) {
-        cover.classList.add('is-hidden');
+      if (!cover) {
+        return;
       }
+
+      // while an iframe plays, keep a transparent layer above it so pointer
+      // events stay in this document (iframes swallow mouse events).
+      if (isIframe) {
+        cover.classList.add('pd2-video-cover--interactive');
+        cover.classList.remove('is-hidden');
+
+        return;
+      }
+
+      cover.classList.remove('pd2-video-cover--interactive');
+      cover.classList.add('is-hidden');
     }
 
     function showCover() {
-      if (cover) {
-        cover.classList.remove('is-hidden');
+      if (!cover) {
+        return;
       }
+
+      cover.classList.remove('pd2-video-cover--interactive');
+      cover.classList.remove('is-hidden');
     }
 
     function playMedia() {
@@ -182,12 +207,60 @@
     showCover();
 
     if (cursor) {
-      videoWrap.addEventListener('mouseenter', function () {
-        setVideoCursor(true);
-      });
+      let pointerInsideVideo = false;
 
-      videoWrap.addEventListener('mouseleave', function () {
+      const isPointerOverVideo = function (clientX, clientY) {
+        const rect = videoWrap.getBoundingClientRect();
+
+        return (
+          clientX >= rect.left &&
+          clientX <= rect.right &&
+          clientY >= rect.top &&
+          clientY <= rect.bottom
+        );
+      };
+
+      // Tracked at document level (capture phase) because iframes reload,
+      // spurious mouseleave events and event swallowing all break
+      // element-level hover tracking.
+      const syncVideoCursor = function (clientX, clientY) {
+        const isInside = isPointerOverVideo(clientX, clientY);
+
+        // Own the cursor position here so the circle keeps following the
+        // pointer even while an iframe is playing (its own copy of the
+        // document can swallow the movement events).
+        cursor.style.left = clientX + 'px';
+        cursor.style.top = clientY + 'px';
+
+        if (isInside) {
+          pointerInsideVideo = true;
+          setVideoCursor(true);
+
+          return;
+        }
+
+        if (!pointerInsideVideo) {
+          return;
+        }
+
+        pointerInsideVideo = false;
         setVideoCursor(false);
+      };
+
+      document.addEventListener(
+        'mousemove',
+        function (event) {
+          syncVideoCursor(event.clientX, event.clientY);
+        },
+        true
+      );
+
+      videoWrap.addEventListener('mouseleave', function (event) {
+        if (event.clientX === 0 && event.clientY === 0) {
+          return;
+        }
+
+        syncVideoCursor(event.clientX, event.clientY);
       });
     }
 
@@ -260,7 +333,7 @@
       }
 
       const media = videoWrap.querySelector('video, iframe');
-      const cover = videoWrap.querySelector('.pd2-video-cover');
+      let cover = videoWrap.querySelector('.pd2-video-cover');
       const button = videoWrap.querySelector('.pd2-play-btn');
       const cursor = document.querySelector('.cursor');
       const cursorLabel = cursor ? cursor.querySelector('#playBtn') : null;
@@ -275,11 +348,34 @@
       let lastToggleAt = 0;
       let stopRequestedUntil = 0;
 
+      const mediaType = media.tagName.toLowerCase();
+      const mediaIsIframe = mediaType === 'iframe';
+
+      // iframes swallow pointer events, so a transparent layer must always sit
+      // above them; create one when the template rendered no cover element.
+      if (mediaIsIframe && !cover) {
+        cover = document.createElement('div');
+        cover.className =
+          'pd2-video-cover pd2-video-cover--transparent pd2-video-cover--interactive';
+        cover.id = videoWrap.id + '-overlay';
+        videoWrap.appendChild(cover);
+      }
+
       function setCoverHidden(hidden) {
         if (!cover) {
           return;
         }
 
+        // while an iframe plays, keep a transparent layer above it so pointer
+        // events stay in this document (iframes swallow mouse events).
+        if (hidden && mediaIsIframe) {
+          cover.classList.add('pd2-video-cover--interactive');
+          cover.classList.remove('is-hidden');
+
+          return;
+        }
+
+        cover.classList.remove('pd2-video-cover--interactive');
         cover.classList.toggle('is-hidden', hidden);
       }
 
@@ -385,14 +481,13 @@
 
       if (cover) {
         cover.addEventListener('click', function (event) {
-          if (event.target === button) {
+          if (button && event.target === button) {
             return;
           }
 
           event.preventDefault();
-          if (!isPlaying) {
-            play();
-          }
+          event.stopPropagation();
+          togglePlayback();
         });
       }
 
@@ -416,40 +511,77 @@
         });
       }
 
-      videoWrap.addEventListener('mouseenter', function () {
-        videoWrap.classList.add('is-cursor-active');
+      let pointerInsideVideo = false;
 
-        if (cursor) {
+      const isPointerOverVideo = function (clientX, clientY) {
+        const rect = videoWrap.getBoundingClientRect();
+
+        return (
+          clientX >= rect.left &&
+          clientX <= rect.right &&
+          clientY >= rect.top &&
+          clientY <= rect.bottom
+        );
+      };
+
+      const syncCursorState = function (clientX, clientY) {
+        if (!cursor) {
+          return;
+        }
+
+        const isInside = isPointerOverVideo(clientX, clientY);
+
+        // Own the cursor position here so the circle keeps following the
+        // pointer even while an iframe is playing (its own copy of the
+        // document can swallow the movement events).
+        cursor.style.left = clientX + 'px';
+        cursor.style.top = clientY + 'px';
+
+        if (isInside) {
+          pointerInsideVideo = true;
+          videoWrap.classList.add('is-cursor-active');
           cursor.classList.add('is-video-play');
           cursor.style.transform = 'translate(-50%, -50%)';
+          showButton();
+          scheduleButtonHide();
+
+          return;
         }
 
-        showButton();
-        scheduleButtonHide();
-      });
-
-      videoWrap.addEventListener('mousemove', function () {
-        if (cursor) {
-          cursor.classList.add('is-video-play');
+        if (!pointerInsideVideo) {
+          return;
         }
 
-        showButton();
-        scheduleButtonHide();
-      });
+        pointerInsideVideo = false;
 
-      videoWrap.addEventListener('mouseleave', function () {
         if (hideTimer) {
           window.clearTimeout(hideTimer);
         }
 
         hideButton();
 
-        if (cursor) {
-          cursor.classList.remove('is-video-play');
-          cursor.style.transform = '';
+        cursor.classList.remove('is-video-play');
+        cursor.style.transform = '';
+        videoWrap.classList.remove('is-cursor-active');
+      };
+
+      // Tracked at document level (capture phase) because iframe reloads,
+      // spurious mouseleave events and event swallowing all break
+      // element-level hover tracking.
+      document.addEventListener(
+        'mousemove',
+        function (event) {
+          syncCursorState(event.clientX, event.clientY);
+        },
+        true
+      );
+
+      videoWrap.addEventListener('mouseleave', function (event) {
+        if (event.clientX === 0 && event.clientY === 0) {
+          return;
         }
 
-        videoWrap.classList.remove('is-cursor-active');
+        syncCursorState(event.clientX, event.clientY);
       });
 
       videoWrap.addEventListener('click', function (event) {

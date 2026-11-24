@@ -537,6 +537,20 @@
   background-color: #0514f0;
 }
 
+.pd2-video-cover--interactive {
+  z-index: 6;
+  background-image: none !important;
+  background-color: transparent;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  cursor: none;
+}
+
+.pd2-video-cover--interactive::before {
+  background: transparent;
+}
+
 .pd2-video-cover .pd2-play-btn {
   position: relative;
   z-index: 1;
