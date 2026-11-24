@@ -187,7 +187,7 @@ $galleryCount = count($galleryImages);
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         allowfullscreen></iframe>
                 @elseif ($vimeoId)
-                    <iframe id="pd2Video" src="https://player.vimeo.com/video/{{ $vimeoId }}"
+                    <iframe id="pd2Video" src="https://player.vimeo.com/video/{{ $vimeoId }}?api=1"
                         title="{{ $project->title }}" loading="lazy" allow="autoplay; fullscreen; picture-in-picture"
                         allowfullscreen></iframe>
                 @else

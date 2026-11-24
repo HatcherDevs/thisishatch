@@ -35,6 +35,32 @@
     }
 
     let isPlaying = false;
+    let iframeHasStarted = false;
+
+    // iframe players must be driven through postMessage: rewriting the src to
+    // pause reloads the player and restarts playback from 00:00.
+    function sendPlayerCommand(command) {
+      if (!media.contentWindow) {
+        return;
+      }
+
+      const source = (media.getAttribute('src') || '').toLowerCase();
+      let payload = null;
+
+      if (source.indexOf('youtube.com') !== -1 || source.indexOf('youtu.be') !== -1) {
+        payload = JSON.stringify({
+          event: 'command',
+          func: command === 'play' ? 'playVideo' : 'pauseVideo',
+          args: '',
+        });
+      } else if (source.indexOf('vimeo.com') !== -1) {
+        payload = JSON.stringify({ method: command });
+      }
+
+      if (payload) {
+        media.contentWindow.postMessage(payload, '*');
+      }
+    }
 
     function setLabel(label) {
       if (playLabel) {
@@ -102,15 +128,21 @@
           return;
         }
 
-        if (!currentSrc.includes('autoplay=1')) {
-          const separator = currentSrc.includes('?')
-            ? '&'
-            : '?';
+        if (iframeHasStarted) {
+          sendPlayerCommand('play');
+        } else {
+          iframeHasStarted = true;
 
-          media.setAttribute(
-            'src',
-            currentSrc + separator + 'autoplay=1'
-          );
+          if (!currentSrc.includes('autoplay=1')) {
+            const separator = currentSrc.includes('?')
+              ? '&'
+              : '?';
+
+            media.setAttribute(
+              'src',
+              currentSrc + separator + 'autoplay=1'
+            );
+          }
         }
 
         media.dataset.playing = 'true';
@@ -128,16 +160,8 @@
       }
 
       if (isIframe) {
-        const currentSrc = media.getAttribute('src');
-
-        if (currentSrc) {
-          const cleanSrc = currentSrc
-            .replace('&autoplay=1', '')
-            .replace('?autoplay=1', '');
-
-          media.setAttribute('src', cleanSrc);
-        }
-
+        iframeHasStarted = true;
+        sendPlayerCommand('pause');
         media.dataset.playing = 'false';
 
         showPlayState();
@@ -347,9 +371,35 @@
       let hideTimer = null;
       let lastToggleAt = 0;
       let stopRequestedUntil = 0;
+      let iframeHasStarted = false;
 
       const mediaType = media.tagName.toLowerCase();
       const mediaIsIframe = mediaType === 'iframe';
+
+      // iframe players must be driven through postMessage: rewriting the src to
+      // pause reloads the player and restarts playback from 00:00.
+      function sendPlayerCommand(command) {
+        if (!media.contentWindow) {
+          return;
+        }
+
+        const source = (media.getAttribute('src') || '').toLowerCase();
+        let payload = null;
+
+        if (source.indexOf('youtube.com') !== -1 || source.indexOf('youtu.be') !== -1) {
+          payload = JSON.stringify({
+            event: 'command',
+            func: command === 'play' ? 'playVideo' : 'pauseVideo',
+            args: '',
+          });
+        } else if (source.indexOf('vimeo.com') !== -1) {
+          payload = JSON.stringify({ method: command });
+        }
+
+        if (payload) {
+          media.contentWindow.postMessage(payload, '*');
+        }
+      }
 
       // iframes swallow pointer events, so a transparent layer must always sit
       // above them; create one when the template rendered no cover element.
@@ -427,8 +477,13 @@
           media.play().catch(function (error) {
             console.warn('Video playback failed:', error);
           });
+        } else if (iframeHasStarted) {
+          sendPlayerCommand('play');
         } else {
+          iframeHasStarted = true;
+
           const source = media.getAttribute('src');
+
           if (source && !source.includes('autoplay=1')) {
             media.setAttribute('src', source + (source.includes('?') ? '&' : '?') + 'autoplay=1');
           }
@@ -444,10 +499,8 @@
         if (media.tagName.toLowerCase() === 'video') {
           media.pause();
         } else {
-          const source = media.getAttribute('src');
-          if (source) {
-            media.setAttribute('src', source.replace('&autoplay=1', '').replace('?autoplay=1', ''));
-          }
+          iframeHasStarted = true;
+          sendPlayerCommand('pause');
         }
 
         setCoverHidden(false);

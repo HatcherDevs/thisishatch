@@ -44,7 +44,7 @@
                     allow="autoplay; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowfullscreen></iframe>
             @elseif ($vimeoId)
-                <iframe id="{{ $videoId }}-media" src="https://player.vimeo.com/video/{{ $vimeoId }}"
+                <iframe id="{{ $videoId }}-media" src="https://player.vimeo.com/video/{{ $vimeoId }}?api=1"
                     title="{{ __('Project video') }}" loading="lazy" allow="autoplay; fullscreen; picture-in-picture"
                     allowfullscreen></iframe>
             @else
