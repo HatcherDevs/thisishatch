@@ -265,7 +265,7 @@
       const cursor = document.querySelector('.cursor');
       const cursorLabel = cursor ? cursor.querySelector('#playBtn') : null;
 
-      if (!media || !cover) {
+      if (!media) {
         return;
       }
 
@@ -274,6 +274,14 @@
       let hideTimer = null;
       let lastToggleAt = 0;
       let stopRequestedUntil = 0;
+
+      function setCoverHidden(hidden) {
+        if (!cover) {
+          return;
+        }
+
+        cover.classList.toggle('is-hidden', hidden);
+      }
 
       function showButton() {
         videoWrap.classList.remove('is-controls-hidden');
@@ -330,7 +338,7 @@
           }
         }
 
-        cover.classList.add('is-hidden');
+        setCoverHidden(true);
         setState(true);
       }
 
@@ -346,7 +354,7 @@
           }
         }
 
-        cover.classList.remove('is-hidden');
+        setCoverHidden(false);
         setState(false);
       }
 
@@ -375,16 +383,18 @@
         });
       }
 
-      cover.addEventListener('click', function (event) {
-        if (event.target === button) {
-          return;
-        }
+      if (cover) {
+        cover.addEventListener('click', function (event) {
+          if (event.target === button) {
+            return;
+          }
 
-        event.preventDefault();
-        if (!isPlaying) {
-          play();
-        }
-      });
+          event.preventDefault();
+          if (!isPlaying) {
+            play();
+          }
+        });
+      }
 
       if (media.tagName.toLowerCase() === 'video') {
         media.addEventListener('play', function () {
@@ -393,15 +403,15 @@
             return;
           }
 
-          cover.classList.add('is-hidden');
+          setCoverHidden(true);
           setState(true);
         });
         media.addEventListener('pause', function () {
-          cover.classList.remove('is-hidden');
+          setCoverHidden(false);
           setState(false);
         });
         media.addEventListener('ended', function () {
-          cover.classList.remove('is-hidden');
+          setCoverHidden(false);
           setState(false);
         });
       }

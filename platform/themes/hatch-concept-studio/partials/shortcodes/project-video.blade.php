@@ -26,6 +26,12 @@
     $videoId = 'projectVideo-' . uniqid();
     $coverId = $videoId . '-cover';
     $playButtonId = $videoId . '-play';
+
+    $coverClasses = 'pd2-video-cover';
+
+    if (!$coverUrl) {
+        $coverClasses .= ' pd2-video-cover--transparent';
+    }
 @endphp
 
 @if ($videoUrl)
@@ -42,17 +48,16 @@
                     title="{{ __('Project video') }}" loading="lazy" allow="autoplay; fullscreen; picture-in-picture"
                     allowfullscreen></iframe>
             @else
-                <video id="{{ $videoId }}-media" poster="{{ $coverUrl }}" preload="metadata" playsinline
+                <video id="{{ $videoId }}-media"
+                    @if ($coverUrl) poster="{{ $coverUrl }}" @endif preload="metadata" playsinline
                     controls>
                     <source src="{{ $videoUrl }}" type="video/mp4">
                 </video>
             @endif
 
-            @if ($coverUrl)
-                <div class="pd2-video-cover" id="{{ $coverId }}"
-                    style="background-image: url('{{ $coverUrl }}');">
-                </div>
-            @endif
+            <div class="{{ $coverClasses }}" id="{{ $coverId }}"
+                @if ($coverUrl) style="background-image: url('{{ $coverUrl }}');" @endif>
+            </div>
 
             <button type="button" class="pd2-play-btn pd2-play-btn--static" id="{{ $playButtonId }}"
                 aria-label="{{ __('Play video') }}">

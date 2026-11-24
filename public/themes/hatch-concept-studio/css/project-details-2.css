@@ -525,6 +525,18 @@
   pointer-events: none;
 }
 
+.pd2-video-cover--transparent {
+  background-color: transparent;
+}
+
+.pd2-video-cover--transparent::before {
+  background: transparent;
+}
+
+.pd2-video-cover--transparent .pd2-play-btn {
+  background-color: #0514f0;
+}
+
 .pd2-video-cover .pd2-play-btn {
   position: relative;
   z-index: 1;
@@ -578,7 +590,7 @@
   .pd2-three-inline {
     flex-direction: column;
     gap: 16px;
-        width: max-content !important;
+    width: max-content !important;
     max-width: max-content !important;
   }
 
@@ -586,19 +598,21 @@
     width: 100%;
   }
 
-  .pd2-grid img , .pd2-fullimg img {
-   
+  .pd2-grid img,
+  .pd2-fullimg img {
+
     width: 100% !important;
   }
 
-.pd2-three-inline-nm {
-   margin: 18px -60px !important;
-}
+  .pd2-three-inline-nm {
+    margin: 18px -60px !important;
+  }
 
 }
 
 
 .pd2-three-inline-nm {
- margin: 27px -88px;
+  margin: 27px -88px;
 }
+
 /* 454 × 658 */
