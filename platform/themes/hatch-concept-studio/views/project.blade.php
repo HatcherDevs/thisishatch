@@ -120,7 +120,7 @@ $galleryCount = count($galleryImages);
             alt="{{ $projectTitle ?? ($project->title ?? '') }}" />
 
         <div class="row pt-2 pd2-meta">
-            <div class="col-2 col-md-6">
+            <div class="col-2 col-md-6 p-0">
                 @if ($projectYear)
                     <span class="pd2-year">
                         {{ $projectYear }}
