@@ -55,13 +55,34 @@
         }, 3000);
     }
 
-    if (document.readyState === 'loading') {
-        document.addEventListener(
-            'DOMContentLoaded',
-            initDogNotification,
-            { once: true }
-        );
-    } else {
+    function initDogCursorHover() {
+        const dogElement = document.getElementById('dog');
+        const cursorElement = document.querySelector('.cursor');
+
+        if (!dogElement || !cursorElement) {
+            return;
+        }
+
+        // الكيرسور المخصص يكبّر حجمه لما الماوس يعدّي على الكلب
+        dogElement.addEventListener('mouseenter', function () {
+            cursorElement.classList.add('is-dog-hover');
+        });
+
+        dogElement.addEventListener('mouseleave', function () {
+            cursorElement.classList.remove('is-dog-hover');
+        });
+    }
+
+    function init() {
         initDogNotification();
+        initDogCursorHover();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init, {
+            once: true,
+        });
+    } else {
+        init();
     }
 })();
