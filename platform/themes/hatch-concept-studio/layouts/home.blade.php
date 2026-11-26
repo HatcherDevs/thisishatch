@@ -1,15 +1,35 @@
 @php
     use Botble\Theme\Facades\Theme;
- Theme::addBodyAttributes(['class' => 'home-page']);
+    Theme::addBodyAttributes(['class' => 'home-page']);
     Theme::asset()
         // ->container('before_header')
         // ->container('after_header')
         ->usePath(false)
-        ->add('home-locomotive-css', 'themes/hatch-concept-studio/css/locomotive-scroll.css')
-        ->add('home-swiper-css', 'themes/hatch-concept-studio/css/swiper-bundle.min.css')
-        ->add('home-slider-3d-css', 'themes/hatch-concept-studio/css/slider3D.css')
-        ->add('home-style-css', 'themes/hatch-concept-studio/css/style.css')
-        ->add('home-sections-css', 'themes/hatch-concept-studio/css/home-sections.css');
+        ->add(
+            'home-locomotive-css',
+            'themes/hatch-concept-studio/css/locomotive-scroll.css',
+            version: theme_asset_version('css/locomotive-scroll.css'),
+        )
+        ->add(
+            'home-swiper-css',
+            'themes/hatch-concept-studio/css/swiper-bundle.min.css',
+            version: theme_asset_version('css/swiper-bundle.min.css'),
+        )
+        ->add(
+            'home-slider-3d-css',
+            'themes/hatch-concept-studio/css/slider3D.css',
+            version: theme_asset_version('css/slider3D.css'),
+        )
+        ->add(
+            'home-style-css',
+            'themes/hatch-concept-studio/css/style.css',
+            version: theme_asset_version('css/style.css'),
+        )
+        ->add(
+            'home-sections-css',
+            'themes/hatch-concept-studio/css/home-sections.css',
+            version: theme_asset_version('css/home-sections.css'),
+        );
 @endphp
 
 
@@ -118,7 +138,7 @@
 
 
 
-<div class="cursor" style="padding: 15px">
+<div class="cursor">
     <span id="playBtn" style="display: none">Play</span>
 </div>
 
@@ -127,21 +147,45 @@
     Theme::asset()
         ->container('footer')
         ->usePath(false)
-        ->add('home-locomotive-js', 'themes/hatch-concept-studio/js/locomotive-scroll.js')
-        ->add('home-gsap-js', 'themes/hatch-concept-studio/js/gsap.min.js')
-        ->add('home-scroll-trigger-js', 'themes/hatch-concept-studio/js/ScrollTrigger.min.js', ['home-gsap-js'])
-        ->add('home-scroll-effects-js', 'themes/hatch-concept-studio/js/scroll-effects.js', [
-            'home-gsap-js',
-            'home-scroll-trigger-js',
-        ])
-        ->add('home-swiper-js', 'themes/hatch-concept-studio/js/swiper-bundle.min.js')
-        ->add('home-page-js', 'themes/hatch-concept-studio/js/HomePage.js', [
+        ->add(
             'home-locomotive-js',
+            'themes/hatch-concept-studio/js/locomotive-scroll.js',
+            version: theme_asset_version('js/locomotive-scroll.js'),
+        )
+        ->add(
             'home-gsap-js',
+            'themes/hatch-concept-studio/js/gsap.min.js',
+            version: theme_asset_version('js/gsap.min.js'),
+        )
+        ->add(
             'home-scroll-trigger-js',
+            'themes/hatch-concept-studio/js/ScrollTrigger.min.js',
+            ['home-gsap-js'],
+            version: theme_asset_version('js/ScrollTrigger.min.js'),
+        )
+        ->add(
             'home-scroll-effects-js',
+            'themes/hatch-concept-studio/js/scroll-effects.js',
+            ['home-gsap-js', 'home-scroll-trigger-js'],
+            version: theme_asset_version('js/scroll-effects.js'),
+        )
+        ->add(
             'home-swiper-js',
-        ]);
+            'themes/hatch-concept-studio/js/swiper-bundle.min.js',
+            version: theme_asset_version('js/swiper-bundle.min.js'),
+        )
+        ->add(
+            'home-page-js',
+            'themes/hatch-concept-studio/js/HomePage.js',
+            [
+                'home-locomotive-js',
+                'home-gsap-js',
+                'home-scroll-trigger-js',
+                'home-scroll-effects-js',
+                'home-swiper-js',
+            ],
+            version: theme_asset_version('js/HomePage.js'),
+        );
 
 @endphp
 {!! Theme::partial('footer') !!}

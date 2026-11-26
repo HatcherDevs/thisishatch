@@ -157,7 +157,8 @@
   const navAbout = document.getElementById('nav');
   // احصل على عنصر main باستخدام ID الخاص به
   const mainDiv = document.getElementById('main');
-  if (navAbout && mainDiv) {
+  // الصفحات اللي بتحدد padding-top ثابت بنفسها (data-fixed-padding-top) مش بنلمسها
+  if (navAbout && mainDiv && !mainDiv.hasAttribute('data-fixed-padding-top')) {
     // احصل على ارتفاع عنصر navbar
     const navHeight = navAbout.offsetHeight;
     // قم بتعيين قيمة padding-top بناءً على ارتفاع navbar

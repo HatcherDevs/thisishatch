@@ -24,7 +24,7 @@
         <!-- <audio id="notificationSound" src="imgs/mixkit-happy-puppy-barks-741.mp3"></audio> -->
     </div>
 
-    
+
 @endif
 
 <div class="layout"></div>
@@ -113,9 +113,17 @@
     Theme::asset()
         ->container('footer')
         ->usePath(false)
-        ->add('preloader-js', 'themes/hatch-concept-studio/js/preloader.js')
-        ->add('dog-notification-js', 'themes/hatch-concept-studio/js/dog-notification.js')
-        ->add('menu-js', 'themes/hatch-concept-studio/js/menu.js');
+        ->add(
+            'preloader-js',
+            'themes/hatch-concept-studio/js/preloader.js',
+            version: theme_asset_version('js/preloader.js'),
+        )
+        ->add(
+            'dog-notification-js',
+            'themes/hatch-concept-studio/js/dog-notification.js',
+            version: theme_asset_version('js/dog-notification.js'),
+        )
+        ->add('menu-js', 'themes/hatch-concept-studio/js/menu.js', version: theme_asset_version('js/menu.js'));
 @endphp
 
 {!! Theme::asset()->scripts() !!}

@@ -23,164 +23,149 @@
         }
 
         $content = htmlspecialchars_decode($content, ENT_QUOTES);
-    $content = preg_replace('/<shortcode(?:\s[^>]*)@endphp|<\/shortcode>/i', '', $content);
-    $content = str_replace(['\\"', '\\\\'], ['"', '\\'], $content);
 
-    return Shortcode::compile($content);
-};
+        $content = preg_replace('/<shortcode(?:\s[^>]*)\x40endphp|<\/shortcode>/i', '', $content);
+        $content = str_replace(['\\"', '\\\\'], ['"', '\\'], $content);
 
-$compiledProjectDescription = $compileProjectShortcodes($projectDescription);
-$compiledProjectContent = $compileProjectShortcodes($projectContent);
+        return Shortcode::compile($content);
+    };
 
-$compiledProjectContent = preg_replace_callback(
-    '/(<section\b[^>]*class=")([^"]*\b(?:pd2-video|pd2-midtext|pd2-fullimg|pd2-grid|pd2-three-inline)\b[^"]*)(")/i',
-    function ($matches) {
-        $classes = $matches[2];
+    $compiledProjectDescription = $compileProjectShortcodes($projectDescription);
+    $compiledProjectContent = $compileProjectShortcodes($projectContent);
 
-        $isThreeInline = preg_match(
-            '/(?:^|\s)pd2-three-inline(?:\s|$)/i',
-            $classes
-        );
+    $compiledProjectContent = preg_replace_callback(
+        '/(<section\b[^>]*class=")([^"]*\b(?:pd2-video|pd2-midtext|pd2-fullimg|pd2-grid|pd2-three-inline)\b[^"]*)(")/i',
+        function ($matches) {
+            $classes = $matches[2];
 
-        if ($isThreeInline) {
-            if (! preg_match('/(?:^|\s)pd2-three-inline-nm(?:\s|$)/i', $classes)) {
-                $classes .= ' pd2-three-inline-nm';
+            $isThreeInline = preg_match('/(?:^|\s)pd2-three-inline(?:\s|$)/i', $classes);
+
+            if ($isThreeInline) {
+                if (!preg_match('/(?:^|\s)pd2-three-inline-nm(?:\s|$)/i', $classes)) {
+                    $classes .= ' pd2-three-inline-nm';
+                }
+            } elseif (!preg_match('/(?:^|\s)np-content(?:\s|$)/i', $classes)) {
+                $classes .= ' np-content';
             }
-        } elseif (! preg_match('/(?:^|\s)np-content(?:\s|$)/i', $classes)) {
-            $classes .= ' np-content';
-        }
 
-        return $matches[1] . trim($classes) . $matches[3];
-    },
-    $compiledProjectContent
-);
+            return $matches[1] . trim($classes) . $matches[3];
+        },
+        $compiledProjectContent,
+    );
 
-$projectTags = $project->tags ?? collect();
+    $projectTags = $project->tags ?? collect();
 
-$projectCategory = $project->category ?? null;
+    $projectCategory = $project->category ?? null;
 
-// -----------
-$projectVideos = $project->videos ?? [];
+    // -----------
+    $projectVideos = $project->videos ?? [];
 
-if (is_string($projectVideos)) {
-    $projectVideos = json_decode($projectVideos, true);
-}
-
-if (!is_array($projectVideos)) {
-    $projectVideos = [];
-}
-
-$projectVideos = collect($projectVideos)
-    ->filter(function ($video) {
-        return is_array($video) && !empty($video['url']);
-    })
-    ->values();
-
-$firstVideo = $projectVideos->first();
-
-$videoUrl = $firstVideo['url'] ?? null;
-$videoCover = $firstVideo['cover'] ?? null;
-
-$videoCoverUrl = $videoCover ? RvMedia::getImageUrl($videoCover) : Theme::asset()->url('imgs/timeline-video.png');
-
-$youtubeId = null;
-$vimeoId = null;
-
-if ($videoUrl) {
-    if (preg_match('/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/', $videoUrl, $matches)) {
-        $youtubeId = $matches[1];
-    } elseif (preg_match('/vimeo\.com\/(\d+)/', $videoUrl, $matches)) {
-        $vimeoId = $matches[1];
+    if (is_string($projectVideos)) {
+        $projectVideos = json_decode($projectVideos, true);
     }
-}
 
-$isExternalVideo = $youtubeId || $vimeoId;
+    if (!is_array($projectVideos)) {
+        $projectVideos = [];
+    }
 
-// ---------------------
-$galleryImages = $project->gallery_images ?? [];
+    $projectVideos = collect($projectVideos)
+        ->filter(function ($video) {
+            return is_array($video) && !empty($video['url']);
+        })
+        ->values();
 
-if (is_string($galleryImages)) {
-    $galleryImages = json_decode($galleryImages, true);
-}
+    $firstVideo = $projectVideos->first();
 
-if (!is_array($galleryImages)) {
-    $galleryImages = [];
-}
+    $videoUrl = $firstVideo['url'] ?? null;
+    $videoCover = $firstVideo['cover'] ?? null;
 
-$galleryImages = array_values(array_filter($galleryImages));
-$galleryCount = count($galleryImages);
+    $videoCoverUrl = $videoCover ? RvMedia::getImageUrl($videoCover) : Theme::asset()->url('imgs/timeline-video.png');
 
-// dd($project,$projectVideos,$videoUrl,$youtubeId,$vimeoId);
+    $youtubeId = null;
+    $vimeoId = null;
 
-?>
+    if ($videoUrl) {
+        if (preg_match('/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/', $videoUrl, $matches)) {
+            $youtubeId = $matches[1];
+        } elseif (preg_match('/vimeo\.com\/(\d+)/', $videoUrl, $matches)) {
+            $vimeoId = $matches[1];
+        }
+    }
+
+    $isExternalVideo = $youtubeId || $vimeoId;
+
+    // ---------------------
+    $galleryImages = $project->gallery_images ?? [];
+
+    if (is_string($galleryImages)) {
+        $galleryImages = json_decode($galleryImages, true);
+    }
+
+    if (!is_array($galleryImages)) {
+        $galleryImages = [];
+    }
+
+    $galleryImages = array_values(array_filter($galleryImages));
+    $galleryCount = count($galleryImages);
+
+    // dd($project,$projectVideos,$videoUrl,$youtubeId,$vimeoId);
+
+@endphp
 <div class="container w-md-75">
-    <section class="pd2-hero">
-        <img class="pd2-hero-img img-fluid"
-            src="{{ $projectImageUrl ?? Theme::asset()->url('imgs/projects/project-details/details.png') }}"
-            alt="{{ $projectTitle ?? ($project->title ?? '') }}" />
-
-        <div class="row pt-2 pd2-meta">
-            <div class="col-2 col-md-6 p-0">
-                @if ($projectYear)
-                    <span class="pd2-year">
-                        {{ $projectYear }}
-                    </span>
-                @endif
-            </div>
-
-            <div class="col-10 col-md-6 text-end pd2-tags">
-                @if ($projectCategory)
-                    <a href="{{ $projectCategory->url ?? '#' }}">
-                        {{ $projectCategory->name }}
-                    </a>
-                @endif
-
-                @if ($projectCategory && $projectTags->isNotEmpty())
-                    |
-                @endif
-
-                @foreach ($projectTags as $tag)
-                    <a href="{{ $tag->url ?? '#' }}">
-                        {{ $tag->name }}
-                    </a>
-
-                    @if (!$loop->last)
+    <div class="container w-md-75">
+        <section class="pd2-hero">
+            <img class="pd2-hero-img img-fluid"
+                src="{{ $projectImageUrl ?? Theme::asset()->url('imgs/projects/project-details/details.png') }}"
+                alt="{{ $projectTitle ?? ($project->title ?? '') }}" />
+            <div class="row pt-2 pd2-meta">
+                <div class="col-2 col-md-6 p-0">
+                    @if ($projectYear)
+                        <span class="pd2-year">
+                            {{ $projectYear }}
+                        </span>
+                    @endif
+                </div>
+                <div class="col-10 col-md-6 text-end pd2-tags">
+                    @if ($projectCategory)
+                        <a href="{{ $projectCategory->url ?? '#' }}">
+                            {{ $projectCategory->name }}
+                        </a>
+                    @endif
+                    @if ($projectCategory && $projectTags->isNotEmpty())
                         |
                     @endif
-                @endforeach
-            </div>
-        </div>
-    </section>
-
-    <section class="pd2-intro">
-        <h1 class="pd2-title pt-5 pb-3 fw-light">
-            {{ $projectTitle }}
-        </h1>
-
-        @if ($projectTagline)
-            <p class="pd2-lead fw-bold pb-5 w-75">
-                {{ $projectTagline }}
-            </p>
-        @endif
-
-
-
-        @if ($compiledProjectContent)
-            
-                <div class="project-content pb-5">
-                    {!! $compiledProjectContent !!}
+                    @foreach ($projectTags as $tag)
+                        <a href="{{ $tag->url ?? '#' }}">
+                            {{ $tag->name }}
+                        </a>
+                        @if (!$loop->last)
+                            |
+                        @endif
+                    @endforeach
                 </div>
-          
+            </div>
+        </section>
+    </div>
+    <section class="pd2-intro">
+        <div class="container w-md-75">
+            <h2 class="pt-5 pb-3 fw-light" style="color: #f8511e">
+                {{ $projectTitle }}
+            </h2>
+            @if ($projectTagline)
+                <p class="pd2-lead fw-bold pb-5 w-75">
+                    {{ $projectTagline }}
+                </p>
+            @endif
+        </div>
+        @if ($compiledProjectContent)
+            <div class="project-content pb-5">
+                {!! $compiledProjectContent !!}
+            </div>
         @endif
     </section>
-
-
-    
-
     @if ($videoUrl)
         <section class="pd2-video">
             <div class="pd2-video-wrap pd2-video-custom" id="pd2VideoCustom">
-
                 @if ($youtubeId)
                     <iframe id="pd2Video" src="https://www.youtube.com/embed/{{ $youtubeId }}?enablejsapi=1&rel=0"
                         title="{{ $project->title }}" loading="lazy"
@@ -208,11 +193,7 @@ $galleryCount = count($galleryImages);
 
             </div>
         </section>
-
-
-
     @endif
-
     @if ($galleryCount === 1)
         <section class="pd2-fullimg">
             <img src="{{ RvMedia::getImageUrl($galleryImages[0]) }}" alt="{{ $project->title }}" />
@@ -237,9 +218,6 @@ $galleryCount = count($galleryImages);
             @endforeach
         </section>
     @endif
-
-
-
     @if ($previousProject || $nextProject)
         <section class="pd2-slider" data-parallax-trigger>
             <nav class="pd2-project-nav" aria-label="{{ __('Project navigation') }}">
@@ -275,8 +253,4 @@ $galleryCount = count($galleryImages);
             </nav>
         </section>
     @endif
-
-
-
-
 </div>

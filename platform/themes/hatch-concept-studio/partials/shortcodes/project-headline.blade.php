@@ -6,13 +6,17 @@
 
     $description = $description ? htmlspecialchars_decode($description, ENT_QUOTES) : null;
 
-    $description = $description ? str_replace(['\\n', '\\r\\n'], ["\n", "\r\n"], $description) : null;
+    if ($description) {
+        $description = preg_replace('/\\\\r?\\\\n\r?\n?/', "\n", $description);
+
+        $description = implode("\n", array_map('trim', explode("\n", (string) $description)));
+    }
 @endphp
 
 
 <section class="pd2-midtext">
     <h2>{{ $title }}</h2>
     <p>
-        {{ $description }}
+        {!! nl2br(e($description)) !!}
     </p>
 </section>

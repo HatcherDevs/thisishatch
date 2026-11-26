@@ -12,8 +12,16 @@
     if (request()->is('about')) {
         $assets
 
-            ->add('about-css', 'themes/hatch-concept-studio/css/about.css')
-            ->add('about-js', 'themes/hatch-concept-studio/css/bootstrap.min.css');
+            ->add(
+                'about-css',
+                'themes/hatch-concept-studio/css/about.css',
+                version: theme_asset_version('css/about.css'),
+            )
+            ->add(
+                'about-js',
+                'themes/hatch-concept-studio/css/bootstrap.min.css',
+                version: theme_asset_version('css/bootstrap.min.css'),
+            );
     }
 
     /*
@@ -24,11 +32,22 @@
 
     if (request()->is('projects')) {
         $assets
-            ->add('about-js', 'themes/hatch-concept-studio/css/bootstrap.min.css')
-            ->add('about-css', 'themes/hatch-concept-studio/css/about.css')
-            ->add('projects-css', 'themes/hatch-concept-studio/css/projects.css');
+            ->add(
+                'about-js',
+                'themes/hatch-concept-studio/css/bootstrap.min.css',
+                version: theme_asset_version('css/bootstrap.min.css'),
+            )
+            ->add(
+                'about-css',
+                'themes/hatch-concept-studio/css/about.css',
+                version: theme_asset_version('css/about.css'),
+            )
+            ->add(
+                'projects-css',
+                'themes/hatch-concept-studio/css/projects.css',
+                version: theme_asset_version('css/projects.css'),
+            );
     }
-
 
     /*
     |--------------------------------------------------------------------------
@@ -38,10 +57,26 @@
 
     if (request()->is('contact-us')) {
         $assets
-            ->add('contact-bootstrap-css', 'themes/hatch-concept-studio/css/bootstrap.min.css')
-            ->add('about-css', 'themes/hatch-concept-studio/css/about.css')
-            ->add('projects-css', 'themes/hatch-concept-studio/css/projects.css')
-            ->add('contact-swiper-css', 'themes/hatch-concept-studio/css/swiper-bundle.min.css');
+            ->add(
+                'contact-bootstrap-css',
+                'themes/hatch-concept-studio/css/bootstrap.min.css',
+                version: theme_asset_version('css/bootstrap.min.css'),
+            )
+            ->add(
+                'about-css',
+                'themes/hatch-concept-studio/css/about.css',
+                version: theme_asset_version('css/about.css'),
+            )
+            ->add(
+                'projects-css',
+                'themes/hatch-concept-studio/css/projects.css',
+                version: theme_asset_version('css/projects.css'),
+            )
+            ->add(
+                'contact-swiper-css',
+                'themes/hatch-concept-studio/css/swiper-bundle.min.css',
+                version: theme_asset_version('css/swiper-bundle.min.css'),
+            );
     }
 @endphp
 
@@ -95,7 +130,7 @@
 </div>
 
 
-<div class="cursor" style="padding: 15px">
+<div class="cursor">
     <span id="playBtn" style="display: none">Play</span>
 </div>
 
@@ -104,26 +139,76 @@
 
     if (request()->is('about')) {
         $footerAssets
-            ->add('about-popper-js', 'themes/hatch-concept-studio/js/popper.min.js')
-            ->add('about-bootstrap-js', 'themes/hatch-concept-studio/js/bootstrap.min.js', ['about-popper-js'])
-            ->add('about-js', 'themes/hatch-concept-studio/js/about.js', ['about-bootstrap-js']);
+            ->add(
+                'about-popper-js',
+                'themes/hatch-concept-studio/js/popper.min.js',
+                version: theme_asset_version('js/popper.min.js'),
+            )
+            ->add(
+                'about-bootstrap-js',
+                'themes/hatch-concept-studio/js/bootstrap.min.js',
+                ['about-popper-js'],
+                version: theme_asset_version('js/bootstrap.min.js'),
+            )
+            ->add(
+                'about-js',
+                'themes/hatch-concept-studio/js/about.js',
+                ['about-bootstrap-js'],
+                version: theme_asset_version('js/about.js'),
+            );
     }
 
     if (request()->is('projects')) {
         $footerAssets
-            ->add('projects-popper-js', 'themes/hatch-concept-studio/js/popper.min.js')
-            ->add('projects-bootstrap-js', 'themes/hatch-concept-studio/js/bootstrap.min.js', ['projects-popper-js'])
-            ->add('about-js', 'themes/hatch-concept-studio/js/about.js', ['about-bootstrap-js'])
-            ->add('projects-js', 'themes/hatch-concept-studio/js/projects.js', ['projects-bootstrap-js']);
-
-       
+            ->add(
+                'projects-popper-js',
+                'themes/hatch-concept-studio/js/popper.min.js',
+                version: theme_asset_version('js/popper.min.js'),
+            )
+            ->add(
+                'projects-bootstrap-js',
+                'themes/hatch-concept-studio/js/bootstrap.min.js',
+                ['projects-popper-js'],
+                version: theme_asset_version('js/bootstrap.min.js'),
+            )
+            ->add(
+                'about-js',
+                'themes/hatch-concept-studio/js/about.js',
+                ['about-bootstrap-js'],
+                version: theme_asset_version('js/about.js'),
+            )
+            ->add(
+                'projects-js',
+                'themes/hatch-concept-studio/js/projects.js',
+                ['projects-bootstrap-js'],
+                version: theme_asset_version('js/projects.js'),
+            );
     }
     if (request()->is('contact-us')) {
         $footerAssets
-            ->add('contact-us-popper-js', 'themes/hatch-concept-studio/js/popper.min.js')
-            ->add('contact-us-bootstrap-js', 'themes/hatch-concept-studio/js/bootstrap.min.js', ['contact-us-popper-js'])
-            ->add('about-js', 'themes/hatch-concept-studio/js/about.js', ['about-bootstrap-js'])
-            ->add('contact-us-js', 'themes/hatch-concept-studio/js/contact-us.js', ['contact-us-bootstrap-js']);
+            ->add(
+                'contact-us-popper-js',
+                'themes/hatch-concept-studio/js/popper.min.js',
+                version: theme_asset_version('js/popper.min.js'),
+            )
+            ->add(
+                'contact-us-bootstrap-js',
+                'themes/hatch-concept-studio/js/bootstrap.min.js',
+                ['contact-us-popper-js'],
+                version: theme_asset_version('js/bootstrap.min.js'),
+            )
+            ->add(
+                'about-js',
+                'themes/hatch-concept-studio/js/about.js',
+                ['about-bootstrap-js'],
+                version: theme_asset_version('js/about.js'),
+            )
+            ->add(
+                'contact-us-js',
+                'themes/hatch-concept-studio/js/contact-us.js',
+                ['contact-us-bootstrap-js'],
+                version: theme_asset_version('js/contact-us.js'),
+            );
     }
 @endphp
 

@@ -308,36 +308,7 @@
             );
         }
 
-        if (!isMobile) {
-            parallaxScale(
-                '.pd2-grid:not(.pd2-grid--stagger) img, .pd2-fullimg img',
-                {
-                    scroller,
-                    fromScale: 1.08,
-                    toScale: 1,
-                    scrub: 0.8
-                }
-            );
-
-            parallaxY(
-                '.pd2-stagger-left',
-                {
-                    scroller,
-                    amount: 52,
-                    scrub: 0.7
-                }
-            );
-
-            parallaxY(
-                '.pd2-stagger-right',
-                {
-                    scroller,
-                    amount: 88,
-                    scrub: 0.7
-                }
-            );
-        }
-
+        // صفحة المشروع: Reveal فقط — بدون parallax (Y / Scale)
         // بعد إنشاء جميع الـ triggers، أعد حساب أماكن العناصر
         ScrollTrigger.refresh();
 
