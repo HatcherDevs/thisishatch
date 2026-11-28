@@ -21,14 +21,29 @@ use Botble\Theme\Supports\ThemeSupport;
 use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Support\Facades\Event;
 
+if (! function_exists('hatch_media_images_value')) {
+    /**
+     * Normalize a shortcode media images attribute into a list of image paths.
+     *
+     * Shortcode attributes are stored as a comma-separated string, so the admin
+     * form fields must be given an array to pre-fill the previously selected images.
+     *
+     * @return array<int, string>
+     */
+    function hatch_media_images_value(mixed $images): array
+    {
+        if (is_string($images)) {
+            $decodedImages = json_decode($images, true);
 
+            $images = is_array($decodedImages) ? $decodedImages : explode(',', $images);
+        }
 
-
-
-
-
-
-
+        return array_values(array_filter(array_map(
+            fn (mixed $image): string => is_string($image) ? trim($image) : '',
+            (array) $images
+        )));
+    }
+}
 
 Event::listen(RouteMatched::class, function (): void {
     ThemeSupport::registerGoogleMapsShortcode();
@@ -285,7 +300,6 @@ Event::listen(RouteMatched::class, function (): void {
             );
     });
 
-
     Shortcode::register(
         'image-slides',
         __('Image slides'),
@@ -302,7 +316,7 @@ Event::listen(RouteMatched::class, function (): void {
                 MediaImagesField::class,
                 MediaImagesFieldOption::make()
                     ->label(__('Images'))
-                    ->values($attributes['images'] ?? [])
+                    ->values(hatch_media_images_value($attributes['images'] ?? []))
             )
             ->add(
                 'autoplay',
@@ -366,6 +380,7 @@ Event::listen(RouteMatched::class, function (): void {
                 ->orderByDesc('id')
                 ->limit(8)
                 ->get();
+
             return Theme::partial('shortcodes.testmainels', compact('shortcode', 'projects'));
         }
     );
@@ -446,7 +461,6 @@ Event::listen(RouteMatched::class, function (): void {
             );
     });
 
-
     // ----------------------------------------------------------------
     // Register project-images shortcode
     // ----------------------------------------------------------------
@@ -486,7 +500,7 @@ Event::listen(RouteMatched::class, function (): void {
                     ->helperText(
                         __('Select the required number of images for the selected layout. The slides layout displays all of the selected images.')
                     )
-                    ->values($attributes['images'] ?? [])
+                    ->values(hatch_media_images_value($attributes['images'] ?? []))
             );
     });
     // ----------------------------------------------------------------
@@ -522,7 +536,6 @@ Event::listen(RouteMatched::class, function (): void {
                     ->placeholder(__('Enter project description'))
             );
     });
-
 
     // ----------------------------------------------------------------
     // Register project-video shortcode
