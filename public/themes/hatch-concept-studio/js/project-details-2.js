@@ -696,6 +696,45 @@
   });
 })();
 
+// project-images shortcode: "slides" layout (per-instance Swiper)
+(function () {
+  function initProjectImageSliders() {
+    if (typeof Swiper === 'undefined') {
+      return;
+    }
+
+    document.querySelectorAll('.pd2-slides .pd2-slides-swiper').forEach(function (el) {
+      if (el.dataset.slidesInitialized === 'true') {
+        return;
+      }
+
+      el.dataset.slidesInitialized = 'true';
+
+      var slidesCount = el.querySelectorAll('.swiper-slide').length;
+
+      new Swiper(el, {
+        slidesPerView: 1,
+        spaceBetween: 16,
+        speed: 700,
+        grabCursor: true,
+        loop: slidesCount > 3,
+        keyboard: {
+          enabled: true,
+        },
+        breakpoints: {
+          1024: {
+            slidesPerView: 3,
+            spaceBetween: 22,
+          },
+        },
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initProjectImageSliders);
+  window.addEventListener('load', initProjectImageSliders);
+})();
+
 window.addEventListener('load', function () {
   if (typeof initPd2ScrollEffects === 'function') {
     initPd2ScrollEffects();

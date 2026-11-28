@@ -20,10 +20,13 @@
         'two-inline' => 2,
         'two-vertical' => 2,
         'three-inline' => 3,
+        'slides' => count($images),
         default => 1,
     };
 
     $images = array_slice($images, 0, $requiredImages);
+
+    $slidesId = 'projectSlides-' . uniqid();
 @endphp
 
 @if ($layout === 'full-image' && isset($images[0]))
@@ -57,12 +60,28 @@
 @if ($layout === 'three-inline' && count($images) >= 3)
     <section class="pd2-three-inline">
         @foreach (array_slice($images, 0, 3) as $image)
-            <img
-                src="{{ RvMedia::getImageUrl($image) }}"
+            <img src="{{ RvMedia::getImageUrl($image) }}"
                 alt="{{ __('Project image :number', [
                     'number' => $loop->iteration,
-                ]) }}"
-            />
+                ]) }}" />
         @endforeach
+    </section>
+@endif
+
+@if ($layout === 'slides' && count($images) > 0)
+    <section class="pd2-slides mt-5 pt-5" id="{{ $slidesId }}">
+        <div class="swiper pd2-slides-swiper">
+            <div class="swiper-wrapper">
+                @foreach ($images as $image)
+                    <div class="swiper-slide">
+                        <img src="{{ RvMedia::getImageUrl($image) }}"
+                            alt="{{ __('Project image :number', [
+                                'number' => $loop->iteration,
+                            ]) }}"
+                            loading="{{ $loop->first ? 'eager' : 'lazy' }}" />
+                    </div>
+                @endforeach
+            </div>
+        </div>
     </section>
 @endif

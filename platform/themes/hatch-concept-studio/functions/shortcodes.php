@@ -474,6 +474,7 @@ Event::listen(RouteMatched::class, function (): void {
                         'two-inline' => __('2 inline images'),
                         'two-vertical' => __('Up/down images'),
                         'three-inline' => __('3 inline images'),
+                        'slides' => __('Slides (slider)'),
                     ])
                     ->selected($attributes['layout'] ?? 'full-image')
             )
@@ -483,7 +484,7 @@ Event::listen(RouteMatched::class, function (): void {
                 MediaImagesFieldOption::make()
                     ->label(__('Images'))
                     ->helperText(
-                        __('Select the required number of images for the selected layout.')
+                        __('Select the required number of images for the selected layout. The slides layout displays all of the selected images.')
                     )
                     ->values($attributes['images'] ?? [])
             );

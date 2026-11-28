@@ -34,7 +34,7 @@
     $compiledProjectContent = $compileProjectShortcodes($projectContent);
 
     $compiledProjectContent = preg_replace_callback(
-        '/(<section\b[^>]*class=")([^"]*\b(?:pd2-video|pd2-midtext|pd2-fullimg|pd2-grid|pd2-three-inline)\b[^"]*)(")/i',
+        '/(<section\b[^>]*class=")([^"]*\b(?:pd2-video|pd2-midtext|pd2-fullimg|pd2-grid|pd2-three-inline|pd2-slides)\b[^"]*)(")/i',
         function ($matches) {
             $classes = $matches[2];
 
